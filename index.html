@@ -1,42 +1,1173 @@
-<!doctype html><html lang="fi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Sketch-CAD v2</title>
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#171e28">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Sketch-CAD</title>
 <style>
-:root{--bg:#0e131a;--p:#171e28;--p2:#202938;--line:#344055;--txt:#edf2f8;--mut:#9aa8ba;--a:#4ea7ff;--ok:#45c48b;--err:#ff7070}*{box-sizing:border-box}html,body{height:100%;margin:0}body{font:14px Segoe UI,Arial,sans-serif;background:var(--bg);color:var(--txt);display:flex;flex-direction:column;overflow:hidden}header{height:48px;display:flex;align-items:center;gap:8px;padding:7px 12px;background:var(--p);border-bottom:1px solid var(--line)}header b{margin-right:5px}.tag{font-size:11px;color:var(--mut);border:1px solid var(--line);padding:2px 7px;border-radius:10px}.sp{flex:1}button,.btn,input,select{font:inherit;color:var(--txt);background:var(--p2);border:1px solid var(--line);border-radius:6px;padding:6px 10px}button,.btn{cursor:pointer}button:hover,.btn:hover{border-color:var(--a)}button.primary{background:var(--a);color:#07121d;border-color:var(--a);font-weight:600}.app{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 370px}.work{position:relative;min-width:0}.panel{background:var(--p);border-left:1px solid var(--line);display:flex;flex-direction:column;min-height:0}.tabs{display:flex;border-bottom:1px solid var(--line)}.tabs button{flex:1;border:0;border-radius:0;background:none;color:var(--mut);padding:10px}.tabs button.on{color:var(--txt);box-shadow:inset 0 -2px var(--a)}.pane{display:none;flex:1;overflow:auto;padding:12px}.pane.on{display:block}.toolbar{position:absolute;z-index:3;top:10px;left:10px;display:flex;gap:5px;flex-wrap:wrap}.status{position:absolute;z-index:3;left:10px;bottom:10px;background:#121923dd;border:1px solid var(--line);border-radius:7px;padding:7px 10px;color:var(--mut);pointer-events:none}.busy{position:absolute;inset:0;background:#0e131acc;z-index:9;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:9px}.spin{width:28px;height:28px;border:3px solid var(--line);border-top-color:var(--a);border-radius:50%;animation:s .7s linear infinite}@keyframes s{to{transform:rotate(360deg)}}canvas{display:block}#drawCanvas{background:white;touch-action:none;cursor:crosshair;width:100%;height:100%}.sketchTools{position:absolute;top:10px;left:10px;right:10px;z-index:4;display:flex;gap:6px;align-items:center;flex-wrap:wrap}.sketchTools label{background:var(--p);border:1px solid var(--line);border-radius:6px;padding:6px 9px;cursor:pointer}.prompt{padding:10px;border-top:1px solid var(--line);background:var(--p2)}.prompt .r{display:flex;gap:6px}.prompt input{flex:1;background:#0d131b}.chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:7px}.chip{font-size:11px;color:var(--mut);border:1px solid var(--line);border-radius:14px;padding:3px 8px;cursor:pointer}.log{font-size:12px;min-height:18px;margin-top:6px}.ok{color:var(--ok)}.err{color:var(--err)}h3{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--mut);margin:2px 0 8px}.feature,.selection,.analysis{border:1px solid var(--line);border-radius:8px;background:var(--p2);padding:8px 10px;margin-bottom:7px}.feature.sel{border-color:var(--a)}.feature .head{display:flex}.feature .head b{flex:1}.feature small{color:var(--mut)}.feature .fields{display:none;margin-top:8px;padding-top:7px;border-top:1px dashed var(--line);grid-template-columns:1fr 1fr;gap:5px}.feature.sel .fields{display:grid}.fields label{color:var(--mut);font-size:12px}.fields input,.fields select{width:100%;padding:4px 6px}.selection b{color:var(--a)}.note{color:var(--mut);font-size:12px;line-height:1.5}.hidden{display:none!important}.mode{color:var(--a);font-weight:600}#photo{display:none}#preview{max-width:100%;border:1px solid var(--line);border-radius:6px;margin-top:8px}pre{white-space:pre-wrap;font:11px Consolas,monospace;color:#c9ddf5;background:#0d131b;border:1px solid var(--line);padding:9px;border-radius:7px}.row{display:flex;gap:6px;align-items:center}.row>*{min-width:0}.grow{flex:1}
+:root{--bg:#0d1218;--p:#171e28;--p2:#212a3a;--line:#33405a;--txt:#eef3f9;--mut:#9aa9bd;
+  --a:#4ea7ff;--ok:#45c48b;--err:#ff7a7a;--warn:#ffb648}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{height:100%;margin:0;overflow:hidden;overscroll-behavior:none}
+body{background:var(--bg);color:var(--txt);font:15px/1.4 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  -webkit-text-size-adjust:100%;-webkit-user-select:none;user-select:none}
+#app{height:100vh;height:100dvh;display:flex;flex-direction:column;
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)}
+button,input,select,textarea{font:inherit;color:var(--txt)}
+button,.btn{min-height:36px;padding:0 11px;border:1px solid var(--line);border-radius:9px;background:var(--p2);
+  cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap;flex:0 0 auto}
+button:active,.btn:active{filter:brightness(1.25)}
+button.on,.btn.on{background:var(--a);border-color:var(--a);color:#06121d;font-weight:600}
+button.primary{background:var(--a);border-color:var(--a);color:#06121d;font-weight:700}
+button:disabled{opacity:.45}
+input,select{min-height:36px;padding:0 9px;border:1px solid var(--line);border-radius:9px;background:#0e141d;
+  font-size:16px;-webkit-user-select:text;user-select:text;min-width:0}
+input:focus,select:focus{outline:2px solid var(--a);outline-offset:-1px}
+.sp{flex:1}
+
+/* ---------- yläpalkki ---------- */
+header{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:6px 8px;background:var(--p);
+  border-bottom:1px solid var(--line)}
+.seg{display:flex;gap:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;flex:0 0 auto}
+.seg button{border:0;border-radius:0;background:transparent;min-height:36px;padding:0 12px;color:var(--mut)}
+.seg button.on{background:var(--a);color:#06121d;font-weight:700}
+.seg .ic{margin-right:5px}
+.seg .short{display:none}
+.icon{width:38px;padding:0;font-size:18px}
+.pill{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 9px;border:1px solid var(--line);
+  border-radius:18px;background:var(--p2);font-size:12px;color:var(--mut);flex:0 0 auto;cursor:pointer}
+.pill i{width:9px;height:9px;border-radius:50%;background:var(--warn);display:inline-block}
+.pill.ok i{background:var(--ok)} .pill.err i{background:var(--err)}
+.pill.loading i{animation:blink 1s infinite}
+@keyframes blink{50%{opacity:.25}}
+
+/* ---------- työalue ---------- */
+#body{flex:1;min-height:0;display:flex;position:relative}
+#stage{flex:1;min-width:0;position:relative;overflow:hidden}
+.view{position:absolute;inset:0;touch-action:none}
+.hidden{display:none!important}
+.tools{position:absolute;z-index:6;top:8px;left:8px;right:8px;display:flex;gap:6px;overflow-x:auto;
+  padding-bottom:2px;scrollbar-width:none;touch-action:pan-x}
+.tools::-webkit-scrollbar{display:none}
+.tools button,.tools .btn{background:#171e28e6;backdrop-filter:blur(4px)}
+.tools button.on{background:var(--a);color:#06121d}
+#app[data-chrome=off] .tools{right:54px}
+#restore{display:none;position:absolute;z-index:50;top:8px;right:8px;width:40px;height:40px;
+  background:#171e28f0;border-radius:20px}
+#app[data-chrome=off] #restore{display:inline-flex}
+#app[data-chrome=off] header,#app[data-chrome=off] footer{display:none}
+
+/* hahmotelma */
+#sketchView{background:#2a3446;cursor:crosshair}
+#paper{position:absolute;left:0;top:0;transform-origin:0 0;background:#fff;box-shadow:0 0 0 1px #0006,0 6px 30px #0008;
+  will-change:transform}
+#paper canvas{position:absolute;left:0;top:0;display:block}
+#sketchView.pan{cursor:grab}
+
+/* 3D */
+#modelView{background:#0d1218}
+#glHost{position:absolute;inset:0}
+#glHost canvas{display:block;width:100%;height:100%;touch-action:none}
+.chip{position:absolute;z-index:5;background:#171e28dd;border:1px solid var(--line);border-radius:10px;
+  padding:6px 10px;font-size:13px;color:var(--mut);pointer-events:none}
+#status{left:8px;bottom:8px}
+#modelNote{position:absolute;z-index:8;left:50%;top:50%;transform:translate(-50%,-50%);width:min(88%,380px);
+  background:#171e28f2;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+#modelNote .spin{width:26px;height:26px;margin:0 auto 10px;border:3px solid var(--line);border-top-color:var(--a);
+  border-radius:50%;animation:rot .8s linear infinite}
+@keyframes rot{to{transform:rotate(360deg)}}
+#modelNote small{color:var(--mut);display:block;margin-top:8px;line-height:1.5}
+
+/* paneeli */
+#panel{display:none;width:350px;flex:0 0 350px;background:var(--p);border-left:1px solid var(--line);
+  flex-direction:column;min-height:0}
+#app[data-panel=open] #panel{display:flex}
+.tabs{display:flex;border-bottom:1px solid var(--line);flex:0 0 auto}
+.tabs button{flex:1;border:0;border-radius:0;background:transparent;color:var(--mut);min-height:42px;padding:0 4px}
+.tabs button.on{color:var(--txt);box-shadow:inset 0 -3px var(--a)}
+.tabs .x{flex:0 0 44px}
+.pane{display:none;flex:1;min-height:0;overflow:auto;padding:12px;-webkit-overflow-scrolling:touch}
+.pane.on{display:block}
+h3{margin:2px 0 8px;font-size:11px;letter-spacing:.9px;text-transform:uppercase;color:var(--mut)}
+.card{border:1px solid var(--line);border-radius:10px;background:var(--p2);padding:9px 11px;margin-bottom:8px}
+.card.sel{border-color:var(--a)}
+.card .head{display:flex;align-items:center;gap:6px}
+.card .head b{flex:1}
+.card small{color:var(--mut)}
+.card .fields{display:none;margin-top:9px;padding-top:9px;border-top:1px dashed var(--line);
+  grid-template-columns:1fr 1fr;gap:7px 8px;align-items:center}
+.card.sel .fields{display:grid}
+.fields label{font-size:12px;color:var(--mut);display:block;margin-bottom:2px}
+.fields input{width:100%}
+.err{color:var(--err)} .ok{color:var(--ok)}
+.note{color:var(--mut);font-size:13px;line-height:1.55}
+code{background:#0e141d;border:1px solid var(--line);border-radius:5px;padding:1px 5px;color:#bcd8ff;
+  -webkit-user-select:text;user-select:text}
+.cmd{display:block;width:100%;text-align:left;margin-bottom:6px;justify-content:flex-start;font-family:ui-monospace,Consolas,monospace;
+  font-size:13px;min-height:38px}
+pre{white-space:pre-wrap;word-break:break-all;margin:8px 0 0;padding:9px;border-radius:8px;background:#0e141d;
+  border:1px solid var(--line);font:11px/1.45 ui-monospace,Consolas,monospace;color:#c9ddf5;
+  -webkit-user-select:text;user-select:text}
+#preview{width:100%;border:1px solid var(--line);border-radius:8px;margin-top:8px;background:#fff}
+details summary{cursor:pointer;color:var(--mut);margin:8px 0}
+
+/* alapalkki */
+footer{flex:0 0 auto;display:flex;gap:6px;align-items:center;padding:6px 8px;background:var(--p);border-top:1px solid var(--line)}
+footer .grp{display:flex;gap:6px;align-items:center;flex:1;min-width:0}
+#app[data-mode=sketch] #barModel,#app[data-mode=model] #barSketch{display:none}
+#prompt{flex:1}
+.fld{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0;max-width:150px}
+.fld span{font-size:11px;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fld input{width:100%}
+
+/* valikko ja ilmoitus */
+#menu{position:absolute;z-index:70;top:54px;right:8px;background:var(--p);border:1px solid var(--line);
+  border-radius:12px;padding:6px;min-width:190px;box-shadow:0 10px 40px #000a}
+#menu button{display:flex;width:100%;border:0;background:transparent;justify-content:flex-start;min-height:42px}
+#menu button:active{background:var(--p2)}
+#menu hr{border:0;border-top:1px solid var(--line);margin:4px 0}
+#toast{position:fixed;z-index:90;left:50%;top:calc(env(safe-area-inset-top) + 62px);transform:translateX(-50%);
+  background:#0b0f15f2;border:1px solid var(--line);border-radius:10px;padding:8px 14px;max-width:92vw;
+  font-size:14px;opacity:0;pointer-events:none;transition:opacity .2s;text-align:center}
+#toast.show{opacity:1} #toast[data-k=err]{border-color:var(--err)} #toast[data-k=ok]{border-color:var(--ok)}
+
+/* ---------- pieni näyttö ---------- */
+@media (max-width:820px){
+  #panel{position:absolute;z-index:30;left:0;right:0;bottom:0;width:auto;flex:none;height:min(64%,540px);
+    border-left:0;border-top:1px solid var(--line);border-radius:16px 16px 0 0;box-shadow:0 -10px 40px #000b}
+  .pill b{display:none}
+  .pill{width:36px;padding:0;justify-content:center}
+  .seg button{padding:0 10px}
+}
+@media (max-width:480px){
+  header{gap:4px;padding:6px}
+  .seg .long,.seg .ic{display:none}
+  .seg .short{display:inline}
+  .seg button{padding:0 10px;font-size:14px}
+  .icon{width:35px;font-size:17px}
+}
+@media (max-width:380px){ #kpill{display:none} .seg button{padding:0 8px} .icon{width:33px} }
+@media (max-height:500px) and (orientation:landscape){
+  /* vaakatilassa paneeli on sivussa, jotta työalue jää näkyviin */
+  #panel{position:static;flex:0 0 min(44%,360px);width:min(44%,360px);height:auto;border-radius:0;border-top:0;
+    border-left:1px solid var(--line);box-shadow:none}
+  header,footer{padding:3px 8px}
+  button,input,select{min-height:32px}
+  .tabs button{min-height:36px}
+}
 </style>
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"}}</script></head><body>
-<header><b>Sketch-CAD</b><span class="tag">vaihe 2</span><button id="to3d">3D-malli</button><button id="toSketch">Hahmotelma / kuva</button><span class="sp"></span><button id="undo">Kumoa</button><button id="save">Tallenna</button><button id="open">Avaa</button><button id="stl">STL</button><button id="step" class="primary">STEP</button></header>
-<div class="app"><section class="work" id="work3d"><div class="toolbar"><button data-v="iso">Iso</button><button data-v="top">Ylä</button><button data-v="front">Edestä</button><button id="fit">Sovita</button><span class="tag">Klikkaa pintaa tai reunaa</span></div><div class="status" id="status">Ei mallia</div><div class="busy" id="busy"><div class="spin"></div><div id="busyText">Ladataan CAD-kerneliä…</div></div></section>
-<section class="work hidden" id="workSketch"><canvas id="drawCanvas"></canvas><div class="sketchTools"><button id="pen" class="primary">Kynä</button><button id="eraser">Pyyhekumi</button><button id="clearSketch">Tyhjennä</button><label>📁 Tuo kuva<input id="imageIn" type="file" accept="image/*" hidden></label><label>📷 Ota kuva<input id="cameraIn" type="file" accept="image/*" capture="environment" hidden></label><span class="tag">Tunnettu mitta mm</span><input id="known" type="number" value="100" min="1" style="width:75px"><button id="analyse" class="primary">Tunnista viivat ja luo malli</button></div></section>
-<aside class="panel"><div class="tabs"><button class="on" data-tab="features">Piirteet</button><button data-tab="select">Valinta</button><button data-tab="image">Kuvan tulkinta</button><button data-tab="code">Koodi</button></div>
-<div class="pane on" id="p-features"><h3>Featurepuu</h3><div id="features"></div></div>
-<div class="pane" id="p-select"><h3>Klikattu kohde</h3><div id="selection" class="selection">Klikkaa mallin pintaa tai reunaa.</div><h3>Kommentit</h3><div id="comments"></div><p class="note">Klikkaa pintaa ja kirjoita esimerkiksi <b>reikä ø8 tähän</b>. Klikkaa reunaa ja kirjoita <b>pyöristä r3</b>. Pelkkä muu teksti tallennetaan kohteen kommentiksi.</p></div>
-<div class="pane" id="p-image"><h3>Tunnistustulos</h3><div id="analysisResult" class="analysis">Piirrä näyttöön tai tuo valokuva. Ohjelma suoristaa viivat, etsii niiden suunnat ja arvioi onko luonnos 2D vai 3D.</div><canvas id="preview"></canvas><p class="note">Ensimmäinen versio tunnistaa ulkomuodon ja pääviivat. Yksi annettu mitta skaalaa mallin. Epäselvästä 3D-kuvasta se luo ehdotuksen, jota muokataan featurepuussa.</p></div>
-<div class="pane" id="p-code"><h3>Generoitu mallikuvaus</h3><pre id="code"></pre></div>
-<div class="prompt"><div class="r"><input id="prompt" placeholder="Komento tai kommentti valitulle kohteelle" disabled><button id="run" class="primary" disabled>Aja</button></div><div class="chips"><span class="chip">levy 120x80x10</span><span class="chip">reikä ø8 tähän</span><span class="chip">pyöristä r3</span><span class="chip">4 reikää ø6 kulmiin 12</span></div><div class="log" id="log"></div></div></aside></div>
-<input id="modelIn" type="file" accept=".json" hidden>
+</head>
+<body>
+<div id="app" data-mode="sketch" data-panel="closed" data-chrome="on">
+
+  <header>
+    <div class="seg" role="tablist">
+      <button id="mSketch" class="on"><span class="ic">✏️</span><span class="long">Hahmotelma</span><span class="short">Piirrä</span></button>
+      <button id="mModel"><span class="ic">🧊</span><span class="long">Muokkaus</span><span class="short">Muokkaa</span></button>
+    </div>
+    <span class="sp"></span>
+    <span id="kpill" class="pill loading" title="CAD-kerneli"><i></i><b>CAD</b></span>
+    <button id="bFit" class="icon" title="Kohdista näkymä">⌖</button>
+    <button id="bChrome" class="icon" title="Koko työalue">⛶</button>
+    <button id="bPanel" class="icon" title="Paneeli">☰</button>
+    <button id="bMenu" class="icon" title="Valikko">⋯</button>
+  </header>
+
+  <div id="body">
+    <div id="stage">
+
+      <!-- HAHMOTELMA -->
+      <section id="sketchView" class="view">
+        <div id="paper"><canvas id="cvBg"></canvas><canvas id="cvInk"></canvas></div>
+        <div class="tools">
+          <button id="tPen" class="on">✏️ Kynä</button>
+          <button id="tEra">🧽 Pyyhi</button>
+          <button id="tPan">✋ Siirrä</button>
+          <button id="tUndo">↶ Kumoa</button>
+          <label class="btn" for="fileImg">🖼️ Kuva</label>
+          <label class="btn" for="fileCam">📷 Kamera</label>
+          <button id="tClear">🗑️</button>
+        </div>
+      </section>
+
+      <!-- 3D -->
+      <section id="modelView" class="view hidden">
+        <div id="glHost"></div>
+        <div class="tools">
+          <button data-v="iso">Iso</button><button data-v="top">Ylä</button>
+          <button data-v="front">Etu</button><button data-v="right">Sivu</button>
+        </div>
+        <div id="status" class="chip">Ei mallia</div>
+        <div id="modelNote"><div class="spin"></div><b>Ladataan CAD-kerneliä…</b><small>Odota hetki.</small></div>
+      </section>
+
+      <button id="restore" title="Näytä valikko">⛶</button>
+    </div>
+
+    <aside id="panel">
+      <div class="tabs">
+        <button data-tab="features" class="on">Piirteet</button>
+        <button data-tab="select">Valinta</button>
+        <button data-tab="image">Kuva</button>
+        <button data-tab="help">Ohje</button>
+        <button id="pClose" class="x">✕</button>
+      </div>
+      <div class="pane on" id="p-features">
+        <h3>Featurepuu</h3><div id="features"></div>
+        <details><summary>Mallin JSON</summary><pre id="code"></pre></details>
+      </div>
+      <div class="pane" id="p-select">
+        <h3>Klikattu kohde</h3><div id="selection" class="card">Klikkaa mallin pintaa tai särmää.</div>
+        <h3>Kommentit</h3><div id="comments"></div>
+        <p class="note">Klikkaa pintaa ja kirjoita <code>reikä ø8 tähän</code>. Klikkaa särmää ja kirjoita
+          <code>pyöristä r3</code>. Muu teksti tallentuu kommentiksi valittuun kohtaan.</p>
+      </div>
+      <div class="pane" id="p-image">
+        <h3>Luonnoksen tulkinta</h3>
+        <div id="analysis" class="card">Piirrä tai tuo kuva ja paina <b>Tunnista</b>.</div>
+        <div class="fieldrow" style="display:flex;gap:8px;align-items:center;margin:8px 0">
+          <span class="note">Tulkinta</span>
+          <select id="kindSel"><option value="auto">Automaattinen</option><option value="2d">2D (levy)</option>
+            <option value="3d">3D (kolmiulotteinen)</option></select>
+        </div>
+        <canvas id="preview" width="10" height="10"></canvas>
+      </div>
+      <div class="pane" id="p-help">
+        <h3>Komennot (napauta kokeillaksesi)</h3>
+        <div id="cmds"></div>
+        <p class="note">Mitat millimetreinä, desimaalit pisteellä. Reiät porataan ylhäältä (Z-suunta), joten
+          klikkaa yläpintaa. Pyöristys kohdistuu klikattuun särmään.</p>
+      </div>
+    </aside>
+  </div>
+
+  <footer>
+    <div class="grp" id="barSketch">
+      <label class="fld"><span>Pisin sivu (mm)</span><input id="known" type="number" inputmode="decimal" value="100" min="1"></label>
+      <label class="fld"><span>Paksuus (mm)</span><input id="thick" type="number" inputmode="decimal" placeholder="auto"></label>
+      <button id="bAnalyse" class="primary" style="align-self:flex-end">Tunnista ▸</button>
+    </div>
+    <div class="grp" id="barModel">
+      <input id="prompt" type="text" placeholder="Komento tai kommentti…" autocomplete="off" autocapitalize="off" enterkeyhint="send">
+      <button id="bRun" class="primary">Aja</button>
+    </div>
+  </footer>
+
+  <div id="menu" class="hidden">
+    <button data-m="undo">↶ Kumoa muutos</button>
+    <button data-m="save">💾 Tallenna (.json)</button>
+    <button data-m="open">📂 Avaa (.json)</button>
+    <hr>
+    <button data-m="step">STEP-vienti</button>
+    <button data-m="stl">STL-vienti</button>
+    <hr>
+    <button data-m="reset">Aloita alusta</button>
+  </div>
+  <div id="toast"></div>
+</div>
+
+<input id="fileImg" type="file" accept="image/*" hidden>
+<input id="fileCam" type="file" accept="image/*" capture="environment" hidden>
+<input id="fileJson" type="file" accept=".json,application/json" hidden>
+
 <script type="module">
-import * as THREE from 'three';import{OrbitControls}from'three/addons/controls/OrbitControls.js';
-const $=s=>document.querySelector(s),say=(s,c='')=>$('#log').innerHTML=`<span class="${c}">${s}</span>`;let rc,shape,uid=0,selected=null,history=[];let model={features:[],comments:[]};const id=p=>p+'_'+(++uid);
-async function kernel(){const R=await import('https://esm.sh/replicad@1.2.0'),O=await import('https://esm.sh/replicad-opencascadejs@1.2.0/src/replicad_single.js');const oc=await(O.default||O)({locateFile:()=> 'https://cdn.jsdelivr.net/npm/replicad-opencascadejs@1.2.0/src/replicad_single.wasm'});R.setOC(oc);rc=R}
-const scene=new THREE.Scene();scene.background=new THREE.Color(0x0d1218);const cam=new THREE.PerspectiveCamera(42,1,.1,20000);cam.up.set(0,0,1);cam.position.set(220,-250,180);const ren=new THREE.WebGLRenderer({antialias:true});ren.setPixelRatio(Math.min(2,devicePixelRatio));$('#work3d').appendChild(ren.domElement);const ctl=new OrbitControls(cam,ren.domElement);ctl.enableDamping=true;scene.add(new THREE.AmbientLight(0xffffff,.7));let dl=new THREE.DirectionalLight(0xffffff,1.5);dl.position.set(1,-1,2);scene.add(dl);let grid=new THREE.GridHelper(600,60,0x344055,0x202938);grid.rotation.x=Math.PI/2;scene.add(grid);let mesh=new THREE.Mesh(new THREE.BufferGeometry(),new THREE.MeshStandardMaterial({color:0x9fb8d2,roughness:.5,metalness:.1,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:2}));let lines=new THREE.LineSegments(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:0x10151c}));scene.add(mesh,lines);const ray=new THREE.Raycaster();ray.params.Line.threshold=2.5;const mouse=new THREE.Vector2();
-function resize(){let w=$('#work3d').clientWidth,h=$('#work3d').clientHeight;ren.setSize(w,h,false);cam.aspect=w/h;cam.updateProjectionMatrix()}new ResizeObserver(resize).observe($('#work3d'));(function a(){requestAnimationFrame(a);ctl.update();ren.render(scene,cam)})();
-function bb(s){let b=s.boundingBox,q=b.bounds||[b.min,b.max];return{min:q[0],max:q[1]}}function build(){let s=null;for(let f of model.features){f.err='';try{if(f.t==='box'){let x=rc.drawRectangle(f.w,f.d).translate(f.x,f.y).sketchOnPlane('XY',f.z).extrude(f.h);s=s?s.fuse(x):x}else if(f.t==='cyl'){let z=f.z??(s?bb(s).max[2]:0),x=rc.drawCircle(f.dia/2).translate(f.x,f.y).sketchOnPlane('XY',z).extrude(f.h);s=s?s.fuse(x):x}else if(f.t==='hole'){if(!s)throw Error('ei kappaletta');let b=bb(s),z=f.depth?b.max[2]-f.depth:b.min[2]-1,h=f.depth?f.depth+1:b.max[2]-b.min[2]+2;s=s.cut(rc.drawCircle(f.dia/2).translate(f.x,f.y).sketchOnPlane('XY',z).extrude(h))}else if(f.t==='holes4'){let b=bb(s),pts=[[b.min[0]+f.m,b.min[1]+f.m],[b.max[0]-f.m,b.min[1]+f.m],[b.max[0]-f.m,b.max[1]-f.m],[b.min[0]+f.m,b.max[1]-f.m]];for(let p of pts)s=s.cut(rc.drawCircle(f.dia/2).translate(...p).sketchOnPlane('XY',b.min[2]-1).extrude(b.max[2]-b.min[2]+2))}else if(f.t==='fillet'){let fn=f.sel==='vertical'?e=>e.inDirection('Z'):f.sel==='top'?e=>e.inPlane('XY',bb(s).max[2]):f.sel==='bottom'?e=>e.inPlane('XY',bb(s).min[2]):null;s=fn?s.fillet(f.r,fn):s.fillet(f.r)}}catch(e){f.err=e.message}}return s}
-function drawShape(){shape=build();if(!shape){mesh.geometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(),3));lines.geometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(),3));$('#status').textContent='Ei mallia';return}let a=shape.mesh({tolerance:.04,angularTolerance:20}),e=shape.meshEdges({keepMesh:true});mesh.geometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(a.vertices),3));mesh.geometry.setIndex(new THREE.BufferAttribute(new Uint32Array(a.triangles),1));if(a.normals)mesh.geometry.setAttribute('normal',new THREE.BufferAttribute(new Float32Array(a.normals),3));else mesh.geometry.computeVertexNormals();lines.geometry.setAttribute('position',new THREE.BufferAttribute(new Float32Array(e.lines),3));mesh.geometry.computeBoundingBox();let b=bb(shape),d=[0,1,2].map(i=>Math.round((b.max[i]-b.min[i])*10)/10);$('#status').innerHTML=`Mitat <b>${d.join(' × ')}</b> mm · piirteitä ${model.features.length}`}
-const names={box:'Laatikko',cyl:'Lieriö',hole:'Reikä',holes4:'Kulmareiät',fillet:'Pyöristys'};function desc(f){if(f.t==='box')return`${f.w} × ${f.d} × ${f.h}`;if(f.t==='hole')return`ø${f.dia} @ ${f.x.toFixed(1)}, ${f.y.toFixed(1)}`;if(f.t==='holes4')return`4 × ø${f.dia}, reuna ${f.m}`;if(f.t==='fillet')return`r${f.r}, ${f.sel}`;return`ø${f.dia} × ${f.h}`}
-function ui(){let h='';model.features.forEach((f,i)=>{let fields=Object.entries(f).filter(([k,v])=>typeof v==='number').map(([k,v])=>`<label>${k}</label><input data-i="${i}" data-k="${k}" type="number" step="any" value="${v}">`).join('');h+=`<div class="feature ${f.id===selected?.fid?'sel':''}" data-id="${f.id}"><div class="head"><b>${i+1}. ${names[f.t]}</b><button data-del="${i}">✕</button></div><small>${f.err?'<span class=err>'+f.err+'</span>':desc(f)}</small><div class="fields">${fields}</div></div>`});$('#features').innerHTML=h||'<p class="note">Ei piirteitä. Piirrä hahmotelma tai kirjoita levy 120x80x10.</p>';$('#code').textContent=JSON.stringify(model.features,null,2);$('#comments').innerHTML=model.comments.map(c=>`<div class="feature"><small>${c.target}</small><br>${c.text}</div>`).join('')||'<p class="note">Ei kommentteja.</p>';document.querySelectorAll('.feature[data-id]').forEach(x=>x.onclick=e=>{if(e.target.dataset.del!=null)return;selected={kind:'feature',fid:x.dataset.id};ui();showSel()});document.querySelectorAll('[data-del]').forEach(x=>x.onclick=e=>{e.stopPropagation();saveHist();model.features.splice(+x.dataset.del,1);rebuild()});document.querySelectorAll('.fields input').forEach(x=>x.onchange=e=>{saveHist();model.features[+x.dataset.i][x.dataset.k]=+x.value;rebuild()})}
-function rebuild(fit=false){drawShape();ui();if(fit)fitView()}
-function saveHist(){history.push(JSON.stringify(model));if(history.length>30)history.shift()}
-function fitView(){if(!shape)return;let b=mesh.geometry.boundingBox,c=b.getCenter(new THREE.Vector3()),r=b.getSize(new THREE.Vector3()).length()/2||50,d=cam.position.clone().sub(ctl.target).normalize();ctl.target.copy(c);cam.position.copy(c.clone().add(d.multiplyScalar(r*3)))}
-function showSel(){if(!selected)return $('#selection').textContent='Klikkaa mallin pintaa tai reunaa.';let p=selected.point?selected.point.map(x=>x.toFixed(1)).join(', '):'';$('#selection').innerHTML=`<b>${selected.kind==='edge'?'Reuna':selected.kind==='face'?'Pinta':'Piirre'}</b>${p?`<br>Kohta: ${p} mm`:''}${selected.normal?`<br>Normaali: ${selected.normal.map(x=>x.toFixed(2)).join(', ')}`:''}`}
-ren.domElement.addEventListener('pointerdown',e=>{if(e.button!==0)return;let r=ren.domElement.getBoundingClientRect();mouse.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);ray.setFromCamera(mouse,cam);let le=ray.intersectObject(lines)[0],fa=ray.intersectObject(mesh)[0],hit=(le&&(!fa||le.distance<=fa.distance+2))?le:fa;if(!hit)return;let kind=hit.object===lines?'edge':'face',n=null;if(kind==='face'&&hit.face)n=hit.face.normal.clone().transformDirection(mesh.matrixWorld).toArray();selected={kind,point:hit.point.toArray(),normal:n};showSel();tab('select')});
-function parse(t){let n='(-?\\d+(?:\\.\\d+)?)',m;if(m=t.match(new RegExp(n+'\\s*[x×]\\s*'+n+'\\s*[x×]\\s*'+n,'i')))return{t:'box',w:+m[1],d:+m[2],h:+m[3],x:0,y:0,z:0};let D=(t.match(new RegExp('(?:ø|d|dia|halkaisija)\\s*=?\\s*'+n,'i'))||[])[1];let R=(t.match(new RegExp('(?:r|säde|sade)\\s*=?\\s*'+n,'i'))||t.match(new RegExp(n+'\\s*$'))||[])[1];if(/4.*reik|reik.*kulm/i.test(t))return{t:'holes4',dia:+D||6,m:+((t.match(/(?:kulmiin|reuna\w*)\s*(\d+(?:\.\d+)?)/i)||[])[1]||10)};if(/reik|hole/i.test(t)){let p=selected?.point||[0,0,0],xy=t.match(new RegExp(n+'\\s*[,;]\\s*'+n));return{t:'hole',dia:+D||8,x:xy?+xy[1]:p[0],y:xy?+xy[2]:p[1],depth:0}}if(/pyörist|fillet/i.test(t)){let sel='all';if(selected?.kind==='edge'){let b=shape&&bb(shape),z=selected.point[2];sel=Math.abs(z-(b?.max[2]||0))<1?'top':Math.abs(z-(b?.min[2]||0))<1?'bottom':'vertical'}else if(/pysty/i.test(t))sel='vertical';else if(/ylä|yla|top/i.test(t))sel='top';return{t:'fillet',r:+R||2,sel}}return null}
-function command(){let t=$('#prompt').value.trim();if(!t)return;let f=parse(t);if(f){saveHist();f.id=id(f.t);model.features.push(f);selected={kind:'feature',fid:f.id};rebuild();say('Muutos lisätty.','ok')}else if(selected){model.comments.push({target:selected.kind+(selected.point?' @ '+selected.point.map(x=>x.toFixed(1)).join(','):''),text:t});ui();say('Kommentti tallennettu.','ok')}else say('Valitse kohde tai anna mallinnuskomento.','err');$('#prompt').value=''}
-// Sketch canvas and line recognition
-const dc=$('#drawCanvas'),dx=dc.getContext('2d',{willReadFrequently:true});let drawing=false,last,erase=false,sourceImage=false;function sizeCanvas(){let r=$('#workSketch').getBoundingClientRect(),old=document.createElement('canvas');old.width=dc.width;old.height=dc.height;old.getContext('2d').drawImage(dc,0,0);dc.width=Math.max(400,r.width);dc.height=Math.max(300,r.height);dx.fillStyle='white';dx.fillRect(0,0,dc.width,dc.height);if(old.width)dx.drawImage(old,0,0,dc.width,dc.height)}new ResizeObserver(sizeCanvas).observe($('#workSketch'));function pos(e){let r=dc.getBoundingClientRect();return[(e.clientX-r.left)*dc.width/r.width,(e.clientY-r.top)*dc.height/r.height]}dc.onpointerdown=e=>{drawing=true;last=pos(e);dc.setPointerCapture(e.pointerId)};dc.onpointermove=e=>{if(!drawing)return;let p=pos(e);dx.strokeStyle=erase?'white':'#111';dx.lineWidth=erase?18:3;dx.lineCap='round';dx.beginPath();dx.moveTo(...last);dx.lineTo(...p);dx.stroke();last=p};dc.onpointerup=()=>drawing=false;
-function hough(){let im=dx.getImageData(0,0,dc.width,dc.height),pts=[];for(let y=2;y<dc.height-2;y+=3)for(let x=2;x<dc.width-2;x+=3){let i=(y*dc.width+x)*4,v=(im.data[i]+im.data[i+1]+im.data[i+2])/3;if(v<150)pts.push([x,y])}if(pts.length<15)return null;let minx=Math.min(...pts.map(p=>p[0])),maxx=Math.max(...pts.map(p=>p[0])),miny=Math.min(...pts.map(p=>p[1])),maxy=Math.max(...pts.map(p=>p[1]));let bins=new Array(36).fill(0),cx=(minx+maxx)/2,cy=(miny+maxy)/2;for(let [x,y]of pts){let a=Math.atan2(y-cy,x-cx);bins[Math.floor(((a+Math.PI)%(Math.PI))*36/Math.PI)]++}let peaks=bins.map((v,i)=>[v,i]).sort((a,b)=>b[0]-a[0]).filter((x,i,a)=>i===0||a.slice(0,i).every(q=>Math.abs(q[1]-x[1])>3)).slice(0,3);return{pts,b:[minx,miny,maxx,maxy],peaks,type:peaks.length>=3&&peaks[2][0]>peaks[0][0]*.32?'3D':'2D'}}
-function analyse(){let a=hough();if(!a)return say('Viivoja ei löytynyt. Piirrä tummemmalla tai rajaa kuva.','err');let [x1,y1,x2,y2]=a.b,w=x2-x1,h=y2-y1,known=+$('#known').value||100,scale=known/Math.max(w,h),W=Math.round(w*scale*10)/10,D=Math.round(h*scale*10)/10,H=a.type==='3D'?Math.max(5,Math.round(Math.min(W,D)*.35*10)/10):10;saveHist();model.features=[{id:id('box'),t:'box',w:W,d:D,h:H,x:0,y:0,z:0}];let pv=$('#preview'),pc=pv.getContext('2d');pv.width=dc.width;pv.height=dc.height;pc.drawImage(dc,0,0);pc.strokeStyle='#20a4ff';pc.lineWidth=3;pc.strokeRect(x1,y1,w,h);pc.fillStyle='#20a4ff';pc.font='18px Segoe UI';pc.fillText(`${a.type}: ${W} × ${D} × ${H} mm`,x1,Math.max(20,y1-8));$('#analysisResult').innerHTML=`Tulkinta: <b>${a.type}</b><br>Pääviivojen alue: ${Math.round(w)} × ${Math.round(h)} px<br>Malliehdotus: ${W} × ${D} × ${H} mm<br><small>Sininen kehys näyttää tunnistetun ulkomuodon.</small>`;rebuild(true);show3d();tab('image');say('Hahmotelma tulkittu ja malliehdotus luotu.','ok')}
-function show3d(){$('#work3d').classList.remove('hidden');$('#workSketch').classList.add('hidden');setTimeout(resize,0)}function showSketch(){$('#work3d').classList.add('hidden');$('#workSketch').classList.remove('hidden');setTimeout(sizeCanvas,0)}function tab(n){document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('on',b.dataset.tab===n));document.querySelectorAll('.pane').forEach(p=>p.classList.toggle('on',p.id==='p-'+n))}
-$('#to3d').onclick=show3d;$('#toSketch').onclick=showSketch;$('#pen').onclick=()=>{erase=false;$('#pen').classList.add('primary');$('#eraser').classList.remove('primary')};$('#eraser').onclick=()=>{erase=true;$('#eraser').classList.add('primary');$('#pen').classList.remove('primary')};$('#clearSketch').onclick=()=>{dx.fillStyle='white';dx.fillRect(0,0,dc.width,dc.height);sourceImage=false};for(let q of ['imageIn','cameraIn'])$('#'+q).onchange=e=>{let f=e.target.files[0];if(!f)return;let im=new Image;im.onload=()=>{showSketch();setTimeout(()=>{dx.fillStyle='white';dx.fillRect(0,0,dc.width,dc.height);let s=Math.min(dc.width/im.width,dc.height/im.height),w=im.width*s,h=im.height*s;dx.drawImage(im,(dc.width-w)/2,(dc.height-h)/2,w,h);sourceImage=true},50)};im.src=URL.createObjectURL(f)};$('#analyse').onclick=analyse;
-$('#run').onclick=command;$('#prompt').onkeydown=e=>{if(e.key==='Enter')command()};document.querySelector('.chips').onclick=e=>{if(e.target.classList.contains('chip')){$('#prompt').value=e.target.textContent;$('#prompt').focus()}};document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>tab(b.dataset.tab));$('#undo').onclick=()=>{if(history.length){model=JSON.parse(history.pop());rebuild()}};$('#fit').onclick=fitView;document.querySelectorAll('[data-v]').forEach(b=>b.onclick=()=>{let v={iso:[1,-1.2,.9],top:[0,0,1],front:[0,-1,0]}[b.dataset.v],d=cam.position.distanceTo(ctl.target);cam.position.copy(ctl.target.clone().add(new THREE.Vector3(...v).normalize().multiplyScalar(d)))});
-function dl(blob,name){let a=document.createElement('a'),u=URL.createObjectURL(blob);a.href=u;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(u),2000)}$('#save').onclick=()=>dl(new Blob([JSON.stringify(model,null,2)],{type:'application/json'}),'sketch-cad-malli.json');$('#open').onclick=()=>$('#modelIn').click();$('#modelIn').onchange=async e=>{model=JSON.parse(await e.target.files[0].text());rebuild(true)};$('#step').onclick=()=>shape&&dl(shape.blobSTEP(),'malli.step');$('#stl').onclick=()=>shape&&dl(shape.blobSTL(),'malli.stl');
-resize();sizeCanvas();kernel().then(()=>{$('#busy').classList.add('hidden');$('#prompt').disabled=$('#run').disabled=false;ui();say('Valmis. Piirrä hahmotelma tai anna komento.','ok')}).catch(e=>{$('#busyText').innerHTML='<span class=err>Kernelin lataus epäonnistui.</span><br>'+e.message});
-</script></body></html>
+/* =====================================================================
+   Sketch-CAD – hahmotelmasta 3D-malliksi
+   ===================================================================== */
+const $=s=>document.querySelector(s);
+const $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+//#PURE_BEGIN
+/* ----------------------------------------------------------------- puhdas logiikka */
+const R1=v=>Math.round(v*10)/10;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+function toGray(d,w,h){
+  const g=new Float32Array(w*h);
+  for(let i=0,p=0;i<g.length;i++,p+=4) g[i]=0.299*d[p]+0.587*d[p+1]+0.114*d[p+2];
+  return g;
+}
+/* muste = selvästi paikallista keskiarvoa tummempi (sietää epätasaisen valon) */
+function inkMask(g,w,h,win,C){
+  const W1=w+1, I=new Float64Array(W1*(h+1));
+  for(let y=0;y<h;y++){ let run=0;
+    for(let x=0;x<w;x++){ run+=g[y*w+x]; I[(y+1)*W1+x+1]=I[y*W1+x+1]+run; } }
+  const ink=new Uint8Array(w*h);
+  for(let y=0;y<h;y++){
+    const y0=Math.max(0,y-win), y1=Math.min(h-1,y+win);
+    for(let x=0;x<w;x++){
+      const x0=Math.max(0,x-win), x1=Math.min(w-1,x+win);
+      const s=I[(y1+1)*W1+x1+1]-I[y0*W1+x1+1]-I[(y1+1)*W1+x0]+I[y0*W1+x0];
+      const m=s/((x1-x0+1)*(y1-y0+1));
+      if(g[y*w+x]<m-C) ink[y*w+x]=1;
+    }
+  }
+  return ink;
+}
+/* ääriviivan laatikko; harvat irtopisteet leikataan pois */
+function inkBBox(ink,w,h,trim){
+  const cx=new Uint32Array(w), cy=new Uint32Array(h); let n=0;
+  for(let y=0;y<h;y++) for(let x=0;x<w;x++) if(ink[y*w+x]){ cx[x]++; cy[y]++; n++; }
+  if(n<40) return null;
+  const lim=n*trim;
+  const first=(a,len)=>{ let s=0; for(let i=0;i<len;i++){ s+=a[i]; if(s>lim) return i; } return 0; };
+  const last=(a,len)=>{ let s=0; for(let i=len-1;i>=0;i--){ s+=a[i]; if(s>lim) return i; } return len-1; };
+  return {x0:first(cx,w),x1:last(cx,w),y0:first(cy,h),y1:last(cy,h),n};
+}
+/* viivojen suuntahistogrammi (2° lokerot, 0..180°), painotettu gradientin voimalla */
+function orientHist(g,w,h,ink){
+  const H=new Float64Array(90);
+  for(let y=1;y<h-1;y++){
+    for(let x=1;x<w-1;x++){
+      const i=y*w+x;
+      if(!(ink[i]||ink[i-1]||ink[i+1]||ink[i-w]||ink[i+w])) continue;
+      const gx=-g[i-w-1]-2*g[i-1]-g[i+w-1]+g[i-w+1]+2*g[i+1]+g[i+w+1];
+      const gy=-g[i-w-1]-2*g[i-w]-g[i-w+1]+g[i+w-1]+2*g[i+w]+g[i+w+1];
+      const m=Math.hypot(gx,gy); if(m<60) continue;
+      let a=Math.atan2(gy,gx)+Math.PI/2; a=((a%Math.PI)+Math.PI)%Math.PI;
+      H[Math.min(89,Math.floor(a/Math.PI*90))]+=m;
+    }
+  }
+  return H;
+}
+/* 3D-luonnoksessa on vahva vino suuntaryhmä (iso/kabinetti); levyssä vain vaaka/pysty */
+function classifyKind(H){
+  let tot=0; for(const v of H) tot+=v;
+  if(tot<=0) return {kind:'2d',conf:0,ortho:0,oblique:0,deg:0};
+  const mass=(c,half)=>{ let s=0;
+    for(let i=0;i<90;i++){ const a=i*2+1; let d=Math.abs(a-c); d=Math.min(d,180-d); if(d<=half) s+=H[i]; }
+    return s; };
+  const ortho=(mass(0,10)+mass(90,10))/tot;
+  /* vino suuntaryhmä: etsitään terävin piikki 30–60° ja 120–150° (kauempana vaaka/pysty-vuodosta) */
+  let best=0,deg=0,sum=0,cnt=0;
+  for(let a=30;a<=150;a+=2){ if(a>60&&a<120) continue; const m=mass(a,7)/tot; sum+=m; cnt++; if(m>best){best=m;deg=a;} }
+  const avg=cnt?sum/cnt:0;
+  /* 3D, jos piikki on selvä ja terävä; ympyrät levittävät massan tasaisesti, joten ne eivät laukaise */
+  const is3d=best>=0.08&&best>=1.7*avg;
+  const conf=is3d?clamp(0.5+(best-0.08)*4,0.5,0.9):clamp(0.95-best*5,0.5,0.95);
+  return {kind:is3d?'3d':'2d',conf,ortho,oblique:best,deg};
+}
+/* Kåsan ympyräsovitus */
+function fitCircleK(pts){
+  const n=pts.length; if(n<6) return null;
+  let sx=0,sy=0; for(const p of pts){ sx+=p[0]; sy+=p[1]; }
+  const mx=sx/n,my=sy/n;
+  let suu=0,suv=0,svv=0,suuu=0,svvv=0,suvv=0,svuu=0;
+  for(const p of pts){ const u=p[0]-mx,v=p[1]-my;
+    suu+=u*u; svv+=v*v; suv+=u*v; suuu+=u*u*u; svvv+=v*v*v; suvv+=u*v*v; svuu+=v*u*u; }
+  const det=2*(suu*svv-suv*suv); if(Math.abs(det)<1e-9) return null;
+  const uc=(svv*(suuu+suvv)-suv*(svvv+svuu))/det, vc=(suu*(svvv+svuu)-suv*(suuu+suvv))/det;
+  const c=[uc+mx,vc+my]; let r=0;
+  for(const p of pts) r+=Math.hypot(p[0]-c[0],p[1]-c[1]); r/=n;
+  let mean=0,max=0;
+  for(const p of pts){ const e=Math.abs(Math.hypot(p[0]-c[0],p[1]-c[1])-r); mean+=e; if(e>max) max=e; }
+  return {c,r,mean:mean/n,max};
+}
+/* suljettu, pyöreä veto -> ympyrä (reikä); suorakaide ei kelpaa */
+function strokeAsCircle(pts){
+  if(pts.length<12) return null;
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  for(const p of pts){ x0=Math.min(x0,p[0]); y0=Math.min(y0,p[1]); x1=Math.max(x1,p[0]); y1=Math.max(y1,p[1]); }
+  const w=x1-x0,h=y1-y0,D=Math.max(w,h); if(D<14||w<1||h<1) return null;
+  const L=pts[pts.length-1];
+  if(Math.hypot(pts[0][0]-L[0],pts[0][1]-L[1])>0.3*D) return null;
+  const ar=w/h; if(ar<0.7||ar>1.43) return null;
+  const f=fitCircleK(pts); if(!f||f.r<7) return null;
+  if(f.mean>0.07*f.r||f.max>0.2*f.r) return null;
+  const bins=new Array(24).fill(0);
+  for(const p of pts){ let a=Math.atan2(p[1]-f.c[1],p[0]-f.c[0]); if(a<0) a+=Math.PI*2;
+    bins[Math.min(23,Math.floor(a/(Math.PI*2)*24))]++; }
+  if(bins.filter(v=>v>0).length<20) return null;
+  return f;
+}
+/* särmäketju: jatketaan valittua jana-paria niin kauan kuin suunta jatkuu (tangenttiketju) */
+function edgeChain(P,segIdx,maxAngDeg){
+  const n=Math.floor(P.length/6); if(segIdx<0||segIdx>=n) return null;
+  const key=v=>Math.round(P[v*3]*100)+'_'+Math.round(P[v*3+1]*100)+'_'+Math.round(P[v*3+2]*100);
+  const map=new Map();
+  for(let k=0;k<n;k++) for(const v of [2*k,2*k+1]){ const kk=key(v);
+    let a=map.get(kk); if(!a){ a=[]; map.set(kk,a); } a.push(k); }
+  const vec=(a,b)=>[P[b*3]-P[a*3],P[b*3+1]-P[a*3+1],P[b*3+2]-P[a*3+2]];
+  const nrm=v=>{ const l=Math.hypot(v[0],v[1],v[2])||1; return [v[0]/l,v[1]/l,v[2]/l]; };
+  const cosT=Math.cos((maxAngDeg||25)*Math.PI/180);
+  const used=new Set([segIdx]); const chain=[segIdx];
+  const walk=(k,from,to)=>{
+    let curDir=nrm(vec(from,to)), ev=to;
+    for(let guard=0;guard<5000;guard++){
+      const cands=(map.get(key(ev))||[]).filter(s=>!used.has(s));
+      let best=-1,bc=-2,bo=-1;
+      for(const s of cands){
+        const va=2*s,vb=2*s+1; const atA=key(va)===key(ev);
+        const vs=atA?va:vb, vo=atA?vb:va;
+        const c=curDir[0]*nrm(vec(vs,vo))[0]+curDir[1]*nrm(vec(vs,vo))[1]+curDir[2]*nrm(vec(vs,vo))[2];
+        if(c>bc){ bc=c; best=s; bo=vo; }
+      }
+      if(best<0||bc<cosT) break;
+      const vs=(2*best===bo)?2*best+1:2*best;
+      used.add(best); chain.push(best);
+      curDir=nrm(vec(vs,bo)); ev=bo;
+    }
+  };
+  walk(segIdx,2*segIdx,2*segIdx+1);
+  walk(segIdx,2*segIdx+1,2*segIdx);
+  let mn=[1e18,1e18,1e18],mx=[-1e18,-1e18,-1e18];
+  for(const k of chain) for(const v of [2*k,2*k+1]) for(let i=0;i<3;i++){
+    mn[i]=Math.min(mn[i],P[v*3+i]); mx[i]=Math.max(mx[i],P[v*3+i]); }
+  return {segs:chain,min:mn,max:mx};
+}
+
+const NUM='(-?\\d+(?:\\.\\d+)?)';
+/* Kehotteen tulkinta (suomi/englanti). ctx = {sel:{kind,point,normal,box}} */
+function parseCommand(raw,ctx){
+  const t=String(raw).trim().toLowerCase(); if(!t) return null;
+  ctx=ctx||{};
+  const num=re=>{ const m=t.match(re); return m?parseFloat(m[1]):null; };
+  let m=t.match(new RegExp(NUM+'\\s*[x×*]\\s*'+NUM+'\\s*[x×*]\\s*'+NUM));
+  if(m) return {kind:'add',f:{t:'box',w:+m[1],d:+m[2],h:+m[3],x:0,y:0,z:0}};
+
+  const dia=num(new RegExp('(?:ø|⌀|\\bdia(?:meter)?|\\bhalkaisija|\\bd)\\s*=?\\s*'+NUM));
+  const rad=num(new RegExp('(?:\\br|säde|sade|radius)\\s*=?\\s*'+NUM));
+  const hh=num(new RegExp('(?:\\bh|korkeus|height|pituus)\\s*=?\\s*'+NUM));
+
+  if(/lieriö|lierio|sylinteri|cylinder|tappi/.test(t)){
+    if(dia==null||hh==null) return {kind:'error',msg:'Anna halkaisija ja korkeus, esim. lieriö ø30 h40'};
+    return {kind:'add',f:{t:'cyl',dia,h:hh,x:0,y:0,z:null}};
+  }
+  if(/(?:\b4\b|neljä|four).*(?:reik|reiä|hole)|(?:reik|reiä|hole).*(?:kulm|corner)|(?:kulm|corner).*(?:reik|reiä|hole)/.test(t)){
+    const mg=num(new RegExp('(?:kulmiin|reunasta|reunaetäisyys|reunaetaisyys|margin|edge)\\s*=?\\s*'+NUM));
+    return {kind:'add',f:{t:'holes4',dia:dia==null?6:dia,m:mg==null?10:mg}};
+  }
+  if(/reik|reiä|reia|hole|poraa|drill/.test(t)){
+    if(dia==null) return {kind:'error',msg:'Anna reiän halkaisija, esim. reikä ø8 tähän'};
+    const xy=t.match(new RegExp(NUM+'\\s*[,;]\\s*'+NUM));
+    let depth=num(new RegExp('(?:syvyys|depth)\\s*=?\\s*'+NUM));
+    if(/läpi|lapi|through/.test(t)) depth=0;
+    const sel=ctx.sel;
+    if(!xy&&sel&&sel.kind==='face'&&sel.normal&&Math.abs(sel.normal[2])<0.7)
+      return {kind:'error',msg:'Reiät porataan ylhäältä – klikkaa yläpintaa tai anna paikka: reikä ø8 30,20'};
+    const x=xy?+xy[1]:(sel&&sel.point?sel.point[0]:0), y=xy?+xy[2]:(sel&&sel.point?sel.point[1]:0);
+    return {kind:'add',f:{t:'hole',dia,x:R1(x),y:R1(y),depth:depth==null?0:depth}};
+  }
+  if(/pyörist|pyorist|fillet|round|viiste|chamfer|faasi/.test(t)){
+    let r=rad;
+    if(r==null){ const all=t.match(/-?\d+(?:\.\d+)?/g); if(all) r=parseFloat(all[all.length-1]); }
+    if(r==null||!(r>0)) return {kind:'error',msg:'Anna säde, esim. pyöristä r3'};
+    const type=/viiste|chamfer|faasi/.test(t)?'chamfer':'fillet';
+    const f={t:type,r,sel:'all'};
+    const s=ctx.sel;
+    if(s&&s.kind==='edge'&&s.box){ f.sel='edge'; f.box=s.box.slice(); f.cat=s.cat||'all'; }
+    else if(/pysty|vertical/.test(t)) f.sel='vertical';
+    else if(/ylä|yla|top/.test(t)) f.sel='top';
+    else if(/alare|pohj|bottom/.test(t)) f.sel='bottom';
+    return {kind:'add',f};
+  }
+  const ed=t.match(new RegExp('(paksuus|korkeus|thickness|height|leveys|width|syvyys|depth)\\s*=?\\s*'+NUM));
+  if(ed){
+    const key={paksuus:'h',korkeus:'h',thickness:'h',height:'h',leveys:'w',width:'w',syvyys:'d',depth:'d'}[ed[1]];
+    return {kind:'edit',key,val:parseFloat(ed[2])};
+  }
+  return null;
+}
+//#PURE_END
+
+/* ================================================================== tila */
+let mode='sketch', rc=null, THREE=null;
+let model={features:[],comments:[]}, selected=null, hist=[], uid=0, shape=null, pendingBuild=false;
+const engine={three:'loading',kernel:'loading',msg:''};
+const nid=p=>p+'_'+(++uid);
+const app=$('#app');
+
+let toastT=null;
+function toast(msg,kind,ms){
+  const el=$('#toast'); el.textContent=msg; el.dataset.k=kind||''; el.className='show';
+  clearTimeout(toastT); toastT=setTimeout(()=>{el.className='';},ms||2400);
+}
+function setMode(m){
+  mode=m; app.dataset.mode=m;
+  $('#mSketch').classList.toggle('on',m==='sketch'); $('#mModel').classList.toggle('on',m==='model');
+  $('#sketchView').classList.toggle('hidden',m!=='sketch');
+  $('#modelView').classList.toggle('hidden',m!=='model');
+  if(m==='sketch') requestAnimationFrame(()=>{ if(autoFit) fitSketch(); });
+  else requestAnimationFrame(()=>{ resize3d(); updateModelNote(); invalidate(); });
+}
+function setPanel(open,tabName){
+  app.dataset.panel=open?'open':'closed';
+  if(tabName) showTab(tabName);
+  requestAnimationFrame(()=>{ resize3d(); if(mode==='sketch'&&autoFit) fitSketch(); });
+}
+function showTab(n){
+  $$('.tabs button[data-tab]').forEach(b=>b.classList.toggle('on',b.dataset.tab===n));
+  $$('.pane').forEach(p=>p.classList.toggle('on',p.id==='p-'+n));
+}
+
+/* ============================================================ HAHMOTELMA */
+const sv=$('#sketchView'), paperEl=$('#paper'), cvBg=$('#cvBg'), cvInk=$('#cvInk');
+const bgx=cvBg.getContext('2d'), inkx=cvInk.getContext('2d');
+let paper={w:1200,h:900}, strokes=[], undoStack=[], photo=null;
+function defaultPaper(){ const r=$('#stage').getBoundingClientRect(); return (r.height>r.width*1.05)?{w:900,h:1200}:{w:1200,h:900}; }
+let tool='pen', view={s:1,tx:0,ty:0}, autoFit=true, curStroke=null;
+
+function setPaper(w,h){
+  paper={w,h};
+  for(const c of [cvBg,cvInk]){ c.width=w; c.height=h; c.style.width=w+'px'; c.style.height=h+'px'; }
+  paperEl.style.width=w+'px'; paperEl.style.height=h+'px';
+  drawBg(); redrawInk();
+}
+function drawBg(){
+  bgx.fillStyle='#fff'; bgx.fillRect(0,0,paper.w,paper.h);
+  if(photo){
+    const s=Math.min(paper.w/photo.width,paper.h/photo.height), w=photo.width*s, h=photo.height*s;
+    bgx.drawImage(photo,(paper.w-w)/2,(paper.h-h)/2,w,h);
+  }
+}
+function strokePath(st){
+  inkx.lineWidth=st.w; inkx.beginPath(); inkx.moveTo(st.pts[0][0],st.pts[0][1]);
+  if(st.pts.length===1) inkx.lineTo(st.pts[0][0]+0.01,st.pts[0][1]);
+  for(let i=1;i<st.pts.length;i++) inkx.lineTo(st.pts[i][0],st.pts[i][1]);
+  inkx.stroke();
+}
+function redrawInk(){
+  inkx.clearRect(0,0,paper.w,paper.h);
+  inkx.lineCap='round'; inkx.lineJoin='round'; inkx.strokeStyle='#111';
+  for(const st of strokes) strokePath(st);
+}
+function applyView(){ paperEl.style.transform=`translate(${view.tx}px,${view.ty}px) scale(${view.s})`; }
+function strokesBBox(){
+  if(!strokes.length) return null;
+  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  for(const st of strokes) for(const p of st.pts){ x0=Math.min(x0,p[0]); y0=Math.min(y0,p[1]); x1=Math.max(x1,p[0]); y1=Math.max(y1,p[1]); }
+  return {x0,y0,x1,y1};
+}
+/* Kohdista: sovita luonnos (tai koko paperi) näkyviin */
+function fitSketch(){
+  const r=sv.getBoundingClientRect(); if(r.width<20||r.height<20) return;
+  let b={x0:0,y0:0,x1:paper.w,y1:paper.h};
+  const sb=strokesBBox();
+  if(sb&&!photo){ const pad=Math.max(24,0.08*Math.max(sb.x1-sb.x0,sb.y1-sb.y0)); b={x0:sb.x0-pad,y0:sb.y0-pad,x1:sb.x1+pad,y1:sb.y1+pad}; }
+  const topInset=52, m=10;
+  const aw=r.width-2*m, ah=r.height-topInset-m;
+  const bw=Math.max(40,b.x1-b.x0), bh=Math.max(40,b.y1-b.y0);
+  const s=clamp(Math.min(aw/bw,ah/bh),0.05,10);
+  view.s=s; view.tx=m+(aw-bw*s)/2-b.x0*s; view.ty=topInset+(ah-bh*s)/2-b.y0*s;
+  applyView();
+}
+function paperPt(e){
+  const r=cvInk.getBoundingClientRect();
+  return [(e.clientX-r.left)*paper.w/r.width,(e.clientY-r.top)*paper.h/r.height];
+}
+function pushUndo(){ undoStack.push(strokes.slice()); if(undoStack.length>60) undoStack.shift(); }
+function eraseAt(p){
+  const R=16/view.s; const before=strokes.length;
+  const keep=strokes.filter(st=>!st.pts.some(q=>Math.hypot(q[0]-p[0],q[1]-p[1])<R));
+  if(keep.length!==before){ if(!eraseAt.pushed){ pushUndo(); eraseAt.pushed=true; } strokes=keep; redrawInk(); }
+}
+const sp=new Map(); let sg=null;
+sv.addEventListener('pointerdown',e=>{
+  if(e.target.closest('.tools')||e.target.closest('#restore')) return;
+  sv.setPointerCapture(e.pointerId);
+  sp.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(sp.size===1){
+    sg={pan:false}; eraseAt.pushed=false;
+    if(tool==='pan'||e.button===1||e.button===2){ sg.pan=true; sv.classList.add('pan'); }
+    else if(tool==='pen'){
+      pushUndo(); const p=paperPt(e);
+      curStroke={pts:[p],w:clamp(2.6/view.s,1.6,9)}; strokes.push(curStroke); strokePath(curStroke);
+    } else if(tool==='eraser') eraseAt(paperPt(e));
+  } else if(sp.size===2){
+    if(curStroke&&curStroke.pts.length<4){ strokes.pop(); undoStack.pop(); redrawInk(); }
+    curStroke=null; sg=sg||{}; sg.pinch=true; sg.pan=false;
+    const [a,b]=[...sp.values()]; sg.d=Math.hypot(a.x-b.x,a.y-b.y)||1; sg.mx=(a.x+b.x)/2; sg.my=(a.y+b.y)/2;
+  }
+});
+sv.addEventListener('pointermove',e=>{
+  const prev=sp.get(e.pointerId); if(!prev) return;
+  const cur={x:e.clientX,y:e.clientY};
+  if(sp.size===1&&sg){
+    if(sg.pan){ autoFit=false; view.tx+=cur.x-prev.x; view.ty+=cur.y-prev.y; applyView(); }
+    else if(tool==='pen'&&curStroke){
+      const p=paperPt(e), l=curStroke.pts[curStroke.pts.length-1];
+      if(Math.hypot(p[0]-l[0],p[1]-l[1])>1.4/Math.max(view.s,0.3)){
+        curStroke.pts.push(p);
+        inkx.lineWidth=curStroke.w; inkx.beginPath(); inkx.moveTo(l[0],l[1]); inkx.lineTo(p[0],p[1]); inkx.stroke();
+      }
+    } else if(tool==='eraser') eraseAt(paperPt(e));
+  } else if(sp.size===2&&sg&&sg.pinch){
+    sp.set(e.pointerId,cur);
+    const [a,b]=[...sp.values()], d=Math.hypot(a.x-b.x,a.y-b.y)||1, mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
+    const rect=sv.getBoundingClientRect(), ox=mx-rect.left, oy=my-rect.top;
+    const ns=clamp(view.s*d/sg.d,0.05,12), k=ns/view.s;
+    view.tx=ox-(ox-view.tx)*k+(mx-sg.mx); view.ty=oy-(oy-view.ty)*k+(my-sg.my);
+    view.s=ns; sg.d=d; sg.mx=mx; sg.my=my; autoFit=false; applyView();
+    return;
+  }
+  sp.set(e.pointerId,cur);
+});
+function endSketchPtr(e){
+  sp.delete(e.pointerId);
+  if(sp.size===0){
+    curStroke=null; sg=null; sv.classList.remove('pan'); persist();
+  }
+}
+sv.addEventListener('pointerup',endSketchPtr);
+sv.addEventListener('pointercancel',endSketchPtr);
+sv.addEventListener('wheel',e=>{
+  e.preventDefault(); autoFit=false;
+  const rect=sv.getBoundingClientRect(), ox=e.clientX-rect.left, oy=e.clientY-rect.top;
+  const ns=clamp(view.s*Math.exp(-e.deltaY*0.0015),0.05,12), k=ns/view.s;
+  view.tx=ox-(ox-view.tx)*k; view.ty=oy-(oy-view.ty)*k; view.s=ns; applyView();
+},{passive:false});
+sv.addEventListener('contextmenu',e=>e.preventDefault());
+
+function setTool(t){
+  tool=t; $('#tPen').classList.toggle('on',t==='pen'); $('#tEra').classList.toggle('on',t==='eraser');
+  $('#tPan').classList.toggle('on',t==='pan');
+  sv.style.cursor=t==='pan'?'grab':'crosshair';
+}
+$('#tPen').onclick=()=>setTool('pen'); $('#tEra').onclick=()=>setTool('eraser'); $('#tPan').onclick=()=>setTool('pan');
+$('#tUndo').onclick=()=>{ if(!undoStack.length) return toast('Ei kumottavaa'); strokes=undoStack.pop(); redrawInk(); persist(); };
+$('#tClear').onclick=()=>{
+  if(!strokes.length&&!photo) return;
+  pushUndo(); strokes=[]; photo=null; { const d=defaultPaper(); setPaper(d.w,d.h); } autoFit=true; fitSketch(); persist(); toast('Tyhjennetty (Kumoa palauttaa viivat)');
+};
+for(const id of ['fileImg','fileCam']) $('#'+id).onchange=e=>{
+  const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  const url=URL.createObjectURL(f), im=new Image();
+  im.onload=()=>{
+    photo=im;
+    if(!strokes.length){
+      const k=1400/Math.max(im.width,im.height);
+      setPaper(Math.round(im.width*k),Math.round(im.height*k));
+    } else drawBg();
+    URL.revokeObjectURL(url); autoFit=true; fitSketch(); toast('Kuva tuotu – paina Tunnista','ok');
+  };
+  im.onerror=()=>toast('Kuvaa ei voitu avata','err');
+  im.src=url;
+};
+
+/* ----------------------------------------------------------- tunnistus */
+function composite(){
+  const c=document.createElement('canvas'); c.width=paper.w; c.height=paper.h;
+  const x=c.getContext('2d',{willReadFrequently:true});
+  x.drawImage(cvBg,0,0); x.drawImage(cvInk,0,0); return {c,x};
+}
+function analyseSketch(){
+  if(!strokes.length&&!photo) return toast('Piirrä jotain tai tuo kuva ensin','err');
+  const {c,x}=composite(), w=c.width, h=c.height;
+  const id=x.getImageData(0,0,w,h), g=toGray(id.data,w,h);
+  const win=Math.max(6,Math.round(Math.hypot(w,h)*0.012));
+  const ink=inkMask(g,w,h,win,18);
+  const bb=inkBBox(ink,w,h,0.004);
+  if(!bb) return toast('Viivoja ei löytynyt – piirrä tummemmalla tai ota kuva paremmassa valossa','err',3500);
+  const det=classifyKind(orientHist(g,w,h,ink));
+  const forced=$('#kindSel').value, kind=forced==='auto'?det.kind:forced;
+
+  let circles=[];
+  if(!photo) for(const st of strokes){ const f=strokeAsCircle(st.pts); if(f) circles.push(f); }
+  const bw=bb.x1-bb.x0, bh=bb.y1-bb.y0;
+  const known=+$('#known').value>0?+$('#known').value:100;
+  const scale=known/Math.max(bw,bh);
+  const cx=(bb.x0+bb.x1)/2, cy=(bb.y0+bb.y1)/2;
+  const toMM=p=>[R1((p[0]-cx)*scale),R1(-(p[1]-cy)*scale)];
+  const W=R1(bw*scale), D=R1(bh*scale);
+  const tIn=+$('#thick').value;
+  const T=tIn>0?tIn:(kind==='3d'?Math.max(5,R1(Math.min(W,D)*0.35)):10);
+
+  const feats=[]; let onlyCircle=false;
+  const nonCircle=strokes.length-circles.length;
+  if(!photo&&circles.length===1&&nonCircle===0){
+    onlyCircle=true; feats.push({id:nid('cyl'),t:'cyl',dia:R1(circles[0].r*2*scale),h:T,x:0,y:0,z:0});
+  } else {
+    feats.push({id:nid('box'),t:'box',w:W,d:D,h:T,x:0,y:0,z:0});
+    for(const ci of circles){
+      const inside=ci.c[0]>bb.x0&&ci.c[0]<bb.x1&&ci.c[1]>bb.y0&&ci.c[1]<bb.y1;
+      if(!inside) continue;
+      const p=toMM(ci.c);
+      feats.push({id:nid('hole'),t:'hole',dia:R1(ci.r*2*scale),x:p[0],y:p[1],depth:0});
+    }
+  }
+
+  // esikatselu
+  const pv=$('#preview'), k=Math.min(1,640/w); pv.width=Math.round(w*k); pv.height=Math.round(h*k);
+  const px=pv.getContext('2d'); px.drawImage(c,0,0,pv.width,pv.height);
+  px.strokeStyle='#1e90ff'; px.lineWidth=3; px.strokeRect(bb.x0*k,bb.y0*k,bw*k,bh*k);
+  px.strokeStyle='#e03a3a'; for(const ci of circles){ px.beginPath(); px.arc(ci.c[0]*k,ci.c[1]*k,ci.r*k,0,Math.PI*2); px.stroke(); }
+
+  $('#analysis').innerHTML=
+    `Tulkinta: <b>${kind==='3d'?'3D':'2D'}</b>${forced!=='auto'?' (pakotettu)':` · varmuus ${Math.round(det.conf*100)} %`}<br>`+
+    `Ulkomitat: <b>${W} × ${D} mm</b> · paksuus <b>${T} mm</b>${tIn>0?'':' <small>(arvio)</small>'}<br>`+
+    `Reikiä: <b>${circles.length&&!onlyCircle?feats.length-1:0}</b>`+
+    (onlyCircle?'<br>Yksi ympyrä → lieriö.':'')+
+    (kind==='3d'?'<br><small>3D-luonnoksesta luetaan kokonaiskoko; tarkista paksuus Piirteet-välilehdeltä.</small>':'');
+
+  hist_push(); model.features=feats; selected=null;
+  persist(); setMode('model'); rebuildAll(true);
+  toast(`Malli luotu: ${W} × ${D} × ${T} mm`+(circles.length?`, ${circles.length} reikää`:''),'ok',3200);
+}
+function hist_push(){ hist.push(JSON.stringify(model)); if(hist.length>40) hist.shift(); }
+$('#bAnalyse').onclick=()=>{ try{ analyseSketch(); }catch(err){ console.error(err); toast('Tunnistus epäonnistui: '+err.message,'err',4000); } };
+
+/* ================================================================== 3D */
+let renderer=null,scene=null,camera=null,meshObj=null,lineObj=null,grid=null,gSel=null,gNotes=null;
+let dirty=true; const invalidate=()=>{dirty=true;};
+const orb={t:null,r:300,th:-0.9,ph:1.05};
+const glHost=$('#glHost'); let ray=null,mouse=null;
+
+function initScene(){
+  renderer=new THREE.WebGLRenderer({antialias:true});
+  renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
+  glHost.appendChild(renderer.domElement);
+  scene=new THREE.Scene(); scene.background=new THREE.Color(0x0d1218);
+  camera=new THREE.PerspectiveCamera(42,1,0.5,200000); camera.up.set(0,0,1);
+  orb.t=new THREE.Vector3(0,0,0);
+  scene.add(new THREE.HemisphereLight(0xdfe9ff,0x2a3140,1.15));
+  const sun=new THREE.DirectionalLight(0xffffff,1.6); sun.position.set(300,-500,700); scene.add(sun);
+  const sun2=new THREE.DirectionalLight(0xaac4ff,0.5); sun2.position.set(-500,300,200); scene.add(sun2);
+  grid=new THREE.GridHelper(1000,100,0x3a4a66,0x1e2736); grid.rotation.x=Math.PI/2; scene.add(grid);
+  meshObj=new THREE.Mesh(new THREE.BufferGeometry(),new THREE.MeshStandardMaterial({color:0x9fb8d2,roughness:0.5,metalness:0.12,
+    side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1.5,polygonOffsetUnits:1}));
+  lineObj=new THREE.LineSegments(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:0x0b1016}));
+  scene.add(meshObj,lineObj);
+  gSel=new THREE.Group(); gNotes=new THREE.Group(); scene.add(gSel,gNotes);
+  ray=new THREE.Raycaster(); mouse=new THREE.Vector2();
+  bind3d(); updCam(); resize3d();
+}
+function updCam(){
+  if(!camera) return;
+  const {t,r,th,ph}=orb;
+  camera.position.set(t.x+r*Math.sin(ph)*Math.cos(th),t.y+r*Math.sin(ph)*Math.sin(th),t.z+r*Math.cos(ph));
+  camera.lookAt(t); invalidate();
+}
+function resize3d(){
+  if(!renderer) return;
+  const w=glHost.clientWidth,h=glHost.clientHeight; if(w<10||h<10) return;
+  renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); invalidate();
+}
+new ResizeObserver(()=>{ resize3d(); if(mode==='sketch'&&autoFit) fitSketch(); }).observe($('#stage'));
+(function loop(){ requestAnimationFrame(loop);
+  if(renderer&&dirty&&mode==='model'){ dirty=false; renderer.render(scene,camera); } })();
+
+function bind3d(){
+  const dom=renderer.domElement, ptrs=new Map(); let g=null;
+  dom.addEventListener('contextmenu',e=>e.preventDefault());
+  dom.addEventListener('pointerdown',e=>{
+    dom.setPointerCapture(e.pointerId); ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+    if(ptrs.size===1) g={moved:0,btn:e.button,shift:e.shiftKey,pinch:false};
+    else if(ptrs.size===2&&g){ g.pinch=true; const [a,b]=[...ptrs.values()];
+      g.d=Math.hypot(a.x-b.x,a.y-b.y)||1; g.mx=(a.x+b.x)/2; g.my=(a.y+b.y)/2; }
+  });
+  dom.addEventListener('pointermove',e=>{
+    const prev=ptrs.get(e.pointerId); if(!prev||!g) return;
+    const cur={x:e.clientX,y:e.clientY};
+    if(ptrs.size===1){
+      const dx=cur.x-prev.x,dy=cur.y-prev.y; g.moved+=Math.abs(dx)+Math.abs(dy);
+      if(g.btn===0&&!g.shift){ orb.th-=dx*0.008; orb.ph=clamp(orb.ph-dy*0.008,0.05,Math.PI-0.05); }
+      else pan3d(dx,dy);
+      updCam();
+    } else if(ptrs.size===2&&g.pinch){
+      ptrs.set(e.pointerId,cur);
+      const [a,b]=[...ptrs.values()], d=Math.hypot(a.x-b.x,a.y-b.y)||1, mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
+      orb.r=clamp(orb.r*g.d/d,5,150000); pan3d(mx-g.mx,my-g.my); g.d=d; g.mx=mx; g.my=my; updCam();
+      return;
+    }
+    ptrs.set(e.pointerId,cur);
+  });
+  const up=e=>{
+    const tap=g&&!g.pinch&&ptrs.size===1&&g.moved<8&&g.btn===0&&e.type==='pointerup';
+    ptrs.delete(e.pointerId); if(!ptrs.size) g=null;
+    if(tap) pick3d(e);
+  };
+  dom.addEventListener('pointerup',up); dom.addEventListener('pointercancel',up);
+  dom.addEventListener('wheel',e=>{ e.preventDefault(); orb.r=clamp(orb.r*Math.exp(e.deltaY*0.0012),5,150000); updCam(); },{passive:false});
+}
+function pan3d(dx,dy){
+  const k=orb.r*0.0016*(window.devicePixelRatio>1?1:1);
+  const right=new THREE.Vector3().setFromMatrixColumn(camera.matrix,0);
+  const up=new THREE.Vector3().setFromMatrixColumn(camera.matrix,1);
+  orb.t.addScaledVector(right,-dx*k).addScaledVector(up,dy*k);
+}
+function fitModel(){
+  if(!THREE||!shape||!meshObj) return;
+  const g=meshObj.geometry; if(!g.attributes.position) return;
+  g.computeBoundingSphere(); const bs=g.boundingSphere; if(!bs) return;
+  orb.t.copy(bs.center); orb.r=Math.max(30,bs.radius*2.9);
+  camera.near=Math.max(0.1,bs.radius/200); camera.far=bs.radius*200; camera.updateProjectionMatrix();
+  grid.position.z=g.boundingBox?g.boundingBox.min.z-0.01:0;
+  const sc=Math.max(1,bs.radius*6/1000); grid.scale.set(sc,sc,sc);
+  updCam();
+}
+const VIEWS={iso:[0.9,-1.15,0.95],top:[0,-0.0001,1],front:[0,-1,0],right:[1,0,0]};
+$$('[data-v]').forEach(b=>b.onclick=()=>{
+  if(!camera) return; const v=new THREE.Vector3(...VIEWS[b.dataset.v]).normalize();
+  orb.ph=Math.acos(clamp(v.z,-1,1)); orb.th=Math.atan2(v.y,v.x); updCam();
+});
+
+/* ----- geometrian rakennus (replicad) ----- */
+const bbOf=s=>{ const b=s.boundingBox, q=b.bounds||[b.min,b.max]; return {min:q[0],max:q[1]}; };
+const safeDel=o=>{ try{ if(o&&o.delete) o.delete(); }catch(e){} };
+function filterFor(f,s){
+  const b=bbOf(s), e=0.05;
+  if(f.sel==='edge'&&f.box){
+    const [a0,a1,a2,b0,b1,b2]=f.box;
+    return ed=>ed.inBox([a0-e,a1-e,a2-e],[b0+e,b1+e,b2+e]);
+  }
+  return categoryFilter(f.sel==='edge'?(f.cat||'all'):f.sel,b);
+}
+function categoryFilter(sel,b){
+  if(sel==='vertical') return ed=>ed.inDirection('Z');
+  if(sel==='top') return ed=>ed.inPlane('XY',b.max[2]);
+  if(sel==='bottom') return ed=>ed.inPlane('XY',b.min[2]);
+  return null;
+}
+function build(){
+  let s=null; const R=rc;
+  for(const f of model.features){
+    f.err='';
+    try{
+      if(f.t==='box'){
+        const x=R.drawRectangle(f.w,f.d).translate(f.x||0,f.y||0).sketchOnPlane('XY',f.z||0).extrude(f.h);
+        s=s?s.fuse(x):x;
+      } else if(f.t==='cyl'){
+        const z=(f.z==null)?(s?bbOf(s).max[2]:0):f.z;
+        const x=R.drawCircle(f.dia/2).translate(f.x||0,f.y||0).sketchOnPlane('XY',z).extrude(f.h);
+        s=s?s.fuse(x):x;
+      } else if(f.t==='hole'){
+        if(!s) throw new Error('ei kappaletta');
+        const b=bbOf(s), z0=f.depth>0?b.max[2]-f.depth:b.min[2]-1, len=f.depth>0?f.depth+1:(b.max[2]-b.min[2])+2;
+        s=s.cut(R.drawCircle(f.dia/2).translate(f.x,f.y).sketchOnPlane('XY',z0).extrude(len));
+      } else if(f.t==='holes4'){
+        if(!s) throw new Error('ei kappaletta');
+        const b=bbOf(s), m=f.m, len=(b.max[2]-b.min[2])+2;
+        for(const p of [[b.min[0]+m,b.min[1]+m],[b.max[0]-m,b.min[1]+m],[b.max[0]-m,b.max[1]-m],[b.min[0]+m,b.max[1]-m]])
+          s=s.cut(R.drawCircle(f.dia/2).translate(p[0],p[1]).sketchOnPlane('XY',b.min[2]-1).extrude(len));
+      } else if(f.t==='fillet'||f.t==='chamfer'){
+        if(!s) throw new Error('ei kappaletta');
+        const fn=f.t==='fillet'?'fillet':'chamfer';
+        try{
+          const flt=filterFor(f,s); s=flt?s[fn](f.r,flt):s[fn](f.r);
+        }catch(err){
+          if(f.sel==='edge'&&/inBox|not a function/.test(String(err&&err.message))){
+            const flt=categoryFilter(f.cat||'all',bbOf(s)); s=flt?s[fn](f.r,flt):s[fn](f.r);
+          } else throw err;
+        }
+      }
+    }catch(err){ f.err=(err&&err.message)?err.message:String(err); }
+  }
+  return s;
+}
+function setShape(s){
+  const old=shape; shape=s;
+  if(!THREE||!meshObj) return;
+  clearSel3d();
+  if(!s){ meshObj.visible=false; lineObj.visible=false; $('#status').textContent='Ei mallia'; invalidate(); safeDel(old); return; }
+  const b=bbOf(s), dim=[0,1,2].map(i=>b.max[i]-b.min[i]);
+  const tol=clamp(Math.max(...dim)*0.0006,0.02,0.4);
+  const m=s.mesh({tolerance:tol,angularTolerance:0.3});
+  const e=s.meshEdges({tolerance:tol,angularTolerance:0.3,keepMesh:true});
+  const g=new THREE.BufferGeometry();
+  g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(m.vertices),3));
+  if(m.normals&&m.normals.length===m.vertices.length) g.setAttribute('normal',new THREE.BufferAttribute(new Float32Array(m.normals),3));
+  g.setIndex(new THREE.BufferAttribute(new Uint32Array(m.triangles),1));
+  if(!g.attributes.normal) g.computeVertexNormals();
+  g.computeBoundingBox(); g.computeBoundingSphere();
+  const lg=new THREE.BufferGeometry();
+  lg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(e.lines),3));
+  meshObj.geometry.dispose(); lineObj.geometry.dispose();
+  meshObj.geometry=g; lineObj.geometry=lg; meshObj.visible=true; lineObj.visible=true;
+  $('#status').innerHTML=`<b>${dim.map(v=>R1(v)).join(' × ')}</b> mm · ${model.features.length} piirrettä`;
+  safeDel(old); invalidate();
+}
+let firstFit=true;
+function rebuildAll(fit){
+  if(!rc){ pendingBuild=true; ui(); updateModelNote(); return; }
+  try{ setShape(build()); }
+  catch(err){ console.error(err); toast('Rakennusvirhe: '+(err.message||err),'err',4000); }
+  ui(); drawNotes();
+  if(fit||firstFit){ if(shape){ fitModel(); firstFit=false; } }
+  persist();
+}
+
+/* ----- valinta ja korostus ----- */
+function clearSel3d(){
+  if(!gSel) return;
+  while(gSel.children.length){ const o=gSel.children.pop(); o.geometry&&o.geometry.dispose(); o.material&&o.material.dispose(); }
+}
+function tube(a,b,r,color){
+  const A=new THREE.Vector3(a[0],a[1],a[2]),B=new THREE.Vector3(b[0],b[1],b[2]);
+  const d=new THREE.Vector3().subVectors(B,A),L=d.length(); if(L<1e-6) return null;
+  const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,L,8,1),new THREE.MeshBasicMaterial({color,depthTest:false}));
+  m.position.copy(A).addScaledVector(d,0.5); m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());
+  m.renderOrder=20; return m;
+}
+function marker(p,color){
+  const r=Math.max(0.6,orb.r*0.011);
+  const m=new THREE.Mesh(new THREE.SphereGeometry(r,14,10),new THREE.MeshBasicMaterial({color,depthTest:false}));
+  m.position.set(p[0],p[1],p[2]); m.renderOrder=21; return m;
+}
+function pick3d(e){
+  if(!meshObj||!meshObj.visible) return;
+  const r=renderer.domElement.getBoundingClientRect();
+  mouse.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);
+  ray.setFromCamera(mouse,camera);
+  const thr=Math.max(0.4,orb.r*(e.pointerType==='touch'?0.017:0.009));
+  ray.params.Line.threshold=thr;
+  const hl=ray.intersectObject(lineObj)[0], hf=ray.intersectObject(meshObj)[0];
+  clearSel3d();
+  if(hl&&(!hf||hl.distance<=hf.distance+thr*1.5)){
+    const P=lineObj.geometry.attributes.position.array, seg=Math.floor(hl.index/2);
+    const ch=edgeChain(P,seg,25), pt=hl.point.toArray();
+    let box=null,cat='all';
+    if(ch){
+      box=[...ch.min,...ch.max];
+      const dz=ch.max[2]-ch.min[2], dx=ch.max[0]-ch.min[0], dy=ch.max[1]-ch.min[1];
+      const b=shape?bbOf(shape):null;
+      if(dz>2*Math.max(dx,dy)) cat='vertical';
+      else if(b&&dz<0.05&&Math.abs(ch.max[2]-b.max[2])<0.05) cat='top';
+      else if(b&&dz<0.05&&Math.abs(ch.min[2]-b.min[2])<0.05) cat='bottom';
+      const rr=Math.max(0.25,orb.r*0.004);
+      if(ch.segs.length<=400) for(const k of ch.segs){
+        const t=tube([P[6*k],P[6*k+1],P[6*k+2]],[P[6*k+3],P[6*k+4],P[6*k+5]],rr,0xffb648); if(t) gSel.add(t); }
+    }
+    selected={kind:'edge',point:pt,box,cat}; gSel.add(marker(pt,0xffffff));
+  } else if(hf){
+    const n=hf.face?hf.face.normal.toArray():null, pt=hf.point.toArray();
+    selected={kind:'face',point:pt,normal:n}; gSel.add(marker(pt,0xff6b6b));
+  } else selected=null;
+  invalidate(); showSel(); ui();
+  if(selected&&app.dataset.panel==='open') showTab('select');
+  if(selected) toast(selected.kind==='edge'?'Särmä valittu – kirjoita esim. pyöristä r3':'Piste valittu – kirjoita esim. reikä ø8 tähän',null,1800);
+}
+function showSel(){
+  const el=$('#selection'),s=selected;
+  if(!s){ el.textContent='Klikkaa mallin pintaa tai särmää.'; return; }
+  const p=s.point.map(v=>R1(v)).join(', ');
+  el.innerHTML=`<b>${s.kind==='edge'?'Särmä':s.kind==='face'?'Pinta':'Piirre'}</b><br>Kohta: ${p} mm`+
+    (s.normal?`<br>Normaali: ${s.normal.map(v=>R1(v*10)/10).join(', ')}`:'')+
+    (s.kind==='edge'&&s.cat?`<br>Tyyppi: ${{top:'yläreuna',bottom:'alareuna',vertical:'pystyreuna',all:'särmä'}[s.cat]}`:'');
+}
+function drawNotes(){
+  if(!gNotes) return;
+  while(gNotes.children.length){ const o=gNotes.children.pop(); o.geometry.dispose(); o.material.dispose(); }
+  for(const c of model.comments) if(c.point){ const m=marker(c.point,0xffb648); m.scale.setScalar(0.7); gNotes.add(m); }
+  invalidate();
+}
+
+/* ============================================================ UI-puu */
+const NAMES={box:'Laatikko',cyl:'Lieriö',hole:'Reikä',holes4:'Kulmareiät',fillet:'Pyöristys',chamfer:'Viiste'};
+function labelFor(f,k){
+  const L={w:'Leveys X',d:f.t==='box'?'Syvyys Y':'Ø',h:'Korkeus',x:'X',y:'Y',z:'Z',dia:'Ø halkaisija',r:'Säde',m:'Reunaetäisyys',depth:'Syvyys (0 = läpi)'};
+  return L[k]||k;
+}
+function desc(f){
+  if(f.t==='box') return `${f.w} × ${f.d} × ${f.h} mm`;
+  if(f.t==='cyl') return `Ø${f.dia} × ${f.h} mm`;
+  if(f.t==='hole') return `Ø${f.dia} @ ${f.x}, ${f.y} · ${f.depth>0?f.depth+' mm':'läpi'}`;
+  if(f.t==='holes4') return `4 × Ø${f.dia}, reunasta ${f.m} mm`;
+  return `r${f.r} · ${f.sel==='edge'?'valittu särmä':({all:'kaikki',vertical:'pystyreunat',top:'yläreunat',bottom:'alareunat'}[f.sel]||f.sel)}`;
+}
+function ui(){
+  let h='';
+  model.features.forEach((f,i)=>{
+    const keys=Object.keys(f).filter(k=>typeof f[k]==='number'&&k!=='z'||(k==='z'&&typeof f[k]==='number'&&f.t==='box'));
+    const fields=keys.map(k=>`<div><label>${labelFor(f,k)}</label><input data-i="${i}" data-k="${k}" type="number" inputmode="decimal" step="any" value="${f[k]}"></div>`).join('');
+    h+=`<div class="card ${selected&&selected.fid===f.id?'sel':''}" data-id="${f.id}">
+      <div class="head"><b>${i+1}. ${NAMES[f.t]||f.t}</b><button data-del="${i}" style="min-height:30px;padding:0 9px">✕</button></div>
+      <small>${f.err?`<span class="err">virhe: ${esc(f.err)}</span>`:esc(desc(f))}</small>
+      <div class="fields">${fields}</div></div>`;
+  });
+  $('#features').innerHTML=h||'<p class="note">Ei piirteitä. Piirrä hahmotelma ja paina <b>Tunnista</b>, tai kirjoita <code>levy 120x80x10</code> Muokkaus-tilassa.</p>';
+  $('#code').textContent=JSON.stringify(model.features.map(f=>{const c={...f}; delete c.err; return c;}),null,1);
+  $('#comments').innerHTML=model.comments.map((c,i)=>`<div class="card"><small>${esc(c.target)}</small><br>${esc(c.text)}
+    <button data-cdel="${i}" style="float:right;min-height:28px;padding:0 8px">✕</button></div>`).join('')||'<p class="note">Ei kommentteja.</p>';
+  $$('#features .card').forEach(el=>el.onclick=e=>{
+    if(e.target.closest('[data-del]')||e.target.closest('input')) return;
+    selected=(selected&&selected.fid===el.dataset.id)?null:{kind:'feature',fid:el.dataset.id,point:[0,0,0]}; ui(); showSel();
+  });
+  $$('[data-del]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); hist_push(); model.features.splice(+b.dataset.del,1); selected=null; rebuildAll(); });
+  $$('[data-cdel]').forEach(b=>b.onclick=()=>{ model.comments.splice(+b.dataset.cdel,1); ui(); drawNotes(); persist(); });
+  $$('#features input').forEach(inp=>inp.onchange=()=>{
+    const v=parseFloat(inp.value); if(!isFinite(v)) return;
+    hist_push(); model.features[+inp.dataset.i][inp.dataset.k]=v; rebuildAll();
+  });
+}
+function updateModelNote(){
+  const n=$('#modelNote'); let html='',show=true;
+  if(engine.three==='err') html=`<b class="err">3D-näkymää ei voitu ladata</b><small>${esc(engine.msg)}</small><button id="retry" class="primary" style="margin-top:10px">Yritä uudelleen</button>`;
+  else if(engine.kernel==='err') html=`<b class="err">CAD-kerneli ei latautunut</b><small>${esc(engine.msg)}</small><button id="retry" class="primary" style="margin-top:10px">Yritä uudelleen</button>`;
+  else if(engine.three==='loading'||engine.kernel==='loading') html=`<div class="spin"></div><b>Ladataan CAD-kerneliä…</b><small>${esc(engine.msg||'Ensimmäinen lataus voi kestää hetken. Hahmotelmatila toimii jo.')}</small>`;
+  else show=false;
+  n.classList.toggle('hidden',!show); if(show){ n.innerHTML=html; const r=$('#retry'); if(r) r.onclick=startEngine; }
+  const pill=$('#kpill'); const st=engine.kernel==='err'||engine.three==='err'?'err':(engine.kernel==='ok'&&engine.three==='ok'?'ok':'loading');
+  pill.className='pill '+st;
+}
+$('#kpill').onclick=()=>{
+  const st=engine.kernel==='err'||engine.three==='err'?'err':(engine.kernel==='ok'&&engine.three==='ok'?'ok':'loading');
+  toast(st==='ok'?'CAD-kerneli valmis':st==='err'?('Virhe: '+engine.msg):('Ladataan… '+(engine.msg||'')),st==='ok'?'ok':st==='err'?'err':'',st==='err'?6000:2500);
+  if(st==='err') mode==='model'||setMode('model');
+};
+
+/* ============================================================ komennot */
+function runCommand(){
+  const inp=$('#prompt'), t=inp.value.trim(); if(!t) return;
+  const ctx={sel:selected&&selected.point?selected:null};
+  const r=parseCommand(t,ctx);
+  if(r&&r.kind==='error'){ toast(r.msg,'err',3500); return; }
+  if(r&&r.kind==='add'){
+    if(!rc){ toast('CAD-kerneli latautuu vielä – komento lisätään kun se on valmis','',3000); }
+    hist_push(); const f=r.f; f.id=nid(f.t); model.features.push(f);
+    selected={kind:'feature',fid:f.id,point:[0,0,0]}; inp.value=''; rebuildAll();
+    const last=model.features[model.features.length-1];
+    if(last&&last.err) toast('Ei onnistunut: '+last.err+' (muuta arvoa Piirteet-välilehdellä)','err',4500);
+    else toast('Lisätty: '+(NAMES[f.t]||f.t),'ok',1600);
+    return;
+  }
+  if(r&&r.kind==='edit'){
+    const tgt=(selected&&selected.fid&&model.features.find(x=>x.id===selected.fid&&r.key in x))||model.features.find(x=>x.t==='box'&&r.key in x)||model.features.find(x=>r.key in x);
+    if(!tgt){ toast('Ei muokattavaa piirrettä','err'); return; }
+    hist_push(); tgt[r.key]=r.val; inp.value=''; rebuildAll(); toast('Päivitetty: '+r.key+' = '+r.val,'ok',1600); return;
+  }
+  // muu teksti = kommentti valitulle kohteelle
+  if(selected&&selected.point){
+    const tgt=selected.kind==='edge'?'särmä':selected.kind==='face'?'pinta':'piirre';
+    model.comments.push({target:tgt+' @ '+selected.point.map(v=>R1(v)).join(', '),text:t,point:selected.point.slice()});
+    inp.value=''; ui(); drawNotes(); persist(); toast('Kommentti tallennettu','ok',1500);
+  } else toast('Klikkaa ensin kohtaa mallista, tai anna komento (ks. Ohje)','err',3000);
+}
+$('#bRun').onclick=runCommand;
+$('#prompt').addEventListener('keydown',e=>{ if(e.key==='Enter') runCommand(); });
+const CMDS=['levy 120x80x10','4 reikää ø6 kulmiin 12','reikä ø8 tähän','reikä ø10 30,20 syvyys 6','pyöristä r3','pyöristä pystyreunat r8','viiste 1.5','lieriö ø30 h25','paksuus 15','kommentti: tarkista tämä'];
+$('#cmds').innerHTML=CMDS.map(c=>`<button class="cmd">${esc(c)}</button>`).join('');
+$$('#cmds .cmd').forEach(b=>b.onclick=()=>{ $('#prompt').value=b.textContent; setPanel(false); $('#prompt').focus(); });
+
+/* ===================================================== tallennus ja vienti */
+let persistT=null;
+function persist(){
+  clearTimeout(persistT);
+  persistT=setTimeout(()=>{ try{
+    const data={v:3,model:{features:model.features.map(f=>{const c={...f}; delete c.err; return c;}),comments:model.comments},
+      paper,strokes:photo?[]:strokes.map(s=>({w:s.w,pts:s.pts.map(p=>[Math.round(p[0]*10)/10,Math.round(p[1]*10)/10])}))};
+    localStorage.setItem('sketchcad3',JSON.stringify(data));
+  }catch(e){} },500);
+}
+function restore(){
+  try{
+    const raw=localStorage.getItem('sketchcad3'); if(!raw) return;
+    const d=JSON.parse(raw);
+    if(d.paper) setPaper(d.paper.w,d.paper.h);
+    if(Array.isArray(d.strokes)){ strokes=d.strokes.filter(s=>s&&s.pts&&s.pts.length); redrawInk(); }
+    if(d.model&&Array.isArray(d.model.features)){ model=d.model; model.comments=model.comments||[];
+      uid=Math.max(uid,model.features.length+model.comments.length+50); }
+  }catch(e){}
+}
+async function saveBlob(blob,name){
+  try{
+    const file=new File([blob],name,{type:blob.type||'application/octet-stream'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})&&/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){
+      await navigator.share({files:[file],title:name}); return;
+    }
+  }catch(e){ if(e&&e.name==='AbortError') return; }
+  const a=document.createElement('a'),u=URL.createObjectURL(blob); a.href=u; a.download=name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000);
+  toast('Tiedosto: '+name,'ok',1800);
+}
+function menuAct(a){
+  $('#menu').classList.add('hidden');
+  if(a==='undo'){ if(!hist.length) return toast('Ei kumottavaa'); model=JSON.parse(hist.pop()); selected=null; rebuildAll(); }
+  else if(a==='save') saveBlob(new Blob([JSON.stringify({v:3,model:{features:model.features.map(f=>{const c={...f}; delete c.err; return c;}),comments:model.comments},paper,strokes:strokes.map(s=>({w:s.w,pts:s.pts}))})],{type:'application/json'}),'sketch-cad.json');
+  else if(a==='open') $('#fileJson').click();
+  else if(a==='step'){ if(!shape) return toast('Ei mallia','err'); try{ saveBlob(shape.blobSTEP(),'malli.step'); }catch(e){ toast('STEP-vienti epäonnistui: '+e.message,'err',4000); } }
+  else if(a==='stl'){ if(!shape) return toast('Ei mallia','err'); try{ saveBlob(shape.blobSTL(),'malli.stl'); }catch(e){ toast('STL-vienti epäonnistui: '+e.message,'err',4000); } }
+  else if(a==='reset'){
+    model={features:[],comments:[]}; strokes=[]; photo=null; selected=null; hist=[]; undoStack=[]; { const d=defaultPaper(); setPaper(d.w,d.h); } autoFit=true; fitSketch(); rebuildAll(); persist(); }
+}
+let resetArm=0;
+$$('#menu button').forEach(b=>b.onclick=()=>{
+  if(b.dataset.m==='reset'&&Date.now()-resetArm>3000){ resetArm=Date.now(); b.textContent='Napauta uudelleen: poistaa kaiken'; setTimeout(()=>{ b.textContent='Aloita alusta'; },3000); return; }
+  menuAct(b.dataset.m);
+});
+$('#fileJson').onchange=async e=>{
+  const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  try{
+    const d=JSON.parse(await f.text());
+    if(!d.model||!Array.isArray(d.model.features)) throw new Error('ei kelvollinen tiedosto');
+    hist_push(); model=d.model; model.comments=model.comments||[];
+    if(d.paper) setPaper(d.paper.w,d.paper.h);
+    if(Array.isArray(d.strokes)){ strokes=d.strokes; redrawInk(); }
+    selected=null; firstFit=true; rebuildAll(true); setMode('model'); toast('Avattu','ok');
+  }catch(err){ toast('Avaus epäonnistui: '+err.message,'err',3500); }
+};
+document.addEventListener('pointerdown',e=>{ if(!e.target.closest('#menu')&&!e.target.closest('#bMenu')) $('#menu').classList.add('hidden'); },true);
+
+/* ====================================================== yläpalkin napit */
+$('#mSketch').onclick=()=>setMode('sketch');
+$('#mModel').onclick=()=>setMode('model');
+$('#bFit').onclick=()=>{ if(mode==='sketch'){ autoFit=true; fitSketch(); } else fitModel(); };
+$('#bChrome').onclick=()=>{ app.dataset.chrome='off'; setPanel(false); requestAnimationFrame(()=>{ resize3d(); if(autoFit&&mode==='sketch') fitSketch(); }); };
+$('#restore').onclick=()=>{ app.dataset.chrome='on'; requestAnimationFrame(()=>{ resize3d(); if(autoFit&&mode==='sketch') fitSketch(); }); };
+$('#bPanel').onclick=()=>setPanel(app.dataset.panel!=='open',mode==='sketch'?'image':'features');
+$('#pClose').onclick=()=>setPanel(false);
+$('#bMenu').onclick=e=>{ e.stopPropagation(); $('#menu').classList.toggle('hidden'); };
+$$('.tabs button[data-tab]').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
+window.addEventListener('resize',()=>{ resize3d(); if(mode==='sketch'&&autoFit) fitSketch(); });
+
+/* ===================================================== moottorin lataus */
+const withTimeout=(p,ms,label)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error(label+': aikakatkaisu '+Math.round(ms/1000)+' s')),ms))]);
+const THREE_URLS=['https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js','https://unpkg.com/three@0.169.0/build/three.module.js','https://esm.sh/three@0.169.0'];
+const KERNELS=[
+  {n:'replicad 0.23 / jsDelivr',rc:'https://esm.sh/replicad@0.23.1',
+   oc:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs@0.23.0/src/replicad_single.js',
+   wasm:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs@0.23.0/src/replicad_single.wasm'},
+  {n:'replicad 0.23 / esm.sh',rc:'https://esm.sh/replicad@0.23.1',
+   oc:'https://esm.sh/replicad-opencascadejs@0.23.0/src/replicad_single.js',
+   wasm:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs@0.23.0/src/replicad_single.wasm'},
+  {n:'replicad uusin',rc:'https://esm.sh/replicad',
+   oc:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs/src/replicad_single.js',
+   wasm:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs/src/replicad_single.wasm'},
+];
+let engineRun=0;
+async function startEngine(){
+  const run=++engineRun;
+  engine.three=THREE?'ok':'loading'; engine.kernel=rc?'ok':'loading'; engine.msg=''; updateModelNote();
+  if(!THREE){
+    let last=null;
+    for(const u of THREE_URLS){
+      try{ engine.msg='3D-näkymä: '+new URL(u).hostname; updateModelNote();
+        THREE=await withTimeout(import(u),30000,'three.js'); break; }
+      catch(e){ last=e; console.warn('three',u,e); }
+    }
+    if(!THREE){ engine.three='err'; engine.msg=String(last&&last.message||last); updateModelNote(); return; }
+  }
+  if(!renderer){
+    try{ initScene(); }catch(e){ engine.three='err'; engine.msg='WebGL ei käytettävissä: '+e.message; updateModelNote(); return; }
+  }
+  engine.three='ok'; updateModelNote();
+  if(rc){ engine.kernel='ok'; updateModelNote(); return; }
+  let lastErr=null;
+  for(const K of KERNELS){
+    if(run!==engineRun) return;
+    try{
+      engine.msg='CAD-kerneli (~10 MB): '+K.n; updateModelNote();
+      const [R,O]=await Promise.all([withTimeout(import(K.rc),45000,'replicad'),withTimeout(import(K.oc),45000,'opencascade')]);
+      engine.msg='Käynnistetään kerneliä…'; updateModelNote();
+      const factory=O.default||O;
+      const OC=await withTimeout(factory({locateFile:p=>/\.wasm$/.test(p)?K.wasm:p}),120000,'WASM');
+      R.setOC(OC); rc=R; break;
+    }catch(e){ lastErr=e; console.warn('kernel',K.n,e); }
+  }
+  if(!rc){ engine.kernel='err'; engine.msg=String(lastErr&&lastErr.message||lastErr||'tuntematon virhe'); updateModelNote(); return; }
+  engine.kernel='ok'; engine.msg=''; updateModelNote();
+  toast('CAD-kerneli valmis','ok',1600);
+  if(model.features.length||pendingBuild){ pendingBuild=false; rebuildAll(true); }
+}
+
+/* ================================================================ käynnistys */
+{ const d=defaultPaper(); setPaper(d.w,d.h); } restore(); setTool('pen'); ui(); showSel();
+requestAnimationFrame(()=>{ fitSketch(); });
+updateModelNote();
+startEngine();
+</script>
+</body>
+</html>
