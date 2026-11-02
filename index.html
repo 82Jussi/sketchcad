@@ -31,6 +31,7 @@ button,.btn{min-height:36px;padding:0 11px;border:1px solid var(--line);border-r
 button:active,.btn:active{filter:brightness(1.25)}
 button.on{background:var(--a);border-color:var(--a);color:#06121d;font-weight:600}
 button.primary{background:var(--a);border-color:var(--a);color:#06121d;font-weight:700}
+button.danger{border-color:#7a3a44;color:#ffb3b3}
 input,select{min-height:36px;padding:0 9px;border:1px solid var(--line);border-radius:9px;background:#0e141d;
   font-size:16px;-webkit-user-select:text;user-select:text;min-width:0}
 input:focus,select:focus{outline:2px solid var(--a);outline-offset:-1px}
@@ -44,8 +45,7 @@ header{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:6px 8px;bac
 .pill{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 9px;border:1px solid var(--line);
   border-radius:18px;background:var(--p2);font-size:12px;color:var(--mut);flex:0 0 auto;cursor:pointer}
 .pill i{width:9px;height:9px;border-radius:50%;background:var(--warn);display:inline-block}
-.pill.ok i{background:var(--ok)} .pill.err i{background:var(--err)}
-.pill.loading i{animation:blink 1s infinite}
+.pill.ok i{background:var(--ok)} .pill.err i{background:var(--err)} .pill.loading i{animation:blink 1s infinite}
 @keyframes blink{50%{opacity:.25}}
 #body{flex:1;min-height:0;display:flex;position:relative}
 #stage{flex:1;min-width:0;position:relative;overflow:hidden}
@@ -69,12 +69,23 @@ header{flex:0 0 auto;display:flex;align-items:center;gap:6px;padding:6px 8px;bac
 .chip{position:absolute;z-index:5;background:#171e28dd;border:1px solid var(--line);border-radius:10px;padding:6px 10px;
   font-size:13px;color:var(--mut);pointer-events:none}
 #status{left:8px;bottom:8px}
+#kchip{top:54px;right:8px;pointer-events:auto;display:flex;align-items:center;gap:8px;max-width:calc(100% - 16px)}
+#kchip button{min-height:28px;padding:0 8px;font-size:12px}
 #modelNote{position:absolute;z-index:8;left:50%;top:50%;transform:translate(-50%,-50%);width:min(88%,380px);
   background:#171e28f2;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
 #modelNote .spin{width:26px;height:26px;margin:0 auto 10px;border:3px solid var(--line);border-top-color:var(--a);
   border-radius:50%;animation:rot .8s linear infinite}
 @keyframes rot{to{transform:rotate(360deg)}}
 #modelNote small{color:var(--mut);display:block;margin-top:8px;line-height:1.5}
+/* valintapalkki */
+#selbar{position:absolute;z-index:7;left:8px;right:8px;bottom:8px;display:flex;align-items:center;gap:6px;
+  background:#171e28f2;border:1px solid var(--warn);border-radius:12px;padding:6px 6px 6px 10px;box-shadow:0 6px 24px #000a}
+#selbar .t{display:flex;flex-direction:column;min-width:0;flex:0 1 auto}
+#selbar .t b{font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#selbar .t small{font-size:11px;color:var(--mut);white-space:nowrap}
+#selbar input{width:84px;text-align:right}
+#selbar .u{font-size:12px;color:var(--mut)}
+#selbar button{min-height:34px;padding:0 9px}
 #panel{display:none;width:350px;flex:0 0 350px;background:var(--p);border-left:1px solid var(--line);flex-direction:column;min-height:0}
 #app[data-panel=open] #panel{display:flex}
 .tabs{display:flex;border-bottom:1px solid var(--line);flex:0 0 auto}
@@ -93,6 +104,19 @@ h3{margin:2px 0 8px;font-size:11px;letter-spacing:.9px;text-transform:uppercase;
 .card.sel .fields{display:grid}
 .fields label{font-size:12px;color:var(--mut);display:block;margin-bottom:2px}
 .fields input{width:100%}
+/* valinnan muokkain */
+.ed{border:1px solid var(--warn);border-radius:12px;background:var(--p2);padding:10px 11px;margin-bottom:10px}
+.ed .title{display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.ed .title b{font-size:16px} .ed .title small{color:var(--mut)}
+.ed .row{display:grid;grid-template-columns:118px 1fr auto;gap:6px;align-items:center;margin-bottom:7px}
+.ed .row label{font-size:13px;color:var(--mut)}
+.ed .row input{width:100%}
+.ed .row .u{font-size:12px;color:var(--mut);min-width:22px}
+.ed .acts{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.ed .tog{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden}
+.ed .tog button{border:0;border-radius:0;min-height:32px;background:transparent;color:var(--mut);flex:1}
+.ed .tog button.on{background:var(--a);color:#06121d}
+.ed .info{font-size:12px;color:var(--mut);margin-top:6px;line-height:1.5}
 .err{color:var(--err)} .ok{color:var(--ok)} .warn{color:var(--warn)}
 .note{color:var(--mut);font-size:13px;line-height:1.55}
 code{background:#0e141d;border:1px solid var(--line);border-radius:5px;padding:1px 5px;color:#bcd8ff;-webkit-user-select:text;user-select:text}
@@ -126,6 +150,7 @@ footer .grp{display:flex;gap:6px;align-items:center;flex:1;min-width:0}
   .seg .long,.seg .ic{display:none} .seg .short{display:inline}
   .seg button{padding:0 10px;font-size:14px}
   .icon{width:35px;font-size:17px}
+  #selbar input{width:70px}
 }
 @media (max-width:380px){ #kpill{display:none} .seg button{padding:0 8px} .icon{width:33px} }
 @media (max-height:500px) and (orientation:landscape){
@@ -171,32 +196,36 @@ footer .grp{display:flex;gap:6px;align-items:center;flex:1;min-width:0}
           <button data-v="front">Etu</button><button data-v="right">Sivu</button>
         </div>
         <div id="status" class="chip">Ei mallia</div>
-        <div id="modelNote"><div class="spin"></div><b>Ladataan CAD-kerneliä…</b></div>
+        <div id="kchip" class="chip hidden"></div>
+        <div id="selbar" class="hidden"></div>
+        <div id="modelNote"><div class="spin"></div><b>Ladataan 3D-näkymää…</b></div>
       </section>
       <button id="restore" title="Näytä valikot">⛶</button>
     </div>
     <aside id="panel">
       <div class="tabs">
-        <button data-tab="features" class="on">Piirteet</button>
-        <button data-tab="select">Valinta</button>
+        <button data-tab="select" class="on">Valinta</button>
+        <button data-tab="features">Piirteet</button>
         <button data-tab="image">Kuva</button>
         <button data-tab="help">Ohje</button>
         <button id="pClose" class="x">✕</button>
       </div>
-      <div class="pane on" id="p-features"><h3>Featurepuu</h3><div id="features"></div>
+      <div class="pane on" id="p-select"><div id="editor"></div>
+        <h3>Kommentit</h3><div id="comments"></div></div>
+      <div class="pane" id="p-features"><h3>Featurepuu</h3><div id="features"></div>
         <details><summary>Mallin JSON</summary><pre id="code"></pre></details></div>
-      <div class="pane" id="p-select"><h3>Klikattu kohde</h3><div id="selection" class="card">Klikkaa mallin pintaa tai särmää.</div>
-        <h3>Kommentit</h3><div id="comments"></div>
-        <p class="note">Klikkaa pintaa ja kirjoita <code>reikä ø8 tähän</code>. Klikkaa särmää ja kirjoita <code>pyöristä r3</code>.
-          Muu teksti tallentuu kommentiksi valittuun kohtaan.</p></div>
       <div class="pane" id="p-image"><h3>Luonnoksen tulkinta</h3>
         <div id="analysis" class="card">Piirrä tai tuo kuva ja paina <b>Tunnista</b>.</div>
         <div style="display:flex;gap:8px;align-items:center;margin:8px 0"><span class="note">Tulkinta</span>
           <select id="kindSel"><option value="auto">Automaattinen</option><option value="2d">2D (profiili)</option><option value="3d">3D</option></select></div>
         <canvas id="preview" width="10" height="10"></canvas>
-        <p class="note">Vihreä = tunnistettu ääriviiva, punainen = reiät. Piirrä ääriviiva yhtenäisenä; pienet aukot kulmissa suljetaan automaattisesti.</p></div>
-      <div class="pane" id="p-help"><h3>Komennot (napauta kokeillaksesi)</h3><div id="cmds"></div>
-        <p class="note">Mitat millimetreinä. Reiät porataan ylhäältä (Z-suunta), joten klikkaa yläpintaa. Pyöristys kohdistuu klikattuun särmään.</p></div>
+        <p class="note">Vihreä = tunnistettu ääriviiva, punainen = reiät.</p></div>
+      <div class="pane" id="p-help"><h3>Klikkaa mallia</h3>
+        <p class="note"><b>Sivu</b> → pituus, siirto ulos/sisään, jako kahdeksi. <b>Kulma</b> → pyöristys, viiste, paikka, poisto.
+          <b>Yläsärmä</b> → pituus, 3D-pyöristys. <b>Yläpinta</b> → paksuus, reikä tähän. <b>Reikä</b> → Ø, paikka, syvyys.</p>
+        <p class="note">Valitun kohteen arvoa voi muuttaa alapalkista tai kirjoittamalla, esim. <code>50</code>, <code>pituus 50</code>,
+          <code>siirrä 5</code>, <code>pyöristä r6</code>, <code>viiste 2</code>, <code>x=10 y=5</code>, <code>jaa</code>, <code>poista</code>.</p>
+        <h3>Yleiskomennot (napauta)</h3><div id="cmds"></div></div>
     </aside>
   </div>
   <footer>
@@ -206,7 +235,7 @@ footer .grp{display:flex;gap:6px;align-items:center;flex:1;min-width:0}
       <button id="bAnalyse" class="primary" style="align-self:flex-end">Tunnista ▸</button>
     </div>
     <div class="grp" id="barModel">
-      <input id="prompt" type="text" placeholder="Komento tai kommentti…" autocomplete="off" autocapitalize="off" enterkeyhint="send">
+      <input id="prompt" type="text" placeholder="Klikkaa mallia tai kirjoita komento…" autocomplete="off" autocapitalize="off" enterkeyhint="send">
       <button id="bRun" class="primary">Aja</button>
     </div>
   </footer>
@@ -228,29 +257,29 @@ const $=s=>document.querySelector(s);
 const $$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 //#PURE_BEGIN
-/* ----------------------------------------------------------------- puhdas logiikka */
+/* ===================================================================== puhdas logiikka */
 const R1=v=>Math.round(v*10)/10;
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+const V={
+  sub:(a,b)=>[a[0]-b[0],a[1]-b[1]], add:(a,b)=>[a[0]+b[0],a[1]+b[1]], mul:(a,s)=>[a[0]*s,a[1]*s],
+  len:a=>Math.hypot(a[0],a[1]), dist:(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]),
+  norm:a=>{ const l=Math.hypot(a[0],a[1])||1; return [a[0]/l,a[1]/l]; }, dot:(a,b)=>a[0]*b[0]+a[1]*b[1],
+};
 
+/* ------------------------------------------------------------- kuvankäsittely */
 function toGray(d,w,h){
   const g=new Float32Array(w*h);
   for(let i=0,p=0;i<g.length;i++,p+=4) g[i]=0.299*d[p]+0.587*d[p+1]+0.114*d[p+2];
   return g;
 }
-/* muste = selvästi paikallista keskiarvoa tummempi (sietää epätasaisen valon) */
 function inkMask(g,w,h,win,C){
   const W1=w+1, I=new Float64Array(W1*(h+1));
-  for(let y=0;y<h;y++){ let run=0;
-    for(let x=0;x<w;x++){ run+=g[y*w+x]; I[(y+1)*W1+x+1]=I[y*W1+x+1]+run; } }
+  for(let y=0;y<h;y++){ let run=0; for(let x=0;x<w;x++){ run+=g[y*w+x]; I[(y+1)*W1+x+1]=I[y*W1+x+1]+run; } }
   const ink=new Uint8Array(w*h);
-  for(let y=0;y<h;y++){
-    const y0=Math.max(0,y-win), y1=Math.min(h-1,y+win);
-    for(let x=0;x<w;x++){
-      const x0=Math.max(0,x-win), x1=Math.min(w-1,x+win);
+  for(let y=0;y<h;y++){ const y0=Math.max(0,y-win), y1=Math.min(h-1,y+win);
+    for(let x=0;x<w;x++){ const x0=Math.max(0,x-win), x1=Math.min(w-1,x+win);
       const s=I[(y1+1)*W1+x1+1]-I[y0*W1+x1+1]-I[(y1+1)*W1+x0]+I[y0*W1+x0];
-      if(g[y*w+x]<s/((x1-x0+1)*(y1-y0+1))-C) ink[y*w+x]=1;
-    }
-  }
+      if(g[y*w+x]<s/((x1-x0+1)*(y1-y0+1))-C) ink[y*w+x]=1; } }
   return ink;
 }
 function inkBBox(ink,w,h,trim){
@@ -262,56 +291,39 @@ function inkBBox(ink,w,h,trim){
   const last=(a,len)=>{ let s=0; for(let i=len-1;i>=0;i--){ s+=a[i]; if(s>lim) return i; } return len-1; };
   return {x0:first(cx,w),x1:last(cx,w),y0:first(cy,h),y1:last(cy,h),n};
 }
-/* viivojen suuntahistogrammi (2° lokerot, 0..180°) */
 function orientHist(g,w,h,ink){
   const H=new Float64Array(90);
   for(let y=1;y<h-1;y++) for(let x=1;x<w-1;x++){
-    const i=y*w+x;
-    if(!(ink[i]||ink[i-1]||ink[i+1]||ink[i-w]||ink[i+w])) continue;
+    const i=y*w+x; if(!(ink[i]||ink[i-1]||ink[i+1]||ink[i-w]||ink[i+w])) continue;
     const gx=-g[i-w-1]-2*g[i-1]-g[i+w-1]+g[i-w+1]+2*g[i+1]+g[i+w+1];
     const gy=-g[i-w-1]-2*g[i-w]-g[i-w+1]+g[i+w-1]+2*g[i+w]+g[i+w+1];
     const m=Math.hypot(gx,gy); if(m<60) continue;
     let a=Math.atan2(gy,gx)+Math.PI/2; a=((a%Math.PI)+Math.PI)%Math.PI;
-    H[Math.min(89,Math.floor(a/Math.PI*90))]+=m;
-  }
+    H[Math.min(89,Math.floor(a/Math.PI*90))]+=m; }
   return H;
 }
-/* 3D-luonnoksessa on terävä vino suuntaryhmä (30–60° / 120–150°) */
 function classifyKind(H){
   let tot=0; for(const v of H) tot+=v;
   if(tot<=0) return {kind:'2d',conf:0,oblique:0,deg:0};
-  const mass=(c,half)=>{ let s=0;
-    for(let i=0;i<90;i++){ const a=i*2+1; let d=Math.abs(a-c); d=Math.min(d,180-d); if(d<=half) s+=H[i]; }
-    return s; };
+  const mass=(c,half)=>{ let s=0; for(let i=0;i<90;i++){ const a=i*2+1; let d=Math.abs(a-c); d=Math.min(d,180-d); if(d<=half) s+=H[i]; } return s; };
   let best=0,deg=0,sum=0,cnt=0;
   for(let a=30;a<=150;a+=2){ if(a>60&&a<120) continue; const m=mass(a,7)/tot; sum+=m; cnt++; if(m>best){best=m;deg=a;} }
-  const avg=cnt?sum/cnt:0;
-  const is3d=best>=0.08&&best>=1.7*avg;
-  const conf=is3d?clamp(0.5+(best-0.08)*4,0.5,0.9):clamp(0.95-best*5,0.5,0.95);
-  return {kind:is3d?'3d':'2d',conf,oblique:best,deg};
+  const avg=cnt?sum/cnt:0, is3d=best>=0.08&&best>=1.7*avg;
+  return {kind:is3d?'3d':'2d',conf:is3d?clamp(0.5+(best-0.08)*4,0.5,0.9):clamp(0.95-best*5,0.5,0.95),oblique:best,deg};
 }
-/* Kåsan ympyräsovitus */
 function fitCircleK(pts){
   const n=pts.length; if(n<6) return null;
   let sx=0,sy=0; for(const p of pts){ sx+=p[0]; sy+=p[1]; }
-  const mx=sx/n,my=sy/n;
-  let suu=0,suv=0,svv=0,suuu=0,svvv=0,suvv=0,svuu=0;
-  for(const p of pts){ const u=p[0]-mx,v=p[1]-my;
-    suu+=u*u; svv+=v*v; suv+=u*v; suuu+=u*u*u; svvv+=v*v*v; suvv+=u*v*v; svuu+=v*u*u; }
+  const mx=sx/n,my=sy/n; let suu=0,suv=0,svv=0,suuu=0,svvv=0,suvv=0,svuu=0;
+  for(const p of pts){ const u=p[0]-mx,v=p[1]-my; suu+=u*u; svv+=v*v; suv+=u*v; suuu+=u*u*u; svvv+=v*v*v; suvv+=u*v*v; svuu+=v*u*u; }
   const det=2*(suu*svv-suv*suv); if(Math.abs(det)<1e-9) return null;
-  const uc=(svv*(suuu+suvv)-suv*(svvv+svuu))/det, vc=(suu*(svvv+svuu)-suv*(suuu+suvv))/det;
-  const c=[uc+mx,vc+my]; let r=0;
-  for(const p of pts) r+=Math.hypot(p[0]-c[0],p[1]-c[1]); r/=n;
-  let mean=0,max=0;
-  for(const p of pts){ const e=Math.abs(Math.hypot(p[0]-c[0],p[1]-c[1])-r); mean+=e; if(e>max) max=e; }
+  const c=[(svv*(suuu+suvv)-suv*(svvv+svuu))/det+mx,(suu*(svvv+svuu)-suv*(suuu+suvv))/det+my];
+  let r=0; for(const p of pts) r+=V.dist(p,c); r/=n;
+  let mean=0,max=0; for(const p of pts){ const e=Math.abs(V.dist(p,c)-r); mean+=e; if(e>max) max=e; }
   return {c,r,mean:mean/n,max};
 }
-
-/* ------------------------- binäärikuvan käsittely ääriviivan löytämiseksi */
-/* etäisyysmuunnos (chamfer 5-7-11, likimain euklidinen) */
 function distMap(b,w,h){
-  const INF=1e9, d=new Float32Array(w*h);
-  for(let i=0;i<d.length;i++) d[i]=b[i]?0:INF;
+  const d=new Float32Array(w*h); for(let i=0;i<d.length;i++) d[i]=b[i]?0:1e9;
   const K=[[-1,0,5],[0,-1,5],[-1,-1,7],[1,-1,7],[-2,-1,11],[-1,-2,11],[1,-2,11],[2,-1,11]];
   for(let y=0;y<h;y++) for(let x=0;x<w;x++){ const i=y*w+x; let v=d[i]; if(!v) continue;
     for(const [dx,dy,c] of K){ const X=x+dx,Y=y+dy; if(X>=0&&Y>=0&&X<w){ const n=d[Y*w+X]+c; if(n<v) v=n; } } d[i]=v; }
@@ -319,228 +331,342 @@ function distMap(b,w,h){
     for(const [dx,dy,c] of K){ const X=x-dx,Y=y-dy; if(X>=0&&Y<h&&X<w){ const n=d[Y*w+X]+c; if(n<v) v=n; } } d[i]=v; }
   return d;
 }
-function boxDilate(b,w,h,r){ const d=distMap(b,w,h), o=new Uint8Array(w*h), R=r*5+0.5;
-  for(let i=0;i<o.length;i++) o[i]=d[i]<=R?1:0; return o; }
-function boxErode(b,w,h,r){
-  const inv=new Uint8Array(w*h); for(let i=0;i<inv.length;i++) inv[i]=b[i]?0:1;
-  const d=boxDilate(inv,w,h,r); for(let i=0;i<d.length;i++) d[i]=d[i]?0:1;
-  return d;
-}
-/* täyttö reunoilta: kaikki mustetta ylittämättä saavutettavat pisteet = ulkopuoli */
+function boxDilate(b,w,h,r){ const d=distMap(b,w,h), o=new Uint8Array(w*h), R=r*5+0.5; for(let i=0;i<o.length;i++) o[i]=d[i]<=R?1:0; return o; }
+function boxErode(b,w,h,r){ const inv=new Uint8Array(w*h); for(let i=0;i<inv.length;i++) inv[i]=b[i]?0:1;
+  const d=boxDilate(inv,w,h,r); for(let i=0;i<d.length;i++) d[i]=d[i]?0:1; return d; }
 function floodOutside(ink,w,h){
   const out=new Uint8Array(w*h), q=new Int32Array(w*h); let qh=0,qt=0;
   const push=i=>{ if(!ink[i]&&!out[i]){ out[i]=1; q[qt++]=i; } };
-  for(let x=0;x<w;x++){ push(x); push((h-1)*w+x); }
-  for(let y=0;y<h;y++){ push(y*w); push(y*w+w-1); }
-  while(qh<qt){ const i=q[qh++], x=i%w;
-    if(x>0) push(i-1); if(x<w-1) push(i+1); if(i>=w) push(i-w); if(i<w*(h-1)) push(i+w); }
+  for(let x=0;x<w;x++){ push(x); push((h-1)*w+x); } for(let y=0;y<h;y++){ push(y*w); push(y*w+w-1); }
+  while(qh<qt){ const i=q[qh++], x=i%w; if(x>0) push(i-1); if(x<w-1) push(i+1); if(i>=w) push(i-w); if(i<w*(h-1)) push(i+w); }
   return out;
 }
 function labelComps(m,w,h){
   const lab=new Int32Array(w*h).fill(-1), q=new Int32Array(w*h), comps=[];
-  for(let s=0;s<m.length;s++){
-    if(!m[s]||lab[s]>=0) continue;
+  for(let s=0;s<m.length;s++){ if(!m[s]||lab[s]>=0) continue;
     const id=comps.length; let qh=0,qt=0,area=0; q[qt++]=s; lab[s]=id;
     while(qh<qt){ const i=q[qh++], x=i%w; area++;
-      const nb=[x>0?i-1:-1,x<w-1?i+1:-1,i>=w?i-w:-1,i<w*(h-1)?i+w:-1];
-      for(const j of nb) if(j>=0&&m[j]&&lab[j]<0){ lab[j]=id; q[qt++]=j; } }
-    comps.push({id,area,start:s});
-  }
+      for(const j of [x>0?i-1:-1,x<w-1?i+1:-1,i>=w?i-w:-1,i<w*(h-1)?i+w:-1]) if(j>=0&&m[j]&&lab[j]<0){ lab[j]=id; q[qt++]=j; } }
+    comps.push({id,area,start:s}); }
   return {lab,comps};
 }
-/* Mooren reunanseuranta: alue (m==1), aloituspiste = rasterijärjestyksessä ensimmäinen */
 const MD=[[1,0],[1,1],[0,1],[-1,1],[-1,0],[-1,-1],[0,-1],[1,-1]];
 function traceOuter(m,w,h,start){
   const at=(x,y)=>x>=0&&y>=0&&x<w&&y<h&&m[y*w+x];
-  let x=start%w, y=(start/w)|0;
-  const sx=x, sy=y, pts=[[x+0.5,y+0.5]];
-  let d=6, firstDir=-1, guard=0;
-  for(;guard<w*h*4;guard++){
-    let moved=false;
-    for(let k=0;k<8;k++){
-      const nd=(d+k)%8, nx=x+MD[nd][0], ny=y+MD[nd][1];
-      if(at(nx,ny)){
-        if(x===sx&&y===sy&&firstDir>=0&&nd===firstDir) return pts;
-        if(firstDir<0) firstDir=nd;
-        x=nx; y=ny; pts.push([x+0.5,y+0.5]); d=(nd+6)%8; moved=true; break;
-      }
-    }
-    if(!moved) return pts;
-  }
+  let x=start%w, y=(start/w)|0; const sx=x, sy=y, pts=[[x+0.5,y+0.5]]; let d=6, firstDir=-1;
+  for(let g=0;g<w*h*4;g++){ let moved=false;
+    for(let k=0;k<8;k++){ const nd=(d+k)%8, nx=x+MD[nd][0], ny=y+MD[nd][1];
+      if(at(nx,ny)){ if(x===sx&&y===sy&&firstDir>=0&&nd===firstDir) return pts;
+        if(firstDir<0) firstDir=nd; x=nx; y=ny; pts.push([x+0.5,y+0.5]); d=(nd+6)%8; moved=true; break; } }
+    if(!moved) return pts; }
   return pts;
 }
 function polyArea(p){ let a=0; for(let i=0;i<p.length;i++){ const q=p[(i+1)%p.length]; a+=p[i][0]*q[1]-q[0]*p[i][1]; } return a/2; }
 function dpOpen(pts,eps){
   if(pts.length<3) return pts.slice();
-  const keep=new Uint8Array(pts.length); keep[0]=keep[pts.length-1]=1;
-  const st=[[0,pts.length-1]];
+  const keep=new Uint8Array(pts.length); keep[0]=keep[pts.length-1]=1; const st=[[0,pts.length-1]];
   while(st.length){ const [i,j]=st.pop(); if(j-i<2) continue;
-    const a=pts[i], b=pts[j], dx=b[0]-a[0], dy=b[1]-a[1], L=Math.hypot(dx,dy)||1e-9;
-    let bi=-1,bd=eps;
+    const a=pts[i], b=pts[j], dx=b[0]-a[0], dy=b[1]-a[1], L=Math.hypot(dx,dy)||1e-9; let bi=-1,bd=eps;
     for(let k=i+1;k<j;k++){ const d=Math.abs(dx*(pts[k][1]-a[1])-dy*(pts[k][0]-a[0]))/L; if(d>bd){bd=d;bi=k;} }
     if(bi>0){ keep[bi]=1; st.push([i,bi],[bi,j]); } }
   return pts.filter((_,i)=>keep[i]);
 }
 function dpClosed(pts,eps){
   if(pts.length<4) return pts.slice();
-  let far=0,fd=-1;
-  for(let i=1;i<pts.length;i++){ const d=Math.hypot(pts[i][0]-pts[0][0],pts[i][1]-pts[0][1]); if(d>fd){fd=d;far=i;} }
+  let far=0,fd=-1; for(let i=1;i<pts.length;i++){ const d=V.dist(pts[i],pts[0]); if(d>fd){fd=d;far=i;} }
   const A=dpOpen(pts.slice(0,far+1),eps), B=dpOpen(pts.slice(far).concat([pts[0]]),eps);
   return A.concat(B.slice(1,-1));
 }
 function lineX(p,u,q,v){ const den=u[0]*v[1]-u[1]*v[0]; if(Math.abs(den)<1e-9) return null;
   const t=((q[0]-p[0])*v[1]-(q[1]-p[1])*v[0])/den; return [p[0]+u[0]*t,p[1]+u[1]*t]; }
-/* käsin piirretyt lähes vaaka/pysty/45° särmät suoriksi; kulmat lasketaan uudelleen leikkauspisteinä */
 function snapPoly(pts,tolDeg){
-  const n=pts.length; if(n<3) return pts.slice();
-  const tol=tolDeg*Math.PI/180, L=[];
-  for(let i=0;i<n;i++){ const a=pts[i], b=pts[(i+1)%n];
-    let ang=Math.atan2(b[1]-a[1],b[0]-a[0]);
-    const k=Math.round(ang/(Math.PI/4)), sa=k*Math.PI/4;
-    const t2=(k%2===0)?tol:Math.min(tol,4*Math.PI/180);
-    if(Math.abs(ang-sa)<=t2) ang=sa;
-    L.push({p:[(a[0]+b[0])/2,(a[1]+b[1])/2],u:[Math.cos(ang),Math.sin(ang)]}); }
+  const n=pts.length; if(n<3) return pts.slice(); const tol=tolDeg*Math.PI/180, L=[];
+  for(let i=0;i<n;i++){ const a=pts[i], b=pts[(i+1)%n]; let ang=Math.atan2(b[1]-a[1],b[0]-a[0]);
+    const k=Math.round(ang/(Math.PI/4)), sa=k*Math.PI/4, t2=(k%2===0)?tol:Math.min(tol,4*Math.PI/180);
+    if(Math.abs(ang-sa)<=t2) ang=sa; L.push({p:V.mul(V.add(a,b),0.5),u:[Math.cos(ang),Math.sin(ang)]}); }
   const out=[];
-  for(let i=0;i<n;i++){ const A=L[(i-1+n)%n], B=L[i];
-    const x=lineX(A.p,A.u,B.p,B.u);
-    out.push(x&&Math.hypot(x[0]-pts[i][0],x[1]-pts[i][1])<4*Math.max(8,tolDeg)?x:pts[i].slice()); }
+  for(let i=0;i<n;i++){ const A=L[(i-1+n)%n], B=L[i], x=lineX(A.p,A.u,B.p,B.u);
+    out.push(x&&V.dist(x,pts[i])<4*Math.max(8,tolDeg)?x:pts[i].slice()); }
   return out;
 }
 function cleanPoly(pts,minEdge){
-  let p=pts.slice(), changed=true, guard=0;
-  while(changed&&p.length>3&&guard++<500){ changed=false;
+  let p=pts.slice(), changed=true, g=0;
+  while(changed&&p.length>3&&g++<500){ changed=false;
     for(let i=0;i<p.length;i++){ const a=p[i], b=p[(i+1)%p.length];
-      if(Math.hypot(b[0]-a[0],b[1]-a[1])<minEdge){ p.splice((i+1)%p.length,1); changed=true; break; }
-      const c=p[(i+2)%p.length];
-      const cr=(b[0]-a[0])*(c[1]-b[1])-(b[1]-a[1])*(c[0]-b[0]);
-      const l1=Math.hypot(b[0]-a[0],b[1]-a[1]), l2=Math.hypot(c[0]-b[0],c[1]-b[1]);
-      if(Math.abs(cr)<0.06*l1*l2){ p.splice((i+1)%p.length,1); changed=true; break; } } }
+      if(V.dist(a,b)<minEdge){ p.splice((i+1)%p.length,1); changed=true; break; }
+      const c=p[(i+2)%p.length], cr=(b[0]-a[0])*(c[1]-b[1])-(b[1]-a[1])*(c[0]-b[0]);
+      if(Math.abs(cr)<0.06*V.dist(a,b)*V.dist(b,c)){ p.splice((i+1)%p.length,1); changed=true; break; } } }
   return p;
 }
-function segX(a,b,c,d){
-  const o=(p,q,r)=>Math.sign((q[0]-p[0])*(r[1]-p[1])-(q[1]-p[1])*(r[0]-p[0]));
-  return o(a,b,c)*o(a,b,d)<0&&o(c,d,a)*o(c,d,b)<0;
-}
+function segX(a,b,c,d){ const o=(p,q,r)=>Math.sign((q[0]-p[0])*(r[1]-p[1])-(q[1]-p[1])*(r[0]-p[0]));
+  return o(a,b,c)*o(a,b,d)<0&&o(c,d,a)*o(c,d,b)<0; }
 function isSimple(p){
   const n=p.length; if(n<3) return false;
-  for(let i=0;i<n;i++) for(let j=i+1;j<n;j++){
-    if(j===i+1||(i===0&&j===n-1)) continue;
+  for(let i=0;i<n;i++) if(V.dist(p[i],p[(i+1)%n])<1e-6) return false;
+  for(let i=0;i<n;i++) for(let j=i+1;j<n;j++){ if(j===i+1||(i===0&&j===n-1)) continue;
     if(segX(p[i],p[(i+1)%n],p[j],p[(j+1)%n])) return false; }
-  return Math.abs(polyArea(p))>1;
+  return Math.abs(polyArea(p))>1e-6;
 }
-/* Ääriviiva ja reiät musteesta.
-   r = aukkojen sulkemissäde (px), eps = suoristus (px), snap = kulmanapsautus (°) */
 function extractProfile(ink,w,h,o){
   const r=o.r, inkD=boxDilate(ink,w,h,r), out=floodOutside(inkD,w,h);
   const solid=new Uint8Array(w*h); for(let i=0;i<solid.length;i++) solid[i]=out[i]?0:1;
   const S=labelComps(solid,w,h); if(!S.comps.length) return null;
   const L=S.comps.reduce((a,b)=>b.area>a.area?b:a);
-  /* reiät etsitään kevyemmällä sulkemisella, jotta pienetkin ympyrät säilyvät */
   const rh=Math.max(1,Math.round(r/3)), inkH=boxDilate(ink,w,h,rh);
-  let inter=0;
-  for(let i=0;i<solid.length;i++) if(S.lab[i]===L.id&&!inkD[i]) inter++;
+  let inter=0; for(let i=0;i<solid.length;i++) if(S.lab[i]===L.id&&!inkD[i]) inter++;
   const closed=inter>0.12*L.area;
   const body=new Uint8Array(w*h); for(let i=0;i<body.length;i++) body[i]=S.lab[i]===L.id?1:0;
   const er=boxErode(body,w,h,r), E=labelComps(er,w,h);
-  /* reikäehdokkaat vain kutistetun kappaleen sisältä (ulkoreunan kaistale pois) */
-  const holeMask=new Uint8Array(w*h);
-  for(let i=0;i<er.length;i++) if(er[i]&&!inkH[i]) holeMask[i]=1;
-  if(!E.comps.length) return {closed:false};
+  const holeMask=new Uint8Array(w*h); for(let i=0;i<er.length;i++) if(er[i]&&!inkH[i]) holeMask[i]=1;
+  if(!E.comps.length) return {closed:false,holes:[]};
   const EL=E.comps.reduce((a,b)=>b.area>a.area?b:a);
   const em=new Uint8Array(w*h); for(let i=0;i<em.length;i++) em[i]=E.lab[i]===EL.id?1:0;
-  const raw=traceOuter(em,w,h,EL.start);
-  const fc=fitCircleK(raw);
+  const raw=traceOuter(em,w,h,EL.start), fc=fitCircleK(raw);
   const round=!!(fc&&fc.mean<0.035*fc.r&&fc.max<0.12*fc.r);
-  let poly=dpClosed(raw,o.eps);
-  poly=cleanPoly(poly,o.eps*1.5);
-  /* sulkeminen pyöristää sisänurkat pieniksi viisteiksi: lyhyet särmät pois ja kulmat uudelleen */
+  let poly=cleanPoly(dpClosed(raw,o.eps),o.eps*1.5);
   const minE=Math.max(o.eps*1.5,r*1.8);
   let snapped=cleanPoly(snapPoly(cleanPoly(snapPoly(poly,o.snap),minE),o.snap),o.eps*1.5);
   if(!isSimple(snapped)) snapped=cleanPoly(poly,o.eps*1.5);
   if(!isSimple(snapped)) snapped=null;
-  /* reiät: suljetut sisäalueet, pois lukien kappaleen oma sisus (suurin) */
   const Hc=labelComps(holeMask,w,h), holes=[];
-  if(Hc.comps.length>1){
-    const big=Hc.comps.reduce((a,b)=>b.area>a.area?b:a);
-    for(const c of Hc.comps){
-      if(c===big||c.area<Math.max(10,0.0004*L.area)||c.area>0.35*L.area) continue;
+  if(Hc.comps.length>1){ const big=Hc.comps.reduce((a,b)=>b.area>a.area?b:a);
+    for(const c of Hc.comps){ if(c===big||c.area<Math.max(10,0.0004*L.area)||c.area>0.35*L.area) continue;
       const m=new Uint8Array(w*h); for(let i=0;i<m.length;i++) m[i]=Hc.lab[i]===c.id?1:0;
-      const bp=traceOuter(m,w,h,c.start), f=fitCircleK(bp);
-      if(f&&f.mean<0.12*f.r) holes.push({c:f.c,r:f.r+rh+1.8});
-    }
-  }
+      const f=fitCircleK(traceOuter(m,w,h,c.start)); if(f&&f.mean<0.12*f.r) holes.push({c:f.c,r:f.r+rh+1.8}); } }
   return {closed,round,circle:fc,raw,poly:snapped,holes};
 }
 
-/* särmäketju 3D-valintaan */
-function edgeChain(P,segIdx,maxAngDeg){
-  const n=Math.floor(P.length/6); if(segIdx<0||segIdx>=n) return null;
-  const key=v=>Math.round(P[v*3]*100)+'_'+Math.round(P[v*3+1]*100)+'_'+Math.round(P[v*3+2]*100);
-  const map=new Map();
-  for(let k=0;k<n;k++) for(const v of [2*k,2*k+1]){ const kk=key(v); let a=map.get(kk); if(!a){a=[];map.set(kk,a);} a.push(k); }
-  const vec=(a,b)=>[P[b*3]-P[a*3],P[b*3+1]-P[a*3+1],P[b*3+2]-P[a*3+2]];
-  const nrm=v=>{ const l=Math.hypot(v[0],v[1],v[2])||1; return [v[0]/l,v[1]/l,v[2]/l]; };
-  const cosT=Math.cos((maxAngDeg||25)*Math.PI/180);
-  const used=new Set([segIdx]), chain=[segIdx];
-  const walk=(from,to)=>{ let cur=nrm(vec(from,to)), ev=to;
-    for(let g=0;g<5000;g++){ let best=-1,bc=-2,bo=-1;
-      for(const s of (map.get(key(ev))||[])){ if(used.has(s)) continue;
-        const va=2*s,vb=2*s+1, atA=key(va)===key(ev), vs=atA?va:vb, vo=atA?vb:va, dv=nrm(vec(vs,vo));
-        const c=cur[0]*dv[0]+cur[1]*dv[1]+cur[2]*dv[2]; if(c>bc){bc=c;best=s;bo=vo;} }
-      if(best<0||bc<cosT) break;
-      const vs=(2*best===bo)?2*best+1:2*best; used.add(best); chain.push(best); cur=nrm(vec(vs,bo)); ev=bo; } };
-  walk(2*segIdx,2*segIdx+1); walk(2*segIdx+1,2*segIdx);
-  let mn=[1e18,1e18,1e18],mx=[-1e18,-1e18,-1e18];
-  for(const k of chain) for(const v of [2*k,2*k+1]) for(let i=0;i<3;i++){ mn[i]=Math.min(mn[i],P[v*3+i]); mx[i]=Math.max(mx[i],P[v*3+i]); }
-  return {segs:chain,min:mn,max:mx};
+/* ===================================================== mallin geometria ja muokkaus */
+function boxPts(f){ const x=f.x||0,y=f.y||0,w=f.w/2,d=f.d/2; return [[x-w,y-d],[x+w,y-d],[x+w,y+d],[x-w,y+d]]; }
+/* kulman pyöristys: tangenttipisteet T1 (tulosärmällä), T2 (lähtösärmällä), kaaren keskikohta M */
+function cornerFillet(pts,fil,i){
+  const r=fil&&fil[i]; if(!(r>0)) return null;
+  const n=pts.length, A=pts[(i-1+n)%n], B=pts[i], C=pts[(i+1)%n];
+  const u=V.norm(V.sub(A,B)), v=V.norm(V.sub(C,B));
+  const th=Math.acos(clamp(V.dot(u,v),-1,1)); if(th<0.05||th>Math.PI-0.05) return null;
+  const half=th/2, maxT=0.49*Math.min(V.dist(A,B),V.dist(C,B));
+  let t=r/Math.tan(half), rr=r; if(t>maxT){ t=maxT; rr=t*Math.tan(half); }
+  const bis=V.norm(V.add(u,v)), center=V.add(B,V.mul(bis,rr/Math.sin(half)));
+  const T1=V.add(B,V.mul(u,t)), T2=V.add(B,V.mul(v,t));
+  const M=V.add(center,V.mul(V.norm(V.sub(B,center)),rr));
+  return {T1,T2,M,center,r:rr,clamped:rr<r-1e-6};
+}
+function arcPts(F,seg){
+  const a1=Math.atan2(F.T1[1]-F.center[1],F.T1[0]-F.center[0]), a2=Math.atan2(F.T2[1]-F.center[1],F.T2[0]-F.center[0]);
+  let d=a2-a1; while(d>Math.PI) d-=2*Math.PI; while(d<-Math.PI) d+=2*Math.PI;
+  const n=Math.max(2,seg||Math.ceil(Math.abs(d)/0.15)), out=[];
+  for(let k=0;k<=n;k++){ const a=a1+d*k/n; out.push([F.center[0]+Math.cos(a)*F.r,F.center[1]+Math.sin(a)*F.r]); }
+  return out;
+}
+/* sivun suora osa (pyöristysten jälkeen) */
+function sideSeg(pts,fil,i){
+  const n=pts.length, j=(i+1)%n, Fi=cornerFillet(pts,fil,i), Fj=cornerFillet(pts,fil,j);
+  return [Fi?Fi.T2:pts[i], Fj?Fj.T1:pts[j]];
+}
+function outlinePts(pts,fil){
+  const out=[];
+  for(let i=0;i<pts.length;i++){ const F=cornerFillet(pts,fil,i); if(F) out.push(...arcPts(F)); else out.push(pts[i].slice()); }
+  return out;
+}
+/* kappaleiden sijoittelu: jokaisen kiinteän piirteen z-väli ja muoto */
+function layoutSolids(features){
+  const out=[]; let top=null;
+  for(const f of features){
+    if(f.t==='box'||f.t==='prof'){ const z0=f.z||0, z1=z0+f.h;
+      out.push({fid:f.id,kind:'prof',pts:f.t==='box'?boxPts(f):f.pts,fil:f.t==='box'?{}:(f.fil||{}),z0,z1,src:f.t}); top=Math.max(top??z1,z1); }
+    else if(f.t==='cyl'){ const z0=(f.z==null)?(top??0):f.z, z1=z0+f.h;
+      out.push({fid:f.id,kind:'cyl',c:[f.x||0,f.y||0],r:f.dia/2,z0,z1}); top=Math.max(top??z1,z1); }
+  }
+  return out;
+}
+function layoutBBox(L){
+  let b={x0:1e18,y0:1e18,z0:1e18,x1:-1e18,y1:-1e18,z1:-1e18};
+  for(const s of L){ const pts=s.kind==='prof'?s.pts:[[s.c[0]-s.r,s.c[1]-s.r],[s.c[0]+s.r,s.c[1]+s.r]];
+    for(const p of pts){ b.x0=Math.min(b.x0,p[0]); b.y0=Math.min(b.y0,p[1]); b.x1=Math.max(b.x1,p[0]); b.y1=Math.max(b.y1,p[1]); }
+    b.z0=Math.min(b.z0,s.z0); b.z1=Math.max(b.z1,s.z1); }
+  return b;
+}
+function holeList(features){
+  const L=layoutSolids(features), out=[];
+  if(!L.length) return out;
+  const b=layoutBBox(L);
+  for(const f of features){
+    if(f.t==='hole') out.push({fid:f.id,c:[f.x,f.y],r:f.dia/2,z0:f.depth>0?b.z1-f.depth:b.z0,z1:b.z1,sub:-1});
+    if(f.t==='holes4'){ const m=f.m;
+      [[b.x0+m,b.y0+m],[b.x1-m,b.y0+m],[b.x1-m,b.y1-m],[b.x0+m,b.y1-m]].forEach((c,k)=>out.push({fid:f.id,c,r:f.dia/2,z0:b.z0,z1:b.z1,sub:k})); }
+  }
+  return out;
+}
+function distSeg(p,a,b){
+  const ab=V.sub(b,a), L2=V.dot(ab,ab)||1e-12, t=clamp(V.dot(V.sub(p,a),ab)/L2,0,1);
+  return {d:V.dist(p,V.add(a,V.mul(ab,t))),t};
+}
+/* Klikatun 3D-pisteen tulkinta mallin elementiksi.
+   p = [x,y,z], n = pinnan normaali tai null (särmäosuma), tol = toleranssi mm */
+function pickElement(features,p,n,tol){
+  const xy=[p[0],p[1]], L=layoutSolids(features), H=holeList(features);
+  for(const h of H){
+    const rad=V.dist(xy,h.c);
+    if(p[2]>=h.z0-tol&&p[2]<=h.z1+tol&&Math.abs(rad-h.r)<Math.max(tol,h.r*0.25)) return {kind:'hole',fid:h.fid,sub:h.sub};
+  }
+  let best=null;
+  for(let k=L.length-1;k>=0;k--){
+    const s=L[k];
+    if(p[2]<s.z0-tol||p[2]>s.z1+tol) continue;
+    const atTop=Math.abs(p[2]-s.z1)<tol, atBot=Math.abs(p[2]-s.z0)<tol;
+    const horiz=n&&Math.abs(n[2])>0.7, vert=n&&Math.abs(n[2])<0.3;
+    if(s.kind==='cyl'){
+      const rad=V.dist(xy,s.c); if(rad>s.r+tol) continue;
+      const rim=Math.abs(rad-s.r)<tol;
+      if(rim&&(atTop||atBot)&&!(horiz&&rad<s.r-tol*0.3)&&!vert) return {kind:'cedge',fid:s.fid,end:atTop?'top':'bottom'};
+      if(rim&&!horiz) return {kind:'cside',fid:s.fid};
+      if(atTop) return {kind:'ctop',fid:s.fid};
+      if(atBot) return {kind:'cbottom',fid:s.fid};
+      if(rim) return {kind:'cside',fid:s.fid};
+      continue;
+    }
+    const pts=s.pts, fil=s.fil, nn=pts.length;
+    let ci=-1, cd=1e18, ei=-1, ed=1e18, et=0;
+    for(let i=0;i<nn;i++){
+      const F=cornerFillet(pts,fil,i);
+      let d;
+      if(F){ const ap=arcPts(F,12); d=1e18; for(let k=1;k<ap.length;k++) d=Math.min(d,distSeg(xy,ap[k-1],ap[k]).d); }
+      else d=V.dist(xy,pts[i]);
+      if(d<cd){ cd=d; ci=i; }
+      const [a,b]=sideSeg(pts,fil,i), r=distSeg(xy,a,b);
+      if(r.d<ed){ ed=r.d; ei=i; et=r.t; }
+    }
+    const inside=pointInPoly(xy,pts);
+    if(!inside&&ed>tol&&cd>tol) continue;
+    const filleted=cornerFillet(pts,fil,ci);
+    const cornerTol=filleted?tol:tol*1.3;
+    if(cd<cornerTol&&!(horiz&&!atTop&&!atBot)){
+      if((atTop||atBot)&&!filleted&&!vert) return {kind:'vertex',fid:s.fid,i:ci,end:atTop?'top':'bottom'};
+      if(!horiz||!(atTop||atBot)) return {kind:'corner',fid:s.fid,i:ci};
+    }
+    if(ed<tol){
+      if((atTop||atBot)&&!vert&&!(horiz&&ed>tol*0.5)) return {kind:'hedge',fid:s.fid,i:ei,end:atTop?'top':'bottom',t:et};
+      if(!horiz) return {kind:'side',fid:s.fid,i:ei,t:et};
+    }
+    if(atTop) return {kind:'top',fid:s.fid};
+    if(atBot) return {kind:'bottom',fid:s.fid};
+    if(vert&&ed<tol*4) return {kind:'side',fid:s.fid,i:ei,t:et};
+    if(!best) best={kind:'top',fid:s.fid};
+  }
+  return best;
+}
+function pointInPoly(p,poly){
+  let ins=false;
+  for(let i=0,j=poly.length-1;i<poly.length;j=i++){ const a=poly[i], b=poly[j];
+    if((a[1]>p[1])!==(b[1]>p[1])&&p[0]<(b[0]-a[0])*(p[1]-a[1])/((b[1]-a[1])||1e-12)+a[0]) ins=!ins; }
+  return ins;
+}
+/* särmän siirto suuntaan vec; naapurikulmat lasketaan naapurisärmien ja uuden suoran leikkauksena */
+function shiftEdge(pts,j,vec){
+  const n=pts.length, P=pts.map(p=>p.slice());
+  const a=pts[j], b=pts[(j+1)%n], prev=pts[(j-1+n)%n], next=pts[(j+2)%n];
+  const e=V.sub(b,a), a2=V.add(a,vec);
+  const x1=lineX(prev,V.sub(a,prev),a2,e), x2=lineX(a2,e,b,V.sub(next,b));
+  P[j]=x1||a2; P[(j+1)%n]=x2||V.add(b,vec);
+  return P;
+}
+function sideLength(pts,i){ return V.dist(pts[i],pts[(i+1)%pts.length]); }
+/* sivun pituus: fix='start' pitää alkukulman paikallaan (siirtää seuraavaa särmää), 'end' loppukulman */
+function setSideLength(pts,i,L,fix){
+  const n=pts.length, a=pts[i], b=pts[(i+1)%n], cur=V.dist(a,b);
+  if(!(L>0)) throw new Error('pituuden pitää olla positiivinen');
+  const dir=V.norm(V.sub(b,a)), delta=L-cur;
+  return fix==='end'?shiftEdge(pts,(i-1+n)%n,V.mul(dir,-delta)):shiftEdge(pts,(i+1)%n,V.mul(dir,delta));
+}
+/* sivun siirto ulospäin (+) tai sisäänpäin (−) */
+function offsetSide(pts,i,d){
+  const n=pts.length, a=pts[i], b=pts[(i+1)%n], e=V.norm(V.sub(b,a));
+  let nr=[e[1],-e[0]]; if(polyArea(pts)<0) nr=V.mul(nr,-1);
+  return shiftEdge(pts,i,V.mul(nr,d));
+}
+function reindexMap(map,fn){ const out={}; for(const k in map){ const j=fn(+k); if(j!=null) out[j]=map[k]; } return out; }
+function splitSide(pts,fil,i,t){
+  const n=pts.length, a=pts[i], b=pts[(i+1)%n], tt=clamp(t==null?0.5:t,0.05,0.95);
+  const P=pts.slice(0,i+1).concat([[a[0]+(b[0]-a[0])*tt,a[1]+(b[1]-a[1])*tt]],pts.slice(i+1));
+  return {pts:P,fil:reindexMap(fil||{},k=>k>i?k+1:k)};
+}
+function removeCorner(pts,fil,i){
+  if(pts.length<=3) throw new Error('kappaleessa pitää olla vähintään 3 kulmaa');
+  return {pts:pts.filter((_,k)=>k!==i),fil:reindexMap(fil||{},k=>k===i?null:(k>i?k-1:k))};
+}
+function chamferCorner(pts,fil,i,d){
+  const n=pts.length, A=pts[(i-1+n)%n], B=pts[i], C=pts[(i+1)%n];
+  const t=Math.min(d,0.49*V.dist(A,B),0.49*V.dist(C,B));
+  if(!(t>0)) throw new Error('viisteen pitää olla positiivinen');
+  const p1=V.add(B,V.mul(V.norm(V.sub(A,B)),t)), p2=V.add(B,V.mul(V.norm(V.sub(C,B)),t));
+  return {pts:pts.slice(0,i).concat([p1,p2],pts.slice(i+1)),fil:reindexMap(fil||{},k=>k===i?null:(k>i?k+1:k)),t};
+}
+function sideAngle(pts,i){ const a=pts[i], b=pts[(i+1)%pts.length]; let d=Math.atan2(b[1]-a[1],b[0]-a[0])*180/Math.PI; return ((d%360)+360)%360; }
+
+/* elementtikohtainen komento: palauttaa {op,val} tai null */
+const NUM='(-?\\d+(?:[.,]\\d+)?)';
+const pnum=s=>parseFloat(String(s).replace(',','.'));
+function parseElementCommand(raw,kind){
+  const t=String(raw).trim().toLowerCase(); if(!t||!kind) return null;
+  const m=re=>{ const r=t.match(new RegExp(re)); return r?pnum(r[1]):null; };
+  if(/reik|reiä|reia|hole|poraa|drill|lieriö|lierio|sylinteri|cylinder|tappi|levy|laatikko|kulmiin|kommentti/.test(t)) return null;
+  if(/^(poista|delete|remove)\b/.test(t)) return {op:'delete'};
+  if(/^(jaa|split|lisää kulma|lisaa kulma)\b/.test(t)) return {op:'split'};
+  if(/läpi|lapi|through/.test(t)&&kind==='hole') return {op:'depth',val:0};
+  let v;
+  if((v=m('(?:viiste|chamfer|faasi)\\s*=?\\s*'+NUM))!=null) return {op:'chamfer',val:v};
+  if(/^(suorista|terävä|terava|sharp)/.test(t)) return {op:'fillet',val:0};
+  if((v=m('(?:pyöristä|pyorista|pyöristys|fillet|round)\\s*(?:r|säde|sade)?\\s*=?\\s*'+NUM))!=null) return {op:'fillet',val:v};
+  if((v=m('^(?:r|säde|sade)\\s*=?\\s*'+NUM))!=null) return {op:'fillet',val:v};
+  if((v=m('(?:siirrä|siirra|offset|työnnä|tyonna|ulos)\\s*=?\\s*'+NUM))!=null) return {op:'offset',val:v};
+  if((v=m('(?:sisään|sisaan)\\s*=?\\s*'+NUM))!=null) return {op:'offset',val:-Math.abs(v)};
+  if((v=m('(?:pituus|length|pit)\\s*=?\\s*'+NUM))!=null) return {op:'len',val:v};
+  if((v=m('(?:ø|⌀|halkaisija|dia|\\bd)\\s*=?\\s*'+NUM))!=null) return {op:'dia',val:v};
+  if((v=m('(?:syvyys|depth)\\s*=?\\s*'+NUM))!=null) return {op:'depth',val:v};
+  if((v=m('(?:paksuus|korkeus|thickness|height|\\bh)\\s*=?\\s*'+NUM))!=null) return {op:'height',val:v};
+  const x=m('\\bx\\s*=?\\s*'+NUM), y=m('\\by\\s*=?\\s*'+NUM);
+  if(x!=null||y!=null) return {op:'pos',x,y};
+  const only=t.match(new RegExp('^'+NUM+'\\s*(mm)?$'));
+  if(only){ const val=pnum(only[1]);
+    const def={side:'len',hedge:'len',corner:'fillet',vertex:'fillet',top:'height',bottom:'height',hole:'dia',cside:'dia',ctop:'height',cbottom:'height',cedge:'fillet'}[kind];
+    return def?{op:def,val}:null; }
+  return null;
 }
 
-const NUM='(-?\\d+(?:\\.\\d+)?)';
+/* yleiskomennot (uusi piirre) */
 function parseCommand(raw,ctx){
-  const t=String(raw).trim().toLowerCase(); if(!t) return null;
-  ctx=ctx||{};
-  const num=re=>{ const m=t.match(re); return m?parseFloat(m[1]):null; };
+  const t=String(raw).trim().toLowerCase(); if(!t) return null; ctx=ctx||{};
+  const num=re=>{ const m=t.match(re); return m?pnum(m[1]):null; };
   let m=t.match(new RegExp(NUM+'\\s*[x×*]\\s*'+NUM+'\\s*[x×*]\\s*'+NUM));
-  if(m) return {kind:'add',f:{t:'box',w:+m[1],d:+m[2],h:+m[3],x:0,y:0,z:0}};
+  if(m) return {kind:'add',f:{t:'box',w:pnum(m[1]),d:pnum(m[2]),h:pnum(m[3]),x:0,y:0,z:0}};
   const dia=num(new RegExp('(?:ø|⌀|\\bdia(?:meter)?|\\bhalkaisija|\\bd)\\s*=?\\s*'+NUM));
   const rad=num(new RegExp('(?:\\br|säde|sade|radius)\\s*=?\\s*'+NUM));
   const hh=num(new RegExp('(?:\\bh|korkeus|height|pituus)\\s*=?\\s*'+NUM));
   if(/lieriö|lierio|sylinteri|cylinder|tappi/.test(t)){
     if(dia==null||hh==null) return {kind:'error',msg:'Anna halkaisija ja korkeus, esim. lieriö ø30 h40'};
-    return {kind:'add',f:{t:'cyl',dia,h:hh,x:0,y:0,z:null}};
-  }
+    const s=ctx.sel, here=s&&s.point&&/tähän|tahan|here/.test(t);
+    return {kind:'add',f:{t:'cyl',dia,h:hh,x:here?R1(s.point[0]):0,y:here?R1(s.point[1]):0,z:null}}; }
   if(/(?:\b4\b|neljä|four).*(?:reik|reiä|hole)|(?:reik|reiä|hole).*(?:kulm|corner)|(?:kulm|corner).*(?:reik|reiä|hole)/.test(t)){
     const mg=num(new RegExp('(?:kulmiin|reunasta|reunaetäisyys|reunaetaisyys|margin|edge)\\s*=?\\s*'+NUM));
-    return {kind:'add',f:{t:'holes4',dia:dia==null?6:dia,m:mg==null?10:mg}};
-  }
+    return {kind:'add',f:{t:'holes4',dia:dia==null?6:dia,m:mg==null?10:mg}}; }
   if(/reik|reiä|reia|hole|poraa|drill/.test(t)){
     if(dia==null) return {kind:'error',msg:'Anna reiän halkaisija, esim. reikä ø8 tähän'};
-    const xy=t.match(new RegExp(NUM+'\\s*[,;]\\s*'+NUM));
-    let depth=num(new RegExp('(?:syvyys|depth)\\s*=?\\s*'+NUM));
-    if(/läpi|lapi|through/.test(t)) depth=0;
+    const xy=t.match(new RegExp(NUM+'\\s*[;]\\s*'+NUM))||t.match(new RegExp('(-?\\d+(?:\\.\\d+)?)\\s*,\\s*(-?\\d+(?:\\.\\d+)?)'));
+    let depth=num(new RegExp('(?:syvyys|depth)\\s*=?\\s*'+NUM)); if(/läpi|lapi|through/.test(t)) depth=0;
     const sel=ctx.sel;
-    if(!xy&&sel&&sel.kind==='face'&&sel.normal&&Math.abs(sel.normal[2])<0.7)
+    if(!xy&&sel&&sel.normal&&Math.abs(sel.normal[2])<0.7)
       return {kind:'error',msg:'Reiät porataan ylhäältä – klikkaa yläpintaa tai anna paikka: reikä ø8 30,20'};
-    const x=xy?+xy[1]:(sel&&sel.point?sel.point[0]:0), y=xy?+xy[2]:(sel&&sel.point?sel.point[1]:0);
-    return {kind:'add',f:{t:'hole',dia,x:R1(x),y:R1(y),depth:depth==null?0:depth}};
-  }
+    const x=xy?pnum(xy[1]):(sel&&sel.point?sel.point[0]:0), y=xy?pnum(xy[2]):(sel&&sel.point?sel.point[1]:0);
+    return {kind:'add',f:{t:'hole',dia,x:R1(x),y:R1(y),depth:depth==null?0:depth}}; }
   if(/pyörist|pyorist|fillet|round|viiste|chamfer|faasi/.test(t)){
-    let r=rad;
-    if(r==null){ const all=t.match(/-?\d+(?:\.\d+)?/g); if(all) r=parseFloat(all[all.length-1]); }
+    let r=rad; if(r==null){ const all=t.match(/-?\d+(?:[.,]\d+)?/g); if(all) r=pnum(all[all.length-1]); }
     if(r==null||!(r>0)) return {kind:'error',msg:'Anna säde, esim. pyöristä r3'};
     const f={t:/viiste|chamfer|faasi/.test(t)?'chamfer':'fillet',r,sel:'all'};
-    const s=ctx.sel;
-    if(s&&s.kind==='edge'&&s.box){ f.sel='edge'; f.box=s.box.slice(); f.cat=s.cat||'all'; }
-    else if(/pysty|vertical/.test(t)) f.sel='vertical';
-    else if(/ylä|yla|top/.test(t)) f.sel='top';
-    else if(/alare|pohj|bottom/.test(t)) f.sel='bottom';
-    return {kind:'add',f};
-  }
+    if(/pysty|vertical/.test(t)) f.sel='vertical'; else if(/ylä|yla|top/.test(t)) f.sel='top'; else if(/alare|pohj|bottom/.test(t)) f.sel='bottom';
+    return {kind:'add',f}; }
   const ed=t.match(new RegExp('(paksuus|korkeus|thickness|height|leveys|width|syvyys|depth)\\s*=?\\s*'+NUM));
-  if(ed){
-    const key={paksuus:'h',korkeus:'h',thickness:'h',height:'h',leveys:'w',width:'w',syvyys:'d',depth:'d'}[ed[1]];
-    return {kind:'edit',key,val:parseFloat(ed[2])};
-  }
+  if(ed){ const key={paksuus:'h',korkeus:'h',thickness:'h',height:'h',leveys:'w',width:'w',syvyys:'d',depth:'d'}[ed[1]];
+    return {kind:'edit',key,val:pnum(ed[2])}; }
   return null;
 }
 
@@ -548,9 +674,11 @@ function parseCommand(raw,ctx){
 /* ================================================================== tila */
 let mode='sketch', rc=null, THREE=null;
 let model={features:[],comments:[]}, selected=null, hist=[], uid=0, shape=null, pendingBuild=false;
+let fixEnd='start';
 const engine={three:'loading',kernel:'loading',msg:''};
-const nid=p=>p+'_'+(++uid)+'_'+Date.now().toString(36);
+const nid=p=>p+'_'+(++uid)+Date.now().toString(36).slice(-4);
 const app=$('#app');
+const fmt=v=>String(R1(v)).replace('.',',');
 
 let toastT=null;
 function toast(msg,kind,ms){
@@ -563,7 +691,7 @@ function setMode(m){
   $('#sketchView').classList.toggle('hidden',m!=='sketch');
   $('#modelView').classList.toggle('hidden',m!=='model');
   if(m==='sketch') requestAnimationFrame(()=>{ if(autoFit) fitSketch(); });
-  else requestAnimationFrame(()=>{ resize3d(); updateModelNote(); invalidate(); });
+  else requestAnimationFrame(()=>{ resize3d(); if(needFit) fitModel(); updateEngineUI(); invalidate(); });
 }
 function setPanel(open,tabName){
   app.dataset.panel=open?'open':'closed';
@@ -581,12 +709,10 @@ const bgx=cvBg.getContext('2d'), inkx=cvInk.getContext('2d');
 let paper={w:1200,h:900}, strokes=[], undoStack=[], photo=null;
 let tool='pen', view={s:1,tx:0,ty:0}, autoFit=true, curStroke=null;
 function defaultPaper(){ const r=$('#stage').getBoundingClientRect(); return (r.height>r.width*1.05)?{w:900,h:1200}:{w:1200,h:900}; }
-
 function setPaper(w,h){
   paper={w,h};
   for(const c of [cvBg,cvInk]){ c.width=w; c.height=h; c.style.width=w+'px'; c.style.height=h+'px'; }
-  paperEl.style.width=w+'px'; paperEl.style.height=h+'px';
-  drawBg(); redrawInk();
+  paperEl.style.width=w+'px'; paperEl.style.height=h+'px'; drawBg(); redrawInk();
 }
 function drawBg(){
   bgx.fillStyle='#fff'; bgx.fillRect(0,0,paper.w,paper.h);
@@ -599,31 +725,22 @@ function strokePath(st){
   for(let i=1;i<st.pts.length;i++) inkx.lineTo(st.pts[i][0],st.pts[i][1]);
   inkx.stroke();
 }
-function redrawInk(){
-  inkx.clearRect(0,0,paper.w,paper.h);
-  inkx.lineCap='round'; inkx.lineJoin='round'; inkx.strokeStyle='#111';
-  for(const st of strokes) strokePath(st);
-}
+function redrawInk(){ inkx.clearRect(0,0,paper.w,paper.h); inkx.lineCap='round'; inkx.lineJoin='round'; inkx.strokeStyle='#111'; for(const st of strokes) strokePath(st); }
 function applyView(){ paperEl.style.transform=`translate(${view.tx}px,${view.ty}px) scale(${view.s})`; }
 function strokesBBox(){
-  if(!strokes.length) return null;
-  let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
+  if(!strokes.length) return null; let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
   for(const st of strokes) for(const p of st.pts){ x0=Math.min(x0,p[0]); y0=Math.min(y0,p[1]); x1=Math.max(x1,p[0]); y1=Math.max(y1,p[1]); }
   return {x0,y0,x1,y1};
 }
 function fitSketch(){
   const r=sv.getBoundingClientRect(); if(r.width<20||r.height<20) return;
-  let b={x0:0,y0:0,x1:paper.w,y1:paper.h};
-  const sb=strokesBBox();
+  let b={x0:0,y0:0,x1:paper.w,y1:paper.h}; const sb=strokesBBox();
   if(sb&&!photo){ const pad=Math.max(24,0.08*Math.max(sb.x1-sb.x0,sb.y1-sb.y0)); b={x0:sb.x0-pad,y0:sb.y0-pad,x1:sb.x1+pad,y1:sb.y1+pad}; }
   const topInset=52, m=10, aw=r.width-2*m, ah=r.height-topInset-m;
-  const bw=Math.max(40,b.x1-b.x0), bh=Math.max(40,b.y1-b.y0);
-  const s=clamp(Math.min(aw/bw,ah/bh),0.05,10);
-  view.s=s; view.tx=m+(aw-bw*s)/2-b.x0*s; view.ty=topInset+(ah-bh*s)/2-b.y0*s;
-  applyView();
+  const bw=Math.max(40,b.x1-b.x0), bh=Math.max(40,b.y1-b.y0), s=clamp(Math.min(aw/bw,ah/bh),0.05,10);
+  view.s=s; view.tx=m+(aw-bw*s)/2-b.x0*s; view.ty=topInset+(ah-bh*s)/2-b.y0*s; applyView();
 }
-function paperPt(e){ const r=cvInk.getBoundingClientRect();
-  return [(e.clientX-r.left)*paper.w/r.width,(e.clientY-r.top)*paper.h/r.height]; }
+function paperPt(e){ const r=cvInk.getBoundingClientRect(); return [(e.clientX-r.left)*paper.w/r.width,(e.clientY-r.top)*paper.h/r.height]; }
 function pushUndo(){ undoStack.push(strokes.slice()); if(undoStack.length>60) undoStack.shift(); }
 function eraseAt(p){
   const R=16/view.s, before=strokes.length;
@@ -633,13 +750,10 @@ function eraseAt(p){
 const sp=new Map(); let sg=null;
 sv.addEventListener('pointerdown',e=>{
   if(e.target.closest('.tools')||e.target.closest('#restore')) return;
-  sv.setPointerCapture(e.pointerId);
-  sp.set(e.pointerId,{x:e.clientX,y:e.clientY});
-  if(sp.size===1){
-    sg={pan:false}; eraseAt.pushed=false;
-    if(tool==='pan'||e.button===1||e.button===2){ sg.pan=true; }
-    else if(tool==='pen'){ pushUndo(); const p=paperPt(e);
-      curStroke={pts:[p],w:clamp(2.6/view.s,1.6,9)}; strokes.push(curStroke); strokePath(curStroke); }
+  sv.setPointerCapture(e.pointerId); sp.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(sp.size===1){ sg={pan:false}; eraseAt.pushed=false;
+    if(tool==='pan'||e.button===1||e.button===2) sg.pan=true;
+    else if(tool==='pen'){ pushUndo(); const p=paperPt(e); curStroke={pts:[p],w:clamp(2.6/view.s,1.6,9)}; strokes.push(curStroke); strokePath(curStroke); }
     else if(tool==='eraser') eraseAt(paperPt(e));
   } else if(sp.size===2){
     if(curStroke&&curStroke.pts.length<4){ strokes.pop(); undoStack.pop(); redrawInk(); }
@@ -648,147 +762,94 @@ sv.addEventListener('pointerdown',e=>{
   }
 });
 sv.addEventListener('pointermove',e=>{
-  const prev=sp.get(e.pointerId); if(!prev) return;
-  const cur={x:e.clientX,y:e.clientY};
+  const prev=sp.get(e.pointerId); if(!prev) return; const cur={x:e.clientX,y:e.clientY};
   if(sp.size===1&&sg){
     if(sg.pan){ autoFit=false; view.tx+=cur.x-prev.x; view.ty+=cur.y-prev.y; applyView(); }
-    else if(tool==='pen'&&curStroke){
-      const p=paperPt(e), l=curStroke.pts[curStroke.pts.length-1];
-      if(Math.hypot(p[0]-l[0],p[1]-l[1])>1.4/Math.max(view.s,0.3)){
-        curStroke.pts.push(p);
-        inkx.lineWidth=curStroke.w; inkx.beginPath(); inkx.moveTo(l[0],l[1]); inkx.lineTo(p[0],p[1]); inkx.stroke(); }
-    } else if(tool==='eraser') eraseAt(paperPt(e));
+    else if(tool==='pen'&&curStroke){ const p=paperPt(e), l=curStroke.pts[curStroke.pts.length-1];
+      if(Math.hypot(p[0]-l[0],p[1]-l[1])>1.4/Math.max(view.s,0.3)){ curStroke.pts.push(p);
+        inkx.lineWidth=curStroke.w; inkx.beginPath(); inkx.moveTo(l[0],l[1]); inkx.lineTo(p[0],p[1]); inkx.stroke(); } }
+    else if(tool==='eraser') eraseAt(paperPt(e));
   } else if(sp.size===2&&sg&&sg.pinch){
     sp.set(e.pointerId,cur);
     const [a,b]=[...sp.values()], d=Math.hypot(a.x-b.x,a.y-b.y)||1, mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
-    const rect=sv.getBoundingClientRect(), ox=mx-rect.left, oy=my-rect.top;
-    const ns=clamp(view.s*d/sg.d,0.05,12), k=ns/view.s;
-    view.tx=ox-(ox-view.tx)*k+(mx-sg.mx); view.ty=oy-(oy-view.ty)*k+(my-sg.my);
-    view.s=ns; sg.d=d; sg.mx=mx; sg.my=my; autoFit=false; applyView();
+    const rect=sv.getBoundingClientRect(), ox=mx-rect.left, oy=my-rect.top, ns=clamp(view.s*d/sg.d,0.05,12), k=ns/view.s;
+    view.tx=ox-(ox-view.tx)*k+(mx-sg.mx); view.ty=oy-(oy-view.ty)*k+(my-sg.my); view.s=ns; sg.d=d; sg.mx=mx; sg.my=my; autoFit=false; applyView();
     return;
   }
   sp.set(e.pointerId,cur);
 });
 function endSketchPtr(e){ sp.delete(e.pointerId); if(sp.size===0){ curStroke=null; sg=null; persist(); } }
-sv.addEventListener('pointerup',endSketchPtr);
-sv.addEventListener('pointercancel',endSketchPtr);
-sv.addEventListener('wheel',e=>{
-  e.preventDefault(); autoFit=false;
-  const rect=sv.getBoundingClientRect(), ox=e.clientX-rect.left, oy=e.clientY-rect.top;
-  const ns=clamp(view.s*Math.exp(-e.deltaY*0.0015),0.05,12), k=ns/view.s;
-  view.tx=ox-(ox-view.tx)*k; view.ty=oy-(oy-view.ty)*k; view.s=ns; applyView();
-},{passive:false});
+sv.addEventListener('pointerup',endSketchPtr); sv.addEventListener('pointercancel',endSketchPtr);
+sv.addEventListener('wheel',e=>{ e.preventDefault(); autoFit=false;
+  const rect=sv.getBoundingClientRect(), ox=e.clientX-rect.left, oy=e.clientY-rect.top, ns=clamp(view.s*Math.exp(-e.deltaY*0.0015),0.05,12), k=ns/view.s;
+  view.tx=ox-(ox-view.tx)*k; view.ty=oy-(oy-view.ty)*k; view.s=ns; applyView(); },{passive:false});
 sv.addEventListener('contextmenu',e=>e.preventDefault());
-
-function setTool(t){
-  tool=t; $('#tPen').classList.toggle('on',t==='pen'); $('#tEra').classList.toggle('on',t==='eraser');
-  $('#tPan').classList.toggle('on',t==='pan'); sv.style.cursor=t==='pan'?'grab':'crosshair';
-}
+function setTool(t){ tool=t; $('#tPen').classList.toggle('on',t==='pen'); $('#tEra').classList.toggle('on',t==='eraser'); $('#tPan').classList.toggle('on',t==='pan'); sv.style.cursor=t==='pan'?'grab':'crosshair'; }
 $('#tPen').onclick=()=>setTool('pen'); $('#tEra').onclick=()=>setTool('eraser'); $('#tPan').onclick=()=>setTool('pan');
 $('#tUndo').onclick=()=>{ if(!undoStack.length) return toast('Ei kumottavaa'); strokes=undoStack.pop(); redrawInk(); persist(); };
-$('#tClear').onclick=()=>{
-  if(!strokes.length&&!photo) return;
-  pushUndo(); strokes=[]; photo=null; const d=defaultPaper(); setPaper(d.w,d.h); autoFit=true; fitSketch(); persist();
-  toast('Tyhjennetty (Kumoa palauttaa viivat)');
-};
+$('#tClear').onclick=()=>{ if(!strokes.length&&!photo) return;
+  pushUndo(); strokes=[]; photo=null; const d=defaultPaper(); setPaper(d.w,d.h); autoFit=true; fitSketch(); persist(); toast('Tyhjennetty (Kumoa palauttaa viivat)'); };
 for(const id of ['fileImg','fileCam']) $('#'+id).onchange=e=>{
   const f=e.target.files[0]; e.target.value=''; if(!f) return;
   const url=URL.createObjectURL(f), im=new Image();
-  im.onload=()=>{ photo=im;
-    if(!strokes.length){ const k=1400/Math.max(im.width,im.height); setPaper(Math.round(im.width*k),Math.round(im.height*k)); }
-    else drawBg();
+  im.onload=()=>{ photo=im; if(!strokes.length){ const k=1400/Math.max(im.width,im.height); setPaper(Math.round(im.width*k),Math.round(im.height*k)); } else drawBg();
     URL.revokeObjectURL(url); autoFit=true; fitSketch(); toast('Kuva tuotu – paina Tunnista','ok'); };
-  im.onerror=()=>toast('Kuvaa ei voitu avata','err');
-  im.src=url;
+  im.onerror=()=>toast('Kuvaa ei voitu avata','err'); im.src=url;
 };
 
 /* ----------------------------------------------------------- tunnistus */
 function analyseSketch(){
   if(!strokes.length&&!photo) return toast('Piirrä jotain tai tuo kuva ensin','err');
-  /* työkuva: pisin sivu 420 px riittää ja on nopea puhelimellakin */
-  const k=Math.min(1,420/Math.max(paper.w,paper.h));
-  const w=Math.max(8,Math.round(paper.w*k)), h=Math.max(8,Math.round(paper.h*k));
+  const k=Math.min(1,420/Math.max(paper.w,paper.h)), w=Math.max(8,Math.round(paper.w*k)), h=Math.max(8,Math.round(paper.h*k));
   const c=document.createElement('canvas'); c.width=w; c.height=h;
   const x=c.getContext('2d',{willReadFrequently:true});
   x.fillStyle='#fff'; x.fillRect(0,0,w,h); x.drawImage(cvBg,0,0,w,h); x.drawImage(cvInk,0,0,w,h);
-  const g=toGray(x.getImageData(0,0,w,h).data,w,h);
-  const mx=Math.max(w,h), diag=Math.hypot(w,h);
-  const ink=inkMask(g,w,h,Math.max(4,Math.round(diag*0.02)),18);
-  const bb=inkBBox(ink,w,h,0.004);
+  const g=toGray(x.getImageData(0,0,w,h).data,w,h), mx=Math.max(w,h);
+  const ink=inkMask(g,w,h,Math.max(4,Math.round(Math.hypot(w,h)*0.02)),18), bb=inkBBox(ink,w,h,0.004);
   if(!bb) return toast('Viivoja ei löytynyt – piirrä tummemmalla tai ota kuva paremmassa valossa','err',3500);
-  const det=classifyKind(orientHist(g,w,h,ink));
-  const forced=$('#kindSel').value, kind=forced==='auto'?det.kind:forced;
-  const known=+$('#known').value>0?+$('#known').value:100;
-  const tIn=+$('#thick').value;
-
+  const det=classifyKind(orientHist(g,w,h,ink)), forced=$('#kindSel').value, kind=forced==='auto'?det.kind:forced;
+  const known=+$('#known').value>0?+$('#known').value:100, tIn=+$('#thick').value;
   let feats=[], info='', outline=null, holesPx=[], warn='';
   const pr=kind==='2d'?extractProfile(ink,w,h,{r:Math.max(2,Math.round(mx*0.022)),eps:Math.max(1.5,mx*0.012),snap:15}):null;
-
   if(pr&&pr.closed&&(pr.round||pr.poly)){
-    let pts=pr.round?null:pr.poly;
-    let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
-    const src=pts||pr.raw;
+    const src=pr.round?pr.raw:pr.poly; let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
     for(const p of src){ x0=Math.min(x0,p[0]); y0=Math.min(y0,p[1]); x1=Math.max(x1,p[0]); y1=Math.max(y1,p[1]); }
-    const scale=known/Math.max(x1-x0,y1-y0), cx=(x0+x1)/2, cy=(y0+y1)/2;
-    const mm=p=>[R1((p[0]-cx)*scale),R1(-(p[1]-cy)*scale)];
-    const T=tIn>0?tIn:10;
-    if(pr.round){
-      const D=R1(2*pr.circle.r*scale);
-      feats.push({id:nid('cyl'),t:'cyl',dia:D,h:T,x:0,y:0,z:0});
-      info=`Muoto: <b>ympyrä</b> → lieriö Ø${D} × ${T} mm`;
-    } else {
-      let P=pts.map(mm);
-      if(polyArea(P)<0) P.reverse();
-      feats.push({id:nid('prof'),t:'prof',pts:P,h:T,z:0});
-      info=`Muoto: <b>${P.length}-kulmainen profiili</b> · ${R1((x1-x0)*scale)} × ${R1((y1-y0)*scale)} mm · paksuus ${T} mm`;
-      outline=pts;
-    }
-    for(const ho of pr.holes){
-      const p=mm(ho.c);
-      feats.push({id:nid('hole'),t:'hole',dia:R1(2*ho.r*scale),x:p[0],y:p[1],depth:0});
-      holesPx.push(ho);
-    }
+    const scale=known/Math.max(x1-x0,y1-y0), cx=(x0+x1)/2, cy=(y0+y1)/2, mm=p=>[R1((p[0]-cx)*scale),R1(-(p[1]-cy)*scale)], T=tIn>0?tIn:10;
+    if(pr.round){ const D=R1(2*pr.circle.r*scale); feats.push({id:nid('cyl'),t:'cyl',dia:D,h:T,x:0,y:0,z:0}); info=`Muoto: <b>ympyrä</b> → lieriö Ø${D} × ${T} mm`; }
+    else { let P=pr.poly.map(mm); if(polyArea(P)<0) P.reverse();
+      feats.push({id:nid('prof'),t:'prof',pts:P,fil:{},h:T,z:0});
+      info=`Muoto: <b>${P.length}-kulmainen profiili</b> · ${R1((x1-x0)*scale)} × ${R1((y1-y0)*scale)} mm · paksuus ${T} mm`; outline=pr.poly; }
+    for(const ho of pr.holes){ const p=mm(ho.c); feats.push({id:nid('hole'),t:'hole',dia:R1(2*ho.r*scale),x:p[0],y:p[1],depth:0}); holesPx.push(ho); }
     if(pr.holes.length) info+=`<br>Reikiä: <b>${pr.holes.length}</b>`;
-    if(pr.round) outline=null;
   } else {
-    /* 3D tai avoin ääriviiva: laatikkoehdotus ulkomitoista */
-    const bw=bb.x1-bb.x0, bh=bb.y1-bb.y0, scale=known/Math.max(bw,bh);
-    const W=R1(bw*scale), D=R1(bh*scale);
+    const bw=bb.x1-bb.x0, bh=bb.y1-bb.y0, scale=known/Math.max(bw,bh), W=R1(bw*scale), D=R1(bh*scale);
     const T=tIn>0?tIn:(kind==='3d'?Math.max(5,R1(Math.min(W,D)*0.35)):10);
     feats.push({id:nid('box'),t:'box',w:W,d:D,h:T,x:0,y:0,z:0});
-    if(kind==='3d') info=`Tulkinta: <b>3D-luonnos</b> → laatikko ${W} × ${D} × ${T} mm<br><small>3D-luonnoksesta luetaan toistaiseksi vain ulkomitat. Piirrä kappale ylhäältä tai edestä nähtynä 2D-ääriviivana, niin muoto siirtyy malliin.</small>`;
-    else { warn='Ääriviiva ei ole suljettu'; info=`<span class="warn"><b>Ääriviiva ei ole suljettu</b></span> – tein ulkomitoista laatikon ${W} × ${D} × ${T} mm.<br><small>Yhdistä viivojen päät toisiinsa ja tunnista uudelleen.</small>`; }
+    if(kind==='3d') info=`Tulkinta: <b>3D-luonnos</b> → laatikko ${W} × ${D} × ${T} mm<br><small>3D-luonnoksesta luetaan vain ulkomitat. Piirrä kappale ylhäältä nähtynä, niin muoto siirtyy malliin.</small>`;
+    else { warn='Ääriviiva ei ole suljettu'; info=`<span class="warn"><b>Ääriviiva ei ole suljettu</b></span> – tein ulkomitoista laatikon ${W} × ${D} × ${T} mm.<br><small>Yhdistä viivojen päät ja tunnista uudelleen.</small>`; }
   }
-
-  /* esikatselu: tunnistettu ääriviiva vihreällä, reiät punaisella */
-  const pv=$('#preview'), pk=Math.min(1,640/paper.w);
-  pv.width=Math.round(paper.w*pk); pv.height=Math.round(paper.h*pk);
+  const pv=$('#preview'), pk=Math.min(1,640/paper.w); pv.width=Math.round(paper.w*pk); pv.height=Math.round(paper.h*pk);
   const px=pv.getContext('2d'); px.fillStyle='#fff'; px.fillRect(0,0,pv.width,pv.height);
   px.drawImage(cvBg,0,0,pv.width,pv.height); px.globalAlpha=0.45; px.drawImage(cvInk,0,0,pv.width,pv.height); px.globalAlpha=1;
-  const f=pv.width/w;
-  px.lineWidth=3; px.lineJoin='round';
-  if(outline){ px.strokeStyle='#14a85c'; px.fillStyle='rgba(20,168,92,.12)'; px.beginPath();
-    outline.forEach((p,i)=>i?px.lineTo(p[0]*f,p[1]*f):px.moveTo(p[0]*f,p[1]*f)); px.closePath(); px.fill(); px.stroke();
-    px.fillStyle='#14a85c'; for(const p of outline){ px.beginPath(); px.arc(p[0]*f,p[1]*f,4,0,7); px.fill(); } }
+  const f=pv.width/w; px.lineWidth=3; px.lineJoin='round';
+  if(outline){ px.strokeStyle='#14a85c'; px.fillStyle='rgba(20,168,92,.12)'; px.beginPath(); outline.forEach((p,i)=>i?px.lineTo(p[0]*f,p[1]*f):px.moveTo(p[0]*f,p[1]*f)); px.closePath(); px.fill(); px.stroke(); }
   else if(pr&&pr.round){ px.strokeStyle='#14a85c'; px.beginPath(); px.arc(pr.circle.c[0]*f,pr.circle.c[1]*f,pr.circle.r*f,0,7); px.stroke(); }
   else { px.strokeStyle='#1e90ff'; px.strokeRect(bb.x0*f,bb.y0*f,(bb.x1-bb.x0)*f,(bb.y1-bb.y0)*f); }
   px.strokeStyle='#e03a3a'; for(const ho of holesPx){ px.beginPath(); px.arc(ho.c[0]*f,ho.c[1]*f,ho.r*f,0,7); px.stroke(); }
-
   $('#analysis').innerHTML=`Tulkinta: <b>${kind==='3d'?'3D':'2D'}</b>${forced!=='auto'?' (pakotettu)':` · varmuus ${Math.round(det.conf*100)} %`}<br>`+info;
-  histPush(); model.features=feats; selected=null;
+  histPush(); model.features=feats; selected=null; firstFit=true;
   persist(); setMode('model'); rebuildAll(true);
   if(warn){ setPanel(true,'image'); toast(warn+' – katso Kuva-välilehti','err',4000); }
-  else toast('Malli luotu luonnoksen muodosta','ok',2500);
+  else toast('Malli luotu – klikkaa sivua, kulmaa tai pintaa muokataksesi','ok',3200);
 }
-function histPush(){ hist.push(JSON.stringify(model)); if(hist.length>40) hist.shift(); }
+function histPush(){ hist.push(JSON.stringify(model)); if(hist.length>60) hist.shift(); }
 $('#bAnalyse').onclick=()=>{ try{ analyseSketch(); }catch(err){ console.error(err); toast('Tunnistus epäonnistui: '+err.message,'err',4000); } };
 
 /* ================================================================== 3D */
-let renderer=null,scene=null,camera=null,meshObj=null,lineObj=null,grid=null,gSel=null,gNotes=null;
+let renderer=null,scene=null,camera=null,grid=null,gSolid=null,gEdges=null,gSel=null,gNotes=null;
 let dirty=true; const invalidate=()=>{dirty=true;};
 const orb={t:null,r:300,th:-0.9,ph:1.05};
 const glHost=$('#glHost'); let ray=null,mouse=null;
-
 function initScene(){
   renderer=new THREE.WebGLRenderer({antialias:true});
   renderer.setPixelRatio(Math.min(2,window.devicePixelRatio||1));
@@ -800,398 +861,558 @@ function initScene(){
   const sun=new THREE.DirectionalLight(0xffffff,1.6); sun.position.set(300,-500,700); scene.add(sun);
   const sun2=new THREE.DirectionalLight(0xaac4ff,0.5); sun2.position.set(-500,300,200); scene.add(sun2);
   grid=new THREE.GridHelper(1000,100,0x3a4a66,0x1e2736); grid.rotation.x=Math.PI/2; scene.add(grid);
-  meshObj=new THREE.Mesh(new THREE.BufferGeometry(),new THREE.MeshStandardMaterial({color:0x9fb8d2,roughness:0.5,metalness:0.12,
-    side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1.5,polygonOffsetUnits:1}));
-  lineObj=new THREE.LineSegments(new THREE.BufferGeometry(),new THREE.LineBasicMaterial({color:0x0b1016}));
-  scene.add(meshObj,lineObj);
-  gSel=new THREE.Group(); gNotes=new THREE.Group(); scene.add(gSel,gNotes);
+  gSolid=new THREE.Group(); gEdges=new THREE.Group(); gSel=new THREE.Group(); gNotes=new THREE.Group();
+  scene.add(gSolid,gEdges,gSel,gNotes);
   ray=new THREE.Raycaster(); mouse=new THREE.Vector2();
   bind3d(); updCam(); resize3d();
 }
-function updCam(){
-  if(!camera) return;
-  const {t,r,th,ph}=orb;
-  camera.position.set(t.x+r*Math.sin(ph)*Math.cos(th),t.y+r*Math.sin(ph)*Math.sin(th),t.z+r*Math.cos(ph));
-  camera.lookAt(t); invalidate();
-}
-function resize3d(){
-  if(!renderer) return;
-  const w=glHost.clientWidth,h=glHost.clientHeight; if(w<10||h<10) return;
-  renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); invalidate();
-}
+function updCam(){ if(!camera) return; const {t,r,th,ph}=orb;
+  camera.position.set(t.x+r*Math.sin(ph)*Math.cos(th),t.y+r*Math.sin(ph)*Math.sin(th),t.z+r*Math.cos(ph)); camera.lookAt(t); invalidate(); }
+function resize3d(){ if(!renderer) return; const w=glHost.clientWidth,h=glHost.clientHeight; if(w<10||h<10) return;
+  renderer.setSize(w,h,false); camera.aspect=w/h; camera.updateProjectionMatrix(); if(needFit) fitModel(); invalidate(); }
 new ResizeObserver(()=>{ resize3d(); if(mode==='sketch'&&autoFit) fitSketch(); }).observe($('#stage'));
 (function loop(){ requestAnimationFrame(loop); if(renderer&&dirty&&mode==='model'){ dirty=false; renderer.render(scene,camera); } })();
-
 function bind3d(){
   const dom=renderer.domElement, ptrs=new Map(); let g=null;
   dom.addEventListener('contextmenu',e=>e.preventDefault());
-  dom.addEventListener('pointerdown',e=>{
-    dom.setPointerCapture(e.pointerId); ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  dom.addEventListener('pointerdown',e=>{ dom.setPointerCapture(e.pointerId); ptrs.set(e.pointerId,{x:e.clientX,y:e.clientY});
     if(ptrs.size===1) g={moved:0,btn:e.button,shift:e.shiftKey,pinch:false};
-    else if(ptrs.size===2&&g){ g.pinch=true; const [a,b]=[...ptrs.values()];
-      g.d=Math.hypot(a.x-b.x,a.y-b.y)||1; g.mx=(a.x+b.x)/2; g.my=(a.y+b.y)/2; }
-  });
-  dom.addEventListener('pointermove',e=>{
-    const prev=ptrs.get(e.pointerId); if(!prev||!g) return;
-    const cur={x:e.clientX,y:e.clientY};
-    if(ptrs.size===1){
-      const dx=cur.x-prev.x,dy=cur.y-prev.y; g.moved+=Math.abs(dx)+Math.abs(dy);
-      if(g.btn===0&&!g.shift){ orb.th-=dx*0.008; orb.ph=clamp(orb.ph-dy*0.008,0.05,Math.PI-0.05); }
-      else pan3d(dx,dy);
-      updCam();
-    } else if(ptrs.size===2&&g.pinch){
-      ptrs.set(e.pointerId,cur);
+    else if(ptrs.size===2&&g){ g.pinch=true; const [a,b]=[...ptrs.values()]; g.d=Math.hypot(a.x-b.x,a.y-b.y)||1; g.mx=(a.x+b.x)/2; g.my=(a.y+b.y)/2; } });
+  dom.addEventListener('pointermove',e=>{ const prev=ptrs.get(e.pointerId); if(!prev||!g) return; const cur={x:e.clientX,y:e.clientY};
+    if(ptrs.size===1){ const dx=cur.x-prev.x,dy=cur.y-prev.y; g.moved+=Math.abs(dx)+Math.abs(dy);
+      if(g.btn===0&&!g.shift){ orb.th-=dx*0.008; orb.ph=clamp(orb.ph-dy*0.008,0.05,Math.PI-0.05); } else pan3d(dx,dy); updCam(); }
+    else if(ptrs.size===2&&g.pinch){ ptrs.set(e.pointerId,cur);
       const [a,b]=[...ptrs.values()], d=Math.hypot(a.x-b.x,a.y-b.y)||1, mx=(a.x+b.x)/2, my=(a.y+b.y)/2;
-      orb.r=clamp(orb.r*g.d/d,5,150000); pan3d(mx-g.mx,my-g.my); g.d=d; g.mx=mx; g.my=my; updCam();
-      return;
-    }
-    ptrs.set(e.pointerId,cur);
-  });
-  const up=e=>{
-    const tap=g&&!g.pinch&&ptrs.size===1&&g.moved<8&&g.btn===0&&e.type==='pointerup';
-    ptrs.delete(e.pointerId); if(!ptrs.size) g=null;
-    if(tap) pick3d(e);
-  };
+      orb.r=clamp(orb.r*g.d/d,5,150000); pan3d(mx-g.mx,my-g.my); g.d=d; g.mx=mx; g.my=my; updCam(); return; }
+    ptrs.set(e.pointerId,cur); });
+  const up=e=>{ const tap=g&&!g.pinch&&ptrs.size===1&&g.moved<8&&g.btn===0&&e.type==='pointerup';
+    ptrs.delete(e.pointerId); if(!ptrs.size) g=null; if(tap) pick3d(e); };
   dom.addEventListener('pointerup',up); dom.addEventListener('pointercancel',up);
   dom.addEventListener('wheel',e=>{ e.preventDefault(); orb.r=clamp(orb.r*Math.exp(e.deltaY*0.0012),5,150000); updCam(); },{passive:false});
 }
-function pan3d(dx,dy){
-  const k=orb.r*0.0016;
-  const right=new THREE.Vector3().setFromMatrixColumn(camera.matrix,0);
-  const up=new THREE.Vector3().setFromMatrixColumn(camera.matrix,1);
-  orb.t.addScaledVector(right,-dx*k).addScaledVector(up,dy*k);
-}
+function pan3d(dx,dy){ const k=orb.r*0.0016, right=new THREE.Vector3().setFromMatrixColumn(camera.matrix,0), up=new THREE.Vector3().setFromMatrixColumn(camera.matrix,1);
+  orb.t.addScaledVector(right,-dx*k).addScaledVector(up,dy*k); }
+function solidBox(){ const b=new THREE.Box3(); gSolid.children.forEach(m=>{ m.geometry.computeBoundingBox(); b.union(m.geometry.boundingBox); }); return b; }
+let needFit=false;
 function fitModel(){
-  if(!THREE||!shape||!meshObj) return;
-  const g=meshObj.geometry; if(!g.attributes.position) return;
-  g.computeBoundingSphere(); const bs=g.boundingSphere; if(!bs) return;
-  orb.t.copy(bs.center); orb.r=Math.max(30,bs.radius*2.9);
-  camera.near=Math.max(0.1,bs.radius/200); camera.far=bs.radius*200; camera.updateProjectionMatrix();
-  if(g.boundingBox) grid.position.z=g.boundingBox.min.z-0.01;
-  const sc=Math.max(1,bs.radius*6/1000); grid.scale.set(sc,sc,sc);
-  updCam();
+  if(!THREE||!gSolid||!gSolid.children.length) return;
+  if(glHost.clientWidth<10||glHost.clientHeight<10){ needFit=true; return; }
+  needFit=false; resize3d();
+  const b=solidBox(); if(b.isEmpty()) return;
+  const c=b.getCenter(new THREE.Vector3()), r=b.getSize(new THREE.Vector3()).length()/2||50;
+  /* sovitus kapeamman näkökentän mukaan (pystynäytöllä vaakasuunta) */
+  const v=camera.fov*Math.PI/180, hf=2*Math.atan(Math.tan(v/2)*camera.aspect), f=Math.min(v,hf);
+  orb.t.copy(c); orb.r=Math.max(20,r/Math.sin(f/2)*1.12);
+  camera.near=Math.max(0.1,r/200); camera.far=r*400; camera.updateProjectionMatrix();
+  grid.position.z=b.min.z-0.01; const sc=Math.max(1,r*6/1000); grid.scale.set(sc,sc,sc); updCam();
 }
 const VIEWS={iso:[0.9,-1.15,0.95],top:[0,-0.0001,1],front:[0,-1,0],right:[1,0,0]};
-$$('[data-v]').forEach(b=>b.onclick=()=>{
-  if(!camera) return; const v=new THREE.Vector3(...VIEWS[b.dataset.v]).normalize();
-  orb.ph=Math.acos(clamp(v.z,-1,1)); orb.th=Math.atan2(v.y,v.x); updCam();
-});
+$$('[data-v]').forEach(b=>b.onclick=()=>{ if(!camera) return; const v=new THREE.Vector3(...VIEWS[b.dataset.v]).normalize();
+  orb.ph=Math.acos(clamp(v.z,-1,1)); orb.th=Math.atan2(v.y,v.x); updCam(); });
 
-/* ----- geometrian rakennus (replicad) ----- */
+/* ------------------------------------------------- geometrian rakennus */
+const findF=id=>model.features.find(f=>f.id===id);
 const bbOf=s=>{ const b=s.boundingBox, q=b.bounds||[b.min,b.max]; return {min:q[0],max:q[1]}; };
 const safeDel=o=>{ try{ if(o&&o.delete) o.delete(); }catch(e){} };
-function categoryFilter(sel,b){
-  if(sel==='vertical') return ed=>ed.inDirection('Z');
-  if(sel==='top') return ed=>ed.inPlane('XY',b.max[2]);
-  if(sel==='bottom') return ed=>ed.inPlane('XY',b.min[2]);
-  return null;
+function ensureProf(f){
+  if(f.t==='box'){ f.pts=boxPts(f); f.fil={}; f.t='prof'; delete f.w; delete f.d; delete f.x; delete f.y; }
+  if(!f.fil) f.fil={}; return f;
 }
-function filterFor(f,s){
-  const b=bbOf(s), e=0.05;
-  if(f.sel==='edge'&&f.box){ const [a0,a1,a2,b0,b1,b2]=f.box; return ed=>ed.inBox([a0-e,a1-e,a2-e],[b0+e,b1+e,b2+e]); }
-  return categoryFilter(f.sel==='edge'?(f.cat||'all'):f.sel,b);
-}
-function profileDrawing(pts){
-  let pen=rc.draw(pts[0]);
-  for(let i=1;i<pts.length;i++) pen=pen.lineTo(pts[i]);
+function profileDrawing(pts,fil){
+  const n=pts.length, F=pts.map((_,i)=>cornerFillet(pts,fil,i));
+  const a=F[0]?F[0].T2:pts[0], b=F[1]?F[1].T1:pts[1], start=[(a[0]+b[0])/2,(a[1]+b[1])/2];
+  let pen=rc.draw(start);
+  for(let k=1;k<=n;k++){ const i=k%n, Fi=F[i];
+    if(Fi){ pen=pen.lineTo(Fi.T1);
+      if(typeof pen.threePointsArcTo==='function') pen=pen.threePointsArcTo(Fi.T2,Fi.M);
+      else for(const p of arcPts(Fi).slice(1)) pen=pen.lineTo(p); }
+    else pen=pen.lineTo(pts[i]); }
   return pen.close();
 }
+function refBox(ref){
+  const s=layoutSolids(model.features).find(x=>x.fid===ref.fid); if(!s) return null;
+  const z=ref.end==='bottom'?s.z0:s.z1;
+  if(ref.kind==='hedge'&&s.kind==='prof'){ if(ref.i>=s.pts.length) return null; const [a,b]=sideSeg(s.pts,s.fil,ref.i);
+    return {min:[Math.min(a[0],b[0]),Math.min(a[1],b[1]),z],max:[Math.max(a[0],b[0]),Math.max(a[1],b[1]),z],z}; }
+  if(ref.kind==='cedge'&&s.kind==='cyl') return {min:[s.c[0]-s.r,s.c[1]-s.r,z],max:[s.c[0]+s.r,s.c[1]+s.r,z],z};
+  return null;
+}
+function edgeFilter(f,s){
+  const e=0.05;
+  if(f.ref){ const B=refBox(f.ref); if(!B) throw new Error('viitattu särmä puuttuu');
+    return {main:ed=>ed.inBox([B.min[0]-e,B.min[1]-e,B.min[2]-e],[B.max[0]+e,B.max[1]+e,B.max[2]+e]), alt:ed=>ed.inPlane('XY',B.z)}; }
+  const b=bbOf(s);
+  if(f.sel==='vertical') return {main:ed=>ed.inDirection('Z')};
+  if(f.sel==='top') return {main:ed=>ed.inPlane('XY',b.max[2])};
+  if(f.sel==='bottom') return {main:ed=>ed.inPlane('XY',b.min[2])};
+  if(f.sel==='edge'&&f.box){ const [a0,a1,a2,b0,b1,b2]=f.box; return {main:ed=>ed.inBox([a0-e,a1-e,a2-e],[b0+e,b1+e,b2+e])}; }
+  return {main:null};
+}
 function build(){
-  let s=null; const R=rc;
+  let s=null; const R=rc, L=layoutSolids(model.features);
   for(const f of model.features){
     f.err='';
     try{
-      if(f.t==='box'){
-        const x=R.drawRectangle(f.w,f.d).translate(f.x||0,f.y||0).sketchOnPlane('XY',f.z||0).extrude(f.h);
-        s=s?s.fuse(x):x;
-      } else if(f.t==='prof'){
-        if(!f.pts||f.pts.length<3) throw new Error('profiilissa liian vähän pisteitä');
-        const x=profileDrawing(f.pts).sketchOnPlane('XY',f.z||0).extrude(f.h);
-        s=s?s.fuse(x):x;
-      } else if(f.t==='cyl'){
-        const z=(f.z==null)?(s?bbOf(s).max[2]:0):f.z;
-        const x=R.drawCircle(f.dia/2).translate(f.x||0,f.y||0).sketchOnPlane('XY',z).extrude(f.h);
-        s=s?s.fuse(x):x;
-      } else if(f.t==='hole'){
-        if(!s) throw new Error('ei kappaletta');
+      if(f.t==='box'||f.t==='prof'){ const d=L.find(x=>x.fid===f.id);
+        if(d.pts.length<3) throw new Error('liian vähän kulmia');
+        const x=profileDrawing(d.pts,d.fil).sketchOnPlane('XY',d.z0).extrude(f.h); s=s?s.fuse(x):x; }
+      else if(f.t==='cyl'){ const d=L.find(x=>x.fid===f.id);
+        const x=R.drawCircle(f.dia/2).translate(f.x||0,f.y||0).sketchOnPlane('XY',d.z0).extrude(f.h); s=s?s.fuse(x):x; }
+      else if(f.t==='hole'){ if(!s) throw new Error('ei kappaletta');
         const b=bbOf(s), z0=f.depth>0?b.max[2]-f.depth:b.min[2]-1, len=f.depth>0?f.depth+1:(b.max[2]-b.min[2])+2;
-        s=s.cut(R.drawCircle(f.dia/2).translate(f.x,f.y).sketchOnPlane('XY',z0).extrude(len));
-      } else if(f.t==='holes4'){
-        if(!s) throw new Error('ei kappaletta');
+        s=s.cut(R.drawCircle(f.dia/2).translate(f.x,f.y).sketchOnPlane('XY',z0).extrude(len)); }
+      else if(f.t==='holes4'){ if(!s) throw new Error('ei kappaletta');
         const b=bbOf(s), m=f.m, len=(b.max[2]-b.min[2])+2;
         for(const p of [[b.min[0]+m,b.min[1]+m],[b.max[0]-m,b.min[1]+m],[b.max[0]-m,b.max[1]-m],[b.min[0]+m,b.max[1]-m]])
-          s=s.cut(R.drawCircle(f.dia/2).translate(p[0],p[1]).sketchOnPlane('XY',b.min[2]-1).extrude(len));
-      } else if(f.t==='fillet'||f.t==='chamfer'){
-        if(!s) throw new Error('ei kappaletta');
-        const fn=f.t;
-        try{ const flt=filterFor(f,s); s=flt?s[fn](f.r,flt):s[fn](f.r); }
-        catch(err){
-          if(f.sel==='edge'&&/inBox|not a function/.test(String(err&&err.message))){
-            const flt=categoryFilter(f.cat||'all',bbOf(s)); s=flt?s[fn](f.r,flt):s[fn](f.r);
-          } else throw err;
-        }
-      }
+          s=s.cut(R.drawCircle(f.dia/2).translate(p[0],p[1]).sketchOnPlane('XY',b.min[2]-1).extrude(len)); }
+      else if(f.t==='fillet'||f.t==='chamfer'){ if(!s) throw new Error('ei kappaletta');
+        const fl=edgeFilter(f,s);
+        try{ s=fl.main?s[f.t](f.r,fl.main):s[f.t](f.r); }
+        catch(err){ if(fl.alt&&/inBox|not a function/.test(String(err&&err.message))) s=s[f.t](f.r,fl.alt); else throw err; } }
     }catch(err){ f.err=(err&&err.message)?err.message:String(err); }
   }
   return s;
 }
-function setShape(s){
-  const old=shape; shape=s;
-  if(!THREE||!meshObj) return;
-  clearSel3d();
-  if(!s){ meshObj.visible=false; lineObj.visible=false; $('#status').textContent='Ei mallia'; invalidate(); safeDel(old); return; }
-  const b=bbOf(s), dim=[0,1,2].map(i=>b.max[i]-b.min[i]);
-  const tol=clamp(Math.max(...dim)*0.0006,0.02,0.4);
-  const m=s.mesh({tolerance:tol,angularTolerance:0.3});
-  const e=s.meshEdges({tolerance:tol,angularTolerance:0.3,keepMesh:true});
-  const g=new THREE.BufferGeometry();
-  g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(m.vertices),3));
-  if(m.normals&&m.normals.length===m.vertices.length) g.setAttribute('normal',new THREE.BufferAttribute(new Float32Array(m.normals),3));
-  g.setIndex(new THREE.BufferAttribute(new Uint32Array(m.triangles),1));
-  if(!g.attributes.normal) g.computeVertexNormals();
-  g.computeBoundingBox(); g.computeBoundingSphere();
-  const lg=new THREE.BufferGeometry();
-  lg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(e.lines),3));
-  meshObj.geometry.dispose(); lineObj.geometry.dispose();
-  meshObj.geometry=g; lineObj.geometry=lg; meshObj.visible=true; lineObj.visible=true;
-  $('#status').innerHTML=`<b>${dim.map(v=>R1(v)).join(' × ')}</b> mm · ${model.features.length} piirrettä`;
-  safeDel(old); invalidate();
+const MAT=()=>new THREE.MeshStandardMaterial({color:0x9fb8d2,roughness:0.5,metalness:0.12,side:THREE.DoubleSide,polygonOffset:true,polygonOffsetFactor:1.5,polygonOffsetUnits:1});
+const EMAT=()=>new THREE.LineBasicMaterial({color:0x0b1016});
+function clearGroup(g){ while(g.children.length){ const o=g.children.pop(); o.geometry&&o.geometry.dispose(); if(o.material){ if(o.material.map) o.material.map.dispose(); o.material.dispose(); } } }
+function setKernelShape(s){
+  const old=shape; shape=s; clearGroup(gSolid); clearGroup(gEdges);
+  if(s){ const b=bbOf(s), dim=Math.max(...[0,1,2].map(i=>b.max[i]-b.min[i])), tol=clamp(dim*0.0006,0.02,0.4);
+    const m=s.mesh({tolerance:tol,angularTolerance:0.3}), e=s.meshEdges({tolerance:tol,angularTolerance:0.3,keepMesh:true});
+    const g=new THREE.BufferGeometry(); g.setAttribute('position',new THREE.BufferAttribute(new Float32Array(m.vertices),3));
+    if(m.normals&&m.normals.length===m.vertices.length) g.setAttribute('normal',new THREE.BufferAttribute(new Float32Array(m.normals),3));
+    g.setIndex(new THREE.BufferAttribute(new Uint32Array(m.triangles),1)); if(!g.attributes.normal) g.computeVertexNormals();
+    gSolid.add(new THREE.Mesh(g,MAT()));
+    const lg=new THREE.BufferGeometry(); lg.setAttribute('position',new THREE.BufferAttribute(new Float32Array(e.lines),3));
+    gEdges.add(new THREE.LineSegments(lg,EMAT())); }
+  safeDel(old);
+}
+/* esikatselu ilman CAD-kerneliä: pursotettu profiili + läpireiät (pyöristetyt 3D-särmät eivät näy) */
+function setPreview(){
+  shape=null; clearGroup(gSolid); clearGroup(gEdges);
+  const L=layoutSolids(model.features), H=holeList(model.features);
+  for(const f of model.features) f.err='';
+  for(const s of L){
+    let geo;
+    if(s.kind==='prof'){
+      const sh=new THREE.Shape(outlinePts(s.pts,s.fil).map(p=>new THREE.Vector2(p[0],p[1])));
+      for(const h of H){ if(h.z0>s.z0+0.01||h.z1<s.z1-0.01) continue;
+        if(!pointInPoly(h.c,s.pts)) continue; const pa=new THREE.Path(); pa.absarc(h.c[0],h.c[1],h.r,0,Math.PI*2,true); sh.holes.push(pa); }
+      geo=new THREE.ExtrudeGeometry(sh,{depth:s.z1-s.z0,bevelEnabled:false,curveSegments:32}); geo.translate(0,0,s.z0);
+    } else { geo=new THREE.CylinderGeometry(s.r,s.r,s.z1-s.z0,64); geo.rotateX(Math.PI/2); geo.translate(s.c[0],s.c[1],(s.z0+s.z1)/2); }
+    geo.computeVertexNormals();
+    gSolid.add(new THREE.Mesh(geo,MAT()));
+    gEdges.add(new THREE.LineSegments(new THREE.EdgesGeometry(geo,25),EMAT()));
+  }
 }
 let firstFit=true;
 function rebuildAll(fit){
-  if(!rc){ pendingBuild=true; ui(); updateModelNote(); persist(); return; }
-  try{ setShape(build()); }
+  if(!THREE||!renderer){ pendingBuild=true; ui(); renderSel(); persist(); return; }
+  try{ if(rc) setKernelShape(build()); else setPreview(); }
   catch(err){ console.error(err); toast('Rakennusvirhe: '+(err.message||err),'err',4000); }
-  ui(); drawNotes();
-  if(fit||firstFit){ if(shape){ fitModel(); firstFit=false; } }
-  persist();
+  validateSel(); drawSel(); ui(); renderSel(); drawNotes(); updateStatus();
+  if(fit||firstFit){ if(gSolid.children.length){ fitModel(); firstFit=false; } }
+  invalidate(); persist();
+}
+function updateStatus(){
+  const st=$('#status');
+  if(!gSolid.children.length){ st.textContent='Ei mallia'; return; }
+  const b=solidBox(), s=b.getSize(new THREE.Vector3());
+  st.innerHTML=`<b>${fmt(s.x)} × ${fmt(s.y)} × ${fmt(s.z)}</b> mm`+(rc?'':' · esikatselu');
 }
 
-/* ----- valinta ja korostus ----- */
-function clearSel3d(){
-  if(!gSel) return;
-  while(gSel.children.length){ const o=gSel.children.pop(); o.geometry&&o.geometry.dispose(); o.material&&o.material.dispose(); }
+/* ======================================================== VALINTA */
+const KIND_NAME={side:'Sivu',hedge:'Särmä',corner:'Kulma',vertex:'Kärki',top:'Yläpinta',bottom:'Alapinta',hole:'Reikä',
+  cside:'Lieriön vaippa',ctop:'Lieriön kansi',cbottom:'Lieriön pohja',cedge:'Lieriön reuna'};
+function selName(s){
+  if(!s) return '';
+  const n=KIND_NAME[s.kind]||s.kind;
+  if(s.kind==='side'||s.kind==='hedge') return `${n} ${s.i+1}`+(s.kind==='hedge'?(s.end==='top'?' (ylä)':' (ala)'):'');
+  if(s.kind==='corner'||s.kind==='vertex') return `${n} K${s.i+1}`;
+  if(s.kind==='hole'){ const f=findF(s.fid); return f&&f.t==='holes4'?'Kulmareiät (4)':n; }
+  return n;
 }
-function tube(a,b,r,color){
-  const A=new THREE.Vector3(a[0],a[1],a[2]),B=new THREE.Vector3(b[0],b[1],b[2]);
-  const d=new THREE.Vector3().subVectors(B,A),L=d.length(); if(L<1e-6) return null;
-  const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,L,8,1),new THREE.MeshBasicMaterial({color,depthTest:false}));
-  m.position.copy(A).addScaledVector(d,0.5); m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize());
-  m.renderOrder=20; return m;
+function validateSel(){
+  if(!selected||!selected.fid) return;
+  const f=findF(selected.fid); if(!f){ selected=null; return; }
+  if(['side','hedge','corner','vertex'].includes(selected.kind)){
+    const n=f.t==='box'?4:(f.pts?f.pts.length:0); if(!(selected.i<n)) selected=null; }
 }
-function marker(p,color){
-  const r=Math.max(0.6,orb.r*0.011);
-  const m=new THREE.Mesh(new THREE.SphereGeometry(r,14,10),new THREE.MeshBasicMaterial({color,depthTest:false}));
-  m.position.set(p[0],p[1],p[2]); m.renderOrder=21; return m;
+function pickTol(point){
+  const h=renderer.domElement.clientHeight||600, d=camera.position.distanceTo(point);
+  return Math.max(0.15,2*d*Math.tan(camera.fov*Math.PI/360)/h*14);
 }
 function pick3d(e){
-  if(!meshObj||!meshObj.visible) return;
+  if(!gSolid.children.length) return;
   const r=renderer.domElement.getBoundingClientRect();
   mouse.set((e.clientX-r.left)/r.width*2-1,-(e.clientY-r.top)/r.height*2+1);
   ray.setFromCamera(mouse,camera);
-  const thr=Math.max(0.4,orb.r*(e.pointerType==='touch'?0.017:0.009));
-  ray.params.Line.threshold=thr;
-  const hl=ray.intersectObject(lineObj)[0], hf=ray.intersectObject(meshObj)[0];
-  clearSel3d();
-  if(hl&&(!hf||hl.distance<=hf.distance+thr*1.5)){
-    const P=lineObj.geometry.attributes.position.array, seg=Math.floor(hl.index/2);
-    const ch=edgeChain(P,seg,25), pt=hl.point.toArray();
-    let box=null,cat='all';
-    if(ch){
-      box=[...ch.min,...ch.max];
-      const dz=ch.max[2]-ch.min[2], dx=ch.max[0]-ch.min[0], dy=ch.max[1]-ch.min[1];
-      const b=shape?bbOf(shape):null;
-      if(dz>2*Math.max(dx,dy)) cat='vertical';
-      else if(b&&dz<0.05&&Math.abs(ch.max[2]-b.max[2])<0.05) cat='top';
-      else if(b&&dz<0.05&&Math.abs(ch.min[2]-b.min[2])<0.05) cat='bottom';
-      const rr=Math.max(0.25,orb.r*0.004);
-      if(ch.segs.length<=400) for(const k of ch.segs){
-        const t=tube([P[6*k],P[6*k+1],P[6*k+2]],[P[6*k+3],P[6*k+4],P[6*k+5]],rr,0xffb648); if(t) gSel.add(t); }
-    }
-    selected={kind:'edge',point:pt,box,cat}; gSel.add(marker(pt,0xffffff));
-  } else if(hf){
-    selected={kind:'face',point:hf.point.toArray(),normal:hf.face?hf.face.normal.toArray():null}; gSel.add(marker(selected.point,0xff6b6b));
-  } else selected=null;
-  invalidate(); showSel(); ui();
+  const hf=ray.intersectObjects(gSolid.children,false)[0];
+  const probe=hf?hf.point:orb.t, pxw=pickTol(probe)/14;
+  ray.params.Line.threshold=pxw*(e.pointerType==='touch'?16:9);
+  const hl=ray.intersectObjects(gEdges.children,false)[0];
+  let p=null,n=null;
+  if(hl&&(!hf||hl.distance<=hf.distance+ray.params.Line.threshold*1.5)){ p=hl.point.toArray(); }
+  else if(hf){ p=hf.point.toArray(); n=hf.face?hf.face.normal.clone().transformDirection(hf.object.matrixWorld).toArray():null; }
+  let el=null;
+  if(p) el=pickElement(model.features,p,n,pickTol(new THREE.Vector3(...p)));
+  selected=el?Object.assign(el,{point:p,normal:n}):null;
+  drawSel(); renderSel(); ui();
   if(selected&&app.dataset.panel==='open') showTab('select');
-  if(selected) toast(selected.kind==='edge'?'Särmä valittu – kirjoita esim. pyöristä r3':'Piste valittu – kirjoita esim. reikä ø8 tähän',null,1800);
 }
-function showSel(){
-  const el=$('#selection'),s=selected;
-  if(!s){ el.textContent='Klikkaa mallin pintaa tai särmää.'; return; }
-  const p=(s.point||[0,0,0]).map(v=>R1(v)).join(', ');
-  el.innerHTML=`<b>${s.kind==='edge'?'Särmä':s.kind==='face'?'Pinta':'Piirre'}</b><br>Kohta: ${p} mm`+
-    (s.normal?`<br>Normaali: ${s.normal.map(v=>R1(v)).join(', ')}`:'')+
-    (s.kind==='edge'&&s.cat?`<br>Tyyppi: ${{top:'yläreuna',bottom:'alareuna',vertical:'pystyreuna',all:'särmä'}[s.cat]}`:'');
+/* korostus ja mittamerkinnät */
+function label(text,color){
+  const c=document.createElement('canvas'), x=c.getContext('2d'), f=44;
+  x.font=`700 ${f}px system-ui,sans-serif`; const w=Math.ceil(x.measureText(text).width)+28;
+  c.width=w; c.height=f+22; const g=c.getContext('2d'); g.font=`700 ${f}px system-ui,sans-serif`;
+  g.fillStyle='rgba(10,14,20,.88)'; g.strokeStyle=color; g.lineWidth=4;
+  if(g.roundRect){ g.beginPath(); g.roundRect(2,2,w-4,c.height-4,14); g.fill(); g.stroke(); } else { g.fillRect(0,0,w,c.height); }
+  g.fillStyle=color; g.textBaseline='middle'; g.fillText(text,14,c.height/2+2);
+  const t=new THREE.CanvasTexture(c);
+  const sp=new THREE.Sprite(new THREE.SpriteMaterial({map:t,depthTest:false,transparent:true,sizeAttenuation:false}));
+  const hgt=0.034; sp.scale.set(hgt*w/c.height,hgt,1); sp.renderOrder=30; return sp;
 }
-function drawNotes(){
-  if(!gNotes) return;
-  while(gNotes.children.length){ const o=gNotes.children.pop(); o.geometry.dispose(); o.material.dispose(); }
-  for(const c of model.comments) if(c.point){ const m=marker(c.point,0xffb648); m.scale.setScalar(0.7); gNotes.add(m); }
+function hlMat(op){ return new THREE.MeshBasicMaterial({color:0xffb648,transparent:true,opacity:op,depthTest:false,side:THREE.DoubleSide}); }
+function tube(a,b,r){ const A=new THREE.Vector3(...a),B=new THREE.Vector3(...b),d=new THREE.Vector3().subVectors(B,A),L=d.length(); if(L<1e-6) return null;
+  const m=new THREE.Mesh(new THREE.CylinderGeometry(r,r,L,10,1),hlMat(1)); m.position.copy(A).addScaledVector(d,0.5);
+  m.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),d.normalize()); m.renderOrder=22; return m; }
+function quad(pts3){ const g=new THREE.BufferGeometry(); const a=pts3;
+  g.setAttribute('position',new THREE.BufferAttribute(new Float32Array([...a[0],...a[1],...a[2],...a[0],...a[2],...a[3]]),3));
+  const m=new THREE.Mesh(g,hlMat(0.42)); m.renderOrder=21; return m; }
+function ball(p,r,color){ const m=new THREE.Mesh(new THREE.SphereGeometry(r,16,12),new THREE.MeshBasicMaterial({color,depthTest:false})); m.position.set(...p); m.renderOrder=23; return m; }
+function drawSel(){
+  if(!gSel) return; clearGroup(gSel);
+  const s=selected; if(!s||!s.fid){ invalidate(); return; }
+  const L=layoutSolids(model.features), d=L.find(x=>x.fid===s.fid);
+  const R=Math.max(0.2,orb.r*0.0035);
+  const add=o=>{ if(o) gSel.add(o); };
+  const lbl=(t,p,col)=>{ const l=label(t,col||'#ffb648'); l.position.set(...p); gSel.add(l); };
+  if(d&&d.kind==='prof'){
+    const n=d.pts.length;
+    if(s.kind==='side'||s.kind==='hedge'){
+      const [a,b]=sideSeg(d.pts,d.fil,s.i), z=s.end==='bottom'?d.z0:d.z1;
+      if(s.kind==='side') add(quad([[a[0],a[1],d.z0],[b[0],b[1],d.z0],[b[0],b[1],d.z1],[a[0],a[1],d.z1]]));
+      add(tube([a[0],a[1],z],[b[0],b[1],z],R));
+      if(s.kind==='side'){ add(tube([a[0],a[1],d.z0],[b[0],b[1],d.z0],R*0.7)); }
+      const A=d.pts[s.i], B=d.pts[(s.i+1)%n];
+      add(ball([A[0],A[1],d.z1],R*2.6,fixEnd==='start'?0x45c48b:0x4ea7ff)); add(ball([B[0],B[1],d.z1],R*2.6,fixEnd==='end'?0x45c48b:0x4ea7ff));
+      lbl('A',[A[0],A[1],d.z1+R*6],fixEnd==='start'?'#45c48b':'#4ea7ff'); lbl('B',[B[0],B[1],d.z1+R*6],fixEnd==='end'?'#45c48b':'#4ea7ff');
+      lbl(fmt(sideLength(d.pts,s.i))+' mm',[(A[0]+B[0])/2,(A[1]+B[1])/2,d.z1+R*6]);
+    } else if(s.kind==='corner'||s.kind==='vertex'){
+      const F=cornerFillet(d.pts,d.fil,s.i), P=d.pts[s.i];
+      if(F){ const ap=arcPts(F,10); for(let k=1;k<ap.length;k++) add(quad([[ap[k-1][0],ap[k-1][1],d.z0],[ap[k][0],ap[k][1],d.z0],[ap[k][0],ap[k][1],d.z1],[ap[k-1][0],ap[k-1][1],d.z1]]));
+        lbl('r '+fmt(F.r),[F.M[0],F.M[1],d.z1+R*6]); }
+      else { add(tube([P[0],P[1],d.z0],[P[0],P[1],d.z1],R)); }
+      if(s.kind==='vertex') add(ball([P[0],P[1],s.end==='bottom'?d.z0:d.z1],R*3,0xffffff));
+      lbl('K'+(s.i+1),[P[0],P[1],d.z1+R*(F?14:6)]);
+    } else if(s.kind==='top'||s.kind==='bottom'){
+      const z=s.kind==='top'?d.z1:d.z0, sh=new THREE.Shape(outlinePts(d.pts,d.fil).map(p=>new THREE.Vector2(p[0],p[1])));
+      const g=new THREE.ShapeGeometry(sh,24); g.translate(0,0,z); const m=new THREE.Mesh(g,hlMat(0.3)); m.renderOrder=21; add(m);
+      if(s.point) add(ball(s.point,R*2.2,0xff6b6b));
+      lbl('paksuus '+fmt(d.z1-d.z0)+' mm',[...(s.point?[s.point[0],s.point[1]]:[0,0]),z+R*8]);
+    }
+  } else if(d&&d.kind==='cyl'){
+    const h=d.z1-d.z0;
+    if(s.kind==='cside'){ const g=new THREE.CylinderGeometry(d.r*1.01,d.r*1.01,h,48,1,true); g.rotateX(Math.PI/2); g.translate(d.c[0],d.c[1],(d.z0+d.z1)/2);
+      const m=new THREE.Mesh(g,hlMat(0.35)); m.renderOrder=21; add(m); lbl('Ø '+fmt(2*d.r),[d.c[0]+d.r,d.c[1],d.z1+R*6]); }
+    else if(s.kind==='ctop'||s.kind==='cbottom'){ const z=s.kind==='ctop'?d.z1:d.z0, g=new THREE.CircleGeometry(d.r,48); g.translate(d.c[0],d.c[1],z);
+      const m=new THREE.Mesh(g,hlMat(0.35)); m.renderOrder=21; add(m); lbl('korkeus '+fmt(h),[d.c[0],d.c[1],d.z1+R*8]); }
+    else if(s.kind==='cedge'){ const z=s.end==='bottom'?d.z0:d.z1, g=new THREE.TorusGeometry(d.r,R,8,64); g.translate(d.c[0],d.c[1],z);
+      const m=new THREE.Mesh(g,hlMat(1)); m.renderOrder=22; add(m); }
+  }
+  if(s.kind==='hole'){
+    const H=holeList(model.features).filter(h=>h.fid===s.fid);
+    for(const h of H){ for(const z of [h.z0,h.z1]){ const g=new THREE.TorusGeometry(h.r,R,8,48); g.translate(h.c[0],h.c[1],z); const m=new THREE.Mesh(g,hlMat(1)); m.renderOrder=22; add(m); } }
+    if(H[0]) lbl('Ø '+fmt(2*H[0].r),[H[0].c[0],H[0].c[1],H[0].z1+R*8]);
+  }
   invalidate();
 }
 
-/* ============================================================ UI-puu */
-const NAMES={box:'Laatikko',prof:'Profiili',cyl:'Lieriö',hole:'Reikä',holes4:'Kulmareiät',fillet:'Pyöristys',chamfer:'Viiste'};
-function labelFor(f,k){
-  const L={w:'Leveys X',d:f.t==='box'?'Syvyys Y':'Ø',h:f.t==='prof'?'Paksuus':'Korkeus',x:'X',y:'Y',z:'Z',dia:'Ø halkaisija',r:'Säde',m:'Reunaetäisyys',depth:'Syvyys (0 = läpi)'};
-  return L[k]||k;
+/* ------------------------------------------------- muokkaukset */
+function checked(pts){ if(!isSimple(pts)) throw new Error('muutos tekisi ääriviivasta itseään leikkaavan'); return pts.map(p=>[Math.round(p[0]*1000)/1000,Math.round(p[1]*1000)/1000]); }
+function remapRefs(fid,fn){
+  for(const g of model.features) if(g.ref&&g.ref.fid===fid&&g.ref.kind==='hedge'){ const j=fn(g.ref.i); if(j==null) g.ref.i=-1; else g.ref.i=j; }
+  model.features=model.features.filter(g=>!(g.ref&&g.ref.i===-1));
 }
-function profSize(f){ let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9;
-  for(const p of f.pts){ x0=Math.min(x0,p[0]); y0=Math.min(y0,p[1]); x1=Math.max(x1,p[0]); y1=Math.max(y1,p[1]); }
-  return {x0,y0,x1,y1,w:x1-x0,d:y1-y0}; }
+function setFil(f,i,r){ if(r>0) f.fil[i]=r; else delete f.fil[i]; }
+function applyOp(o){
+  const s=selected; if(!s||!s.fid) return false;
+  const f=findF(s.fid); if(!f) return false;
+  const before=JSON.stringify(model);
+  const no=()=>{ throw new Error(`Tätä ei voi tehdä kohteelle "${selName(s)}"`); };
+  try{
+    switch(s.kind){
+      case 'side': case 'hedge': {
+        ensureProf(f); const n=f.pts.length;
+        if(o.op==='len') f.pts=checked(setSideLength(f.pts,s.i,o.val,fixEnd));
+        else if(o.op==='offset') f.pts=checked(offsetSide(f.pts,s.i,o.val));
+        else if(o.op==='fillet'||o.op==='chamfer'){
+          if(s.kind==='hedge'){ model.features=model.features.filter(g=>!(g.ref&&g.ref.fid===f.id&&g.ref.kind==='hedge'&&g.ref.i===s.i&&g.ref.end===s.end));
+            if(o.val>0) model.features.push({id:nid(o.op),t:o.op,r:o.val,ref:{fid:f.id,kind:'hedge',i:s.i,end:s.end}}); }
+          else if(o.op==='fillet'){ setFil(f,s.i,o.val); setFil(f,(s.i+1)%n,o.val); }
+          else no(); }
+        else if(o.op==='split'){ const r=splitSide(f.pts,f.fil,s.i,s.t); f.pts=checked(r.pts); f.fil=r.fil; remapRefs(f.id,k=>k>s.i?k+1:k);
+          selected={kind:'corner',fid:f.id,i:s.i+1}; }
+        else if(o.op==='height') f.h=Math.max(0.1,o.val);
+        else if(o.op==='delete') throw new Error('Sivua ei voi poistaa – valitse kulma ja poista se');
+        else no();
+        break; }
+      case 'corner': case 'vertex': {
+        ensureProf(f); const n=f.pts.length, i=s.i;
+        if(o.op==='fillet') setFil(f,i,o.val);
+        else if(o.op==='chamfer'){ const r=chamferCorner(f.pts,f.fil,i,o.val); f.pts=checked(r.pts); f.fil=r.fil; remapRefs(f.id,k=>k>=i?k+1:k); selected={kind:'side',fid:f.id,i}; }
+        else if(o.op==='pos'){ const P=f.pts.map(p=>p.slice()); P[i]=[o.x!=null?o.x:P[i][0],o.y!=null?o.y:P[i][1]]; f.pts=checked(P); }
+        else if(o.op==='delete'){ const r=removeCorner(f.pts,f.fil,i); f.pts=checked(r.pts); f.fil=r.fil;
+          remapRefs(f.id,k=>{ const kk=(k===i)?(i-1+n)%n:k; return kk>i?kk-1:kk; }); selected=null; }
+        else if(o.op==='height') f.h=Math.max(0.1,o.val);
+        else no();
+        break; }
+      case 'top': case 'bottom': case 'ctop': case 'cbottom':
+        if(o.op==='height') f.h=Math.max(0.1,o.val);
+        else if(o.op==='delete'&&f.t==='cyl'){ model.features=model.features.filter(g=>g!==f&&!(g.ref&&g.ref.fid===f.id)); selected=null; }
+        else no(); break;
+      case 'cside':
+        if(o.op==='dia') f.dia=Math.max(0.1,o.val);
+        else if(o.op==='height') f.h=Math.max(0.1,o.val);
+        else if(o.op==='pos'){ if(o.x!=null) f.x=o.x; if(o.y!=null) f.y=o.y; }
+        else if(o.op==='delete'){ model.features=model.features.filter(g=>g!==f&&!(g.ref&&g.ref.fid===f.id)); selected=null; }
+        else no(); break;
+      case 'cedge':
+        if(o.op==='fillet'||o.op==='chamfer'){ model.features=model.features.filter(g=>!(g.ref&&g.ref.fid===f.id&&g.ref.kind==='cedge'&&g.ref.end===s.end));
+          if(o.val>0) model.features.push({id:nid(o.op),t:o.op,r:o.val,ref:{fid:f.id,kind:'cedge',end:s.end}}); }
+        else if(o.op==='dia') f.dia=Math.max(0.1,o.val);
+        else no(); break;
+      case 'hole':
+        if(o.op==='dia') f.dia=Math.max(0.1,o.val);
+        else if(o.op==='depth') f.depth=Math.max(0,o.val);
+        else if(o.op==='pos'&&f.t==='hole'){ if(o.x!=null) f.x=o.x; if(o.y!=null) f.y=o.y; }
+        else if(o.op==='offset'&&f.t==='holes4') f.m=o.val;
+        else if(o.op==='delete'){ model.features=model.features.filter(g=>g!==f); selected=null; }
+        else no(); break;
+      default: no();
+    }
+  }catch(e){ model=JSON.parse(before); toast(e.message,'err',3500); return false; }
+  if(JSON.stringify(model)!==before){ hist.push(before); if(hist.length>60) hist.shift(); }
+  rebuildAll();
+  const g=findF(s.fid);
+  if(g&&g.pts&&o.op==='fillet'){ const idx=s.kind==='side'?[s.i,(s.i+1)%g.pts.length]:[s.i];
+    if(idx.some(i=>{ const F=cornerFillet(g.pts,g.fil,i); return F&&F.clamped; })) toast('Pyöristys rajattiin suurimpaan mahdolliseen säteeseen','',3000); }
+  const bad=model.features.find(x=>x.err); if(bad) toast('Kerneli ei hyväksynyt: '+bad.err,'err',4000);
+  return true;
+}
+
+/* ------------------------------------------------- valinnan muokkain (UI) */
+function selSpec(){
+  const s=selected; if(!s||!s.fid) return null;
+  const f=findF(s.fid); if(!f) return null;
+  const L=layoutSolids(model.features), d=L.find(x=>x.fid===s.fid);
+  const sp={title:selName(s),rows:[],acts:[],info:''};
+  if((s.kind==='side'||s.kind==='hedge')&&d){
+    const len=sideLength(d.pts,s.i);
+    sp.main={label:'Pituus',op:'len',val:len,unit:'mm'};
+    sp.rows.push({label:'Pituus (kulmasta kulmaan)',op:'len',val:len,unit:'mm'});
+    sp.toggle=true;
+    sp.rows.push({label:'Siirrä ulos (+) / sisään (−)',op:'offset',val:'',unit:'mm',apply:true});
+    if(s.kind==='hedge'){ const ex=model.features.find(g=>g.ref&&g.ref.fid===f.id&&g.ref.kind==='hedge'&&g.ref.i===s.i&&g.ref.end===s.end);
+      sp.rows.push({label:'Särmän pyöristys r',op:'fillet',val:ex&&ex.t==='fillet'?ex.r:'',unit:'mm'});
+      sp.rows.push({label:'Särmän viiste',op:'chamfer',val:ex&&ex.t==='chamfer'?ex.r:'',unit:'mm'}); }
+    else { sp.rows.push({label:'Pyöristä päiden kulmat r',op:'fillet',val:'',unit:'mm',apply:true}); sp.acts.push({t:'✂️ Jaa sivu kahdeksi',op:{op:'split'}}); }
+    sp.info=`Suunta ${fmt(sideAngle(d.pts,s.i))}° · kulmat K${s.i+1} (A) → K${(s.i+1)%d.pts.length+1} (B)`;
+  } else if((s.kind==='corner'||s.kind==='vertex')&&d){
+    const P=d.pts[s.i], F=cornerFillet(d.pts,d.fil,s.i);
+    sp.main={label:'Pyöristys r',op:'fillet',val:d.fil[s.i]||0,unit:'mm'};
+    sp.rows.push({label:'Pyöristys r (0 = terävä)',op:'fillet',val:d.fil[s.i]||0,unit:'mm'});
+    sp.rows.push({label:'X',op:'x',val:P[0],unit:'mm'},{label:'Y',op:'y',val:P[1],unit:'mm'});
+    sp.rows.push({label:'Viiste',op:'chamfer',val:'',unit:'mm',apply:true});
+    sp.acts.push({t:'🗑️ Poista kulma',op:{op:'delete'},danger:true});
+    sp.info=F&&F.clamped?`Pyöristys rajattu: todellinen r = ${fmt(F.r)} mm`:'';
+  } else if((s.kind==='top'||s.kind==='bottom')&&d){
+    sp.main={label:'Paksuus',op:'height',val:d.z1-d.z0,unit:'mm'};
+    sp.rows.push({label:'Paksuus',op:'height',val:d.z1-d.z0,unit:'mm'});
+    if(s.kind==='top'&&s.point) sp.rows.push({label:'Reikä tähän Ø',op:'holehere',val:'',unit:'mm',apply:true});
+    if(s.point) sp.info=`Klikattu kohta ${fmt(s.point[0])}, ${fmt(s.point[1])}`;
+  } else if(s.kind==='hole'){
+    sp.main={label:'Ø',op:'dia',val:f.dia,unit:'mm'};
+    sp.rows.push({label:'Halkaisija Ø',op:'dia',val:f.dia,unit:'mm'});
+    if(f.t==='hole'){ sp.rows.push({label:'X',op:'x',val:f.x,unit:'mm'},{label:'Y',op:'y',val:f.y,unit:'mm'},{label:'Syvyys (0 = läpi)',op:'depth',val:f.depth||0,unit:'mm'}); }
+    else sp.rows.push({label:'Reunaetäisyys',op:'offset',val:f.m,unit:'mm'});
+    sp.acts.push({t:'🗑️ Poista',op:{op:'delete'},danger:true});
+  } else if(s.kind==='cside'||s.kind==='ctop'||s.kind==='cbottom'){
+    sp.main=s.kind==='cside'?{label:'Ø',op:'dia',val:f.dia,unit:'mm'}:{label:'Korkeus',op:'height',val:f.h,unit:'mm'};
+    sp.rows.push({label:'Halkaisija Ø',op:'dia',val:f.dia,unit:'mm'},{label:'Korkeus',op:'height',val:f.h,unit:'mm'});
+    if(s.kind==='cside') sp.rows.push({label:'X',op:'x',val:f.x||0,unit:'mm'},{label:'Y',op:'y',val:f.y||0,unit:'mm'});
+    if(model.features.indexOf(f)>0) sp.acts.push({t:'🗑️ Poista lieriö',op:{op:'delete'},danger:true});
+  } else if(s.kind==='cedge'){
+    const ex=model.features.find(g=>g.ref&&g.ref.fid===f.id&&g.ref.kind==='cedge'&&g.ref.end===s.end);
+    sp.main={label:'Pyöristys r',op:'fillet',val:ex&&ex.t==='fillet'?ex.r:0,unit:'mm'};
+    sp.rows.push({label:'Pyöristys r',op:'fillet',val:ex&&ex.t==='fillet'?ex.r:'',unit:'mm'},{label:'Viiste',op:'chamfer',val:ex&&ex.t==='chamfer'?ex.r:'',unit:'mm'},{label:'Halkaisija Ø',op:'dia',val:f.dia,unit:'mm'});
+  } else return null;
+  return sp;
+}
+function opFrom(op,v){
+  if(op==='x') return {op:'pos',x:v,y:null};
+  if(op==='y') return {op:'pos',x:null,y:v};
+  return {op,val:v};
+}
+function runOpInput(op,raw){
+  const v=pnum(raw); if(!isFinite(v)){ toast('Anna luku','err'); return; }
+  if(op==='holehere'){ addHoleHere(v); return; }
+  applyOp(opFrom(op,v));
+}
+function addHoleHere(dia){
+  const s=selected; if(!s||!s.point||!(dia>0)) return;
+  histPush(); const f={id:nid('hole'),t:'hole',dia,x:R1(s.point[0]),y:R1(s.point[1]),depth:0}; model.features.push(f);
+  selected={kind:'hole',fid:f.id}; rebuildAll(); toast('Reikä Ø'+fmt(dia)+' lisätty','ok',1600);
+}
+const numStr=v=>v===''||v==null?'':String(Math.round(v*100)/100);
+function renderSel(){
+  const sp=selSpec(), bar=$('#selbar'), ed=$('#editor');
+  $('#status').classList.toggle('hidden',!!sp);
+  if(!sp){ bar.classList.add('hidden');
+    ed.innerHTML='<div class="card note">Klikkaa mallista <b>sivua, kulmaa, särmää, pintaa tai reikää</b>. Valittu kohde korostuu oranssina, ja sen mittoja voi muuttaa tässä tai alapalkissa.</div>';
+    return; }
+  const m=sp.main;
+  bar.innerHTML=`<div class="t"><b>${esc(sp.title)}</b><small>${esc(m.label)}</small></div>
+    <input id="sbIn" type="text" inputmode="decimal" enterkeyhint="done" value="${numStr(m.val)}"><span class="u">${m.unit}</span>
+    ${sp.toggle?`<button id="sbFix" title="Kumpi pää pysyy paikallaan">🔒${fixEnd==='start'?'A':'B'}</button>`:''}
+    <span class="sp"></span><button id="sbMore" title="Lisää muokkauksia">⋯</button><button id="sbX" title="Poista valinta">✕</button>`;
+  bar.classList.remove('hidden');
+  const sbIn=$('#sbIn');
+  let done=false;
+  const commit=()=>{ if(done||!sbIn.isConnected) return; if(sbIn.value.trim()!==''&&pnum(sbIn.value)!==Math.round(+m.val*100)/100){ done=true; runOpInput(m.op,sbIn.value); } };
+  sbIn.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); commit(); sbIn.blur(); } });
+  sbIn.addEventListener('change',commit);
+  sbIn.addEventListener('focus',()=>sbIn.select());
+  if($('#sbFix')) $('#sbFix').onclick=()=>{ fixEnd=fixEnd==='start'?'end':'start'; drawSel(); renderSel(); toast(fixEnd==='start'?'Kulma A pysyy paikallaan':'Kulma B pysyy paikallaan','',1500); };
+  $('#sbMore').onclick=()=>setPanel(true,'select');
+  $('#sbX').onclick=()=>{ selected=null; drawSel(); renderSel(); ui(); };
+  let h=`<div class="ed"><div class="title"><b>${esc(sp.title)}</b><small>${esc(KIND_NAME[selected.kind]||'')}</small></div>`;
+  if(sp.toggle) h+=`<div class="row"><label>Paikallaan pysyy</label><div class="tog"><button data-fix="start" class="${fixEnd==='start'?'on':''}">Kulma A</button><button data-fix="end" class="${fixEnd==='end'?'on':''}">Kulma B</button></div><span></span></div>`;
+  sp.rows.forEach((r,k)=>{ h+=`<div class="row"><label>${esc(r.label)}</label><input data-row="${k}" type="text" inputmode="decimal" value="${numStr(r.val)}" placeholder="${r.apply?'arvo':''}">`+
+    (r.apply?`<button data-apply="${k}">OK</button>`:`<span class="u">${r.unit}</span>`)+`</div>`; });
+  if(sp.acts.length) h+=`<div class="acts">`+sp.acts.map((a,k)=>`<button data-act="${k}" class="${a.danger?'danger':''}">${a.t}</button>`).join('')+`</div>`;
+  if(sp.info) h+=`<div class="info">${esc(sp.info)}</div>`;
+  h+=`</div>`;
+  ed.innerHTML=h;
+  $$('#editor [data-fix]').forEach(b=>b.onclick=()=>{ fixEnd=b.dataset.fix; drawSel(); renderSel(); });
+  $$('#editor input[data-row]').forEach(inp=>{ const r=sp.rows[+inp.dataset.row];
+    if(!r.apply){ let done=false; inp.addEventListener('change',()=>{ if(done||!inp.isConnected) return; if(inp.value.trim()!==''&&pnum(inp.value)!==Math.round(+r.val*100)/100){ done=true; runOpInput(r.op,inp.value); } });
+      inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); inp.blur(); } }); }
+    else inp.addEventListener('keydown',e=>{ if(e.key==='Enter'){ e.preventDefault(); runOpInput(r.op,inp.value); } }); });
+  $$('#editor [data-apply]').forEach(b=>b.onclick=()=>{ const k=+b.dataset.apply, inp=$(`#editor input[data-row="${k}"]`); runOpInput(sp.rows[k].op,inp.value); });
+  $$('#editor [data-act]').forEach(b=>b.onclick=()=>applyOp(sp.acts[+b.dataset.act].op));
+}
+function drawNotes(){
+  if(!gNotes) return; clearGroup(gNotes);
+  for(const c of model.comments) if(c.point){ const m=ball(c.point,Math.max(0.5,orb.r*0.008),0xffb648); gNotes.add(m); }
+  invalidate();
+}
+
+/* ============================================================ featurepuu */
+const NAMES={box:'Laatikko',prof:'Profiili',cyl:'Lieriö',hole:'Reikä',holes4:'Kulmareiät',fillet:'Pyöristys',chamfer:'Viiste'};
+function labelFor(f,k){ return ({w:'Leveys X',d:'Syvyys Y',h:f.t==='prof'?'Paksuus':'Korkeus',x:'X',y:'Y',z:'Z',dia:'Ø',r:f.t==='chamfer'?'Mitta':'Säde',m:'Reunaetäisyys',depth:'Syvyys (0 = läpi)'})[k]||k; }
+function profSize(pts){ let x0=1e9,y0=1e9,x1=-1e9,y1=-1e9; for(const p of pts){ x0=Math.min(x0,p[0]); y0=Math.min(y0,p[1]); x1=Math.max(x1,p[0]); y1=Math.max(y1,p[1]); } return {x0,y0,x1,y1,w:x1-x0,d:y1-y0}; }
 function desc(f){
   if(f.t==='box') return `${f.w} × ${f.d} × ${f.h} mm`;
-  if(f.t==='prof'){ const s=profSize(f); return `${f.pts.length} kulmaa · ${R1(s.w)} × ${R1(s.d)} × ${f.h} mm`; }
-  if(f.t==='cyl') return `Ø${f.dia} × ${f.h} mm`;
-  if(f.t==='hole') return `Ø${f.dia} @ ${f.x}, ${f.y} · ${f.depth>0?f.depth+' mm':'läpi'}`;
-  if(f.t==='holes4') return `4 × Ø${f.dia}, reunasta ${f.m} mm`;
-  return `r${f.r} · ${f.sel==='edge'?'valittu särmä':({all:'kaikki',vertical:'pystyreunat',top:'yläreunat',bottom:'alareunat'}[f.sel]||f.sel)}`;
+  if(f.t==='prof'){ const s=profSize(f.pts); return `${f.pts.length} kulmaa · ${fmt(s.w)} × ${fmt(s.d)} × ${fmt(f.h)} mm`+(Object.keys(f.fil||{}).length?` · ${Object.keys(f.fil).length} pyöristettyä kulmaa`:''); }
+  if(f.t==='cyl') return `Ø${fmt(f.dia)} × ${fmt(f.h)} mm`;
+  if(f.t==='hole') return `Ø${fmt(f.dia)} @ ${fmt(f.x)}, ${fmt(f.y)} · ${f.depth>0?fmt(f.depth)+' mm':'läpi'}`;
+  if(f.t==='holes4') return `4 × Ø${fmt(f.dia)}, reunasta ${fmt(f.m)} mm`;
+  if(f.ref) return `${f.t==='fillet'?'r':''}${fmt(f.r)} · ${f.ref.kind==='hedge'?'särmä '+(f.ref.i+1):'lieriön reuna'} (${f.ref.end==='bottom'?'ala':'ylä'})`;
+  return `r${fmt(f.r)} · ${({all:'kaikki',vertical:'pystyreunat',top:'yläreunat',bottom:'alareunat',edge:'valittu särmä'})[f.sel]||f.sel}`;
 }
 function ui(){
   let h='';
   model.features.forEach((f,i)=>{
-    const keys=Object.keys(f).filter(k=>typeof f[k]==='number');
-    let fields=keys.map(k=>`<div><label>${labelFor(f,k)}</label><input data-i="${i}" data-k="${k}" type="number" inputmode="decimal" step="any" value="${f[k]}"></div>`).join('');
-    if(f.t==='prof'){ const s=profSize(f);
-      fields=`<div><label>Leveys X</label><input data-i="${i}" data-pk="w" type="number" inputmode="decimal" step="any" value="${R1(s.w)}"></div>`+
-             `<div><label>Syvyys Y</label><input data-i="${i}" data-pk="d" type="number" inputmode="decimal" step="any" value="${R1(s.d)}"></div>`+fields; }
-    h+=`<div class="card ${selected&&selected.fid===f.id?'sel':''}" data-id="${f.id}">
-      <div class="head"><b>${i+1}. ${NAMES[f.t]||f.t}</b><button data-del="${i}" style="min-height:30px;padding:0 9px">✕</button></div>
-      <small>${f.err?`<span class="err">virhe: ${esc(f.err)}</span>`:esc(desc(f))}</small>
-      <div class="fields">${fields}</div></div>`;
+    const keys=Object.keys(f).filter(k=>typeof f[k]==='number'&&!(f.t==='prof'&&k==='z'));
+    let fields=keys.map(k=>`<div><label>${labelFor(f,k)}</label><input data-i="${i}" data-k="${k}" type="text" inputmode="decimal" value="${numStr(f[k])}"></div>`).join('');
+    if(f.t==='prof'){ const s=profSize(f.pts);
+      fields=`<div><label>Leveys X</label><input data-i="${i}" data-pk="w" type="text" inputmode="decimal" value="${numStr(s.w)}"></div><div><label>Syvyys Y</label><input data-i="${i}" data-pk="d" type="text" inputmode="decimal" value="${numStr(s.d)}"></div>`+fields; }
+    const isSel=selected&&selected.fid===f.id;
+    h+=`<div class="card ${isSel?'sel':''}" data-id="${f.id}"><div class="head"><b>${i+1}. ${NAMES[f.t]||f.t}</b><button data-del="${i}" style="min-height:30px;padding:0 9px">✕</button></div>
+      <small>${f.err?`<span class="err">virhe: ${esc(f.err)}</span>`:esc(desc(f))}</small><div class="fields">${fields}</div></div>`;
   });
-  $('#features').innerHTML=h||'<p class="note">Ei piirteitä. Piirrä hahmotelma ja paina <b>Tunnista</b>, tai kirjoita <code>levy 120x80x10</code> Muokkaus-tilassa.</p>';
+  $('#features').innerHTML=h||'<p class="note">Ei piirteitä. Piirrä hahmotelma ja paina <b>Tunnista</b>, tai kirjoita <code>levy 120x80x10</code>.</p>';
   $('#code').textContent=JSON.stringify(model.features.map(f=>{const c={...f}; delete c.err; return c;}),null,1);
   $('#comments').innerHTML=model.comments.map((c,i)=>`<div class="card"><small>${esc(c.target)}</small><br>${esc(c.text)}
-    <button data-cdel="${i}" style="float:right;min-height:28px;padding:0 8px">✕</button></div>`).join('')||'<p class="note">Ei kommentteja.</p>';
-  $$('#features .card').forEach(el=>el.onclick=e=>{
-    if(e.target.closest('[data-del]')||e.target.closest('input')) return;
-    selected=(selected&&selected.fid===el.dataset.id)?null:{kind:'feature',fid:el.dataset.id}; ui(); showSel();
-  });
-  $$('[data-del]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); histPush(); model.features.splice(+b.dataset.del,1); selected=null; rebuildAll(); });
+    <button data-cdel="${i}" style="float:right;min-height:28px;padding:0 8px">✕</button></div>`).join('')||'<p class="note">Ei kommentteja. Valitse kohde ja kirjoita vapaata tekstiä komentoriville.</p>';
+  $$('#features .card').forEach(el=>el.onclick=e=>{ if(e.target.closest('[data-del]')||e.target.closest('input')) return; el.classList.toggle('sel'); });
+  $$('[data-del]').forEach(b=>b.onclick=e=>{ e.stopPropagation(); histPush(); const f=model.features[+b.dataset.del];
+    model.features=model.features.filter(g=>g!==f&&!(g.ref&&g.ref.fid===f.id)); rebuildAll(); });
   $$('[data-cdel]').forEach(b=>b.onclick=()=>{ model.comments.splice(+b.dataset.cdel,1); ui(); drawNotes(); persist(); });
-  $$('#features input[data-k]').forEach(inp=>inp.onchange=()=>{
-    const v=parseFloat(inp.value); if(!isFinite(v)) return;
-    histPush(); model.features[+inp.dataset.i][inp.dataset.k]=v; rebuildAll(); });
-  $$('#features input[data-pk]').forEach(inp=>inp.onchange=()=>{
-    const v=parseFloat(inp.value); if(!(v>0)) return;
-    histPush(); scaleProfile(model.features[+inp.dataset.i],inp.dataset.pk,v); rebuildAll(); });
+  $$('#features input[data-k]').forEach(inp=>inp.onchange=()=>{ const v=pnum(inp.value); if(!isFinite(v)) return; histPush(); model.features[+inp.dataset.i][inp.dataset.k]=v; rebuildAll(); });
+  $$('#features input[data-pk]').forEach(inp=>inp.onchange=()=>{ const v=pnum(inp.value); if(!(v>0)) return; histPush(); scaleProfile(model.features[+inp.dataset.i],inp.dataset.pk,v); rebuildAll(); });
 }
-/* profiilin skaalaus: muuttaa vain annettua suuntaa; reiät seuraavat mukana */
 function scaleProfile(f,key,val){
-  const s=profSize(f), cx=(s.x0+s.x1)/2, cy=(s.y0+s.y1)/2;
-  const k=key==='w'?val/s.w:val/s.d;
-  f.pts=f.pts.map(p=>key==='w'?[R1(cx+(p[0]-cx)*k),p[1]]:[p[0],R1(cy+(p[1]-cy)*k)]);
+  const s=profSize(f.pts), cx=(s.x0+s.x1)/2, cy=(s.y0+s.y1)/2, k=key==='w'?val/s.w:val/s.d;
+  f.pts=f.pts.map(p=>key==='w'?[cx+(p[0]-cx)*k,p[1]]:[p[0],cy+(p[1]-cy)*k]);
   for(const g of model.features) if(g.t==='hole'){ if(key==='w') g.x=R1(cx+(g.x-cx)*k); else g.y=R1(cy+(g.y-cy)*k); }
 }
-function updateModelNote(){
-  const n=$('#modelNote'); let html='',show=true;
-  if(engine.three==='err') html=`<b class="err">3D-näkymää ei voitu ladata</b><small>${esc(engine.msg)}</small><button id="retry" class="primary" style="margin-top:10px">Yritä uudelleen</button>`;
-  else if(engine.kernel==='err') html=`<b class="err">CAD-kerneli ei latautunut</b><small>${esc(engine.msg)}</small><button id="retry" class="primary" style="margin-top:10px">Yritä uudelleen</button>`;
-  else if(engine.three==='loading'||engine.kernel==='loading') html=`<div class="spin"></div><b>Ladataan CAD-kerneliä…</b><small>${esc(engine.msg||'Ensimmäinen lataus voi kestää hetken. Hahmotelmatila toimii jo.')}</small>`;
-  else show=false;
-  n.classList.toggle('hidden',!show); if(show){ n.innerHTML=html; const r=$('#retry'); if(r) r.onclick=startEngine; }
-  const st=engine.kernel==='err'||engine.three==='err'?'err':(engine.kernel==='ok'&&engine.three==='ok'?'ok':'loading');
-  $('#kpill').className='pill '+st;
-}
-$('#kpill').onclick=()=>{
-  const st=engine.kernel==='err'||engine.three==='err'?'err':(engine.kernel==='ok'&&engine.three==='ok'?'ok':'loading');
-  toast(st==='ok'?'CAD-kerneli valmis':st==='err'?('Virhe: '+engine.msg):('Ladataan… '+(engine.msg||'')),st==='ok'?'ok':st==='err'?'err':'',st==='err'?6000:2500);
-};
 
 /* ============================================================ komennot */
 function runCommand(){
   const inp=$('#prompt'), t=inp.value.trim(); if(!t) return;
+  if(selected&&selected.fid){ const o=parseElementCommand(t,selected.kind); if(o){ if(applyOp(o)) inp.value=''; return; } }
   const r=parseCommand(t,{sel:selected&&selected.point?selected:null});
   if(r&&r.kind==='error'){ toast(r.msg,'err',3500); return; }
-  if(r&&r.kind==='add'){
-    if(!rc) toast('CAD-kerneli latautuu vielä – muutos näkyy kun se on valmis','',3000);
-    histPush(); const f=r.f; f.id=nid(f.t); model.features.push(f);
-    selected={kind:'feature',fid:f.id}; inp.value=''; rebuildAll();
+  if(r&&r.kind==='add'){ histPush(); const f=r.f; f.id=nid(f.t); model.features.push(f); inp.value='';
+    selected=f.t==='hole'?{kind:'hole',fid:f.id}:selected; rebuildAll();
     const last=model.features[model.features.length-1];
-    if(last&&last.err) toast('Ei onnistunut: '+last.err+' (muuta arvoa Piirteet-välilehdellä)','err',4500);
-    else if(rc) toast('Lisätty: '+(NAMES[f.t]||f.t),'ok',1600);
-    return;
-  }
+    if(last&&last.err) toast('Ei onnistunut: '+last.err,'err',4500); else toast('Lisätty: '+(NAMES[f.t]||f.t),'ok',1600); return; }
   if(r&&r.kind==='edit'){
-    const tgt=(selected&&selected.fid&&model.features.find(x=>x.id===selected.fid))
-      ||model.features.find(x=>x.t==='box'||x.t==='prof')||model.features.find(x=>r.key in x);
+    const tgt=model.features.find(x=>x.t==='box'||x.t==='prof')||model.features.find(x=>r.key in x);
     if(!tgt){ toast('Ei muokattavaa piirrettä','err'); return; }
-    histPush();
-    if(tgt.t==='prof'&&(r.key==='w'||r.key==='d')) scaleProfile(tgt,r.key,r.val);
-    else if(r.key in tgt) tgt[r.key]=r.val;
-    else { toast('Piirteellä ei ole tätä mittaa','err'); return; }
-    inp.value=''; rebuildAll(); toast('Päivitetty','ok',1600); return;
-  }
+    histPush(); if(tgt.t==='prof'&&(r.key==='w'||r.key==='d')) scaleProfile(tgt,r.key,r.val); else if(r.key in tgt) tgt[r.key]=r.val;
+    inp.value=''; rebuildAll(); toast('Päivitetty','ok',1600); return; }
   if(selected&&selected.point){
-    const tgt=selected.kind==='edge'?'särmä':'pinta';
-    model.comments.push({target:tgt+' @ '+selected.point.map(v=>R1(v)).join(', '),text:t.replace(/^kommentti\s*:?\s*/i,''),point:selected.point.slice()});
+    model.comments.push({target:selName(selected)+' @ '+selected.point.map(v=>fmt(v)).join(' / '),text:t.replace(/^kommentti\s*:?\s*/i,''),point:selected.point.slice()});
     inp.value=''; ui(); drawNotes(); persist(); toast('Kommentti tallennettu','ok',1500);
-  } else toast('Klikkaa ensin kohtaa mallista, tai anna komento (ks. Ohje)','err',3000);
+  } else if(selected) toast('Komentoa ei tunnistettu tälle kohteelle – katso Ohje','err',3000);
+  else toast('Klikkaa ensin kohtaa mallista, tai anna komento (ks. Ohje)','err',3000);
 }
 $('#bRun').onclick=runCommand;
 $('#prompt').addEventListener('keydown',e=>{ if(e.key==='Enter') runCommand(); });
-const CMDS=['levy 120x80x10','4 reikää ø6 kulmiin 12','reikä ø8 tähän','reikä ø10 30,20 syvyys 6','pyöristä r3','pyöristä pystyreunat r8','viiste 1.5','lieriö ø30 h25','paksuus 15','leveys 150','kommentti: tarkista tämä'];
+const CMDS=['levy 120x80x10','4 reikää ø6 kulmiin 12','reikä ø8 tähän','reikä ø10 30,20 syvyys 6','lieriö ø30 h25','pyöristä pystyreunat r8','paksuus 15','leveys 150'];
 $('#cmds').innerHTML=CMDS.map(c=>`<button class="cmd">${esc(c)}</button>`).join('');
 $$('#cmds .cmd').forEach(b=>b.onclick=()=>{ $('#prompt').value=b.textContent; setPanel(false); setMode('model'); $('#prompt').focus(); });
 
 /* ===================================================== tallennus ja vienti */
 let persistT=null;
 const cleanModel=()=>({features:model.features.map(f=>{const c={...f}; delete c.err; return c;}),comments:model.comments});
-function persist(){
-  clearTimeout(persistT);
-  persistT=setTimeout(()=>{ try{
-    localStorage.setItem('sketchcad4',JSON.stringify({v:4,model:cleanModel(),paper,
-      strokes:photo?[]:strokes.map(s=>({w:s.w,pts:s.pts.map(p=>[Math.round(p[0]*10)/10,Math.round(p[1]*10)/10])}))}));
-  }catch(e){} },500);
-}
-function restore(){
-  try{
-    const raw=localStorage.getItem('sketchcad4'); if(!raw) return;
-    const d=JSON.parse(raw);
-    if(d.paper) setPaper(d.paper.w,d.paper.h);
-    if(Array.isArray(d.strokes)){ strokes=d.strokes.filter(s=>s&&s.pts&&s.pts.length); redrawInk(); }
-    if(d.model&&Array.isArray(d.model.features)){ model=d.model; model.comments=model.comments||[]; }
-  }catch(e){}
-}
+function persist(){ clearTimeout(persistT); persistT=setTimeout(()=>{ try{
+  localStorage.setItem('sketchcad4',JSON.stringify({v:5,model:cleanModel(),paper,strokes:photo?[]:strokes.map(s=>({w:s.w,pts:s.pts.map(p=>[Math.round(p[0]*10)/10,Math.round(p[1]*10)/10])}))}));
+}catch(e){} },500); }
+function restore(){ try{ const raw=localStorage.getItem('sketchcad4'); if(!raw) return; const d=JSON.parse(raw);
+  if(d.paper) setPaper(d.paper.w,d.paper.h);
+  if(Array.isArray(d.strokes)){ strokes=d.strokes.filter(s=>s&&s.pts&&s.pts.length); redrawInk(); }
+  if(d.model&&Array.isArray(d.model.features)){ model=d.model; model.comments=model.comments||[]; } }catch(e){} }
 async function saveBlob(blob,name){
-  try{
-    const file=new File([blob],name,{type:blob.type||'application/octet-stream'});
-    if(navigator.canShare&&navigator.canShare({files:[file]})&&/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){
-      await navigator.share({files:[file],title:name}); return; }
-  }catch(e){ if(e&&e.name==='AbortError') return; }
-  const a=document.createElement('a'),u=URL.createObjectURL(blob); a.href=u; a.download=name;
-  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(u),4000);
-  toast('Tiedosto: '+name,'ok',1800);
+  try{ const file=new File([blob],name,{type:blob.type||'application/octet-stream'});
+    if(navigator.canShare&&navigator.canShare({files:[file]})&&/Mobi|Android|iPhone|iPad/.test(navigator.userAgent)){ await navigator.share({files:[file],title:name}); return; } }
+  catch(e){ if(e&&e.name==='AbortError') return; }
+  const a=document.createElement('a'),u=URL.createObjectURL(blob); a.href=u; a.download=name; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(u),4000); toast('Tiedosto: '+name,'ok',1800);
 }
 function menuAct(a){
   $('#menu').classList.add('hidden');
-  if(a==='undo'){ if(!hist.length) return toast('Ei kumottavaa'); model=JSON.parse(hist.pop()); selected=null; rebuildAll(); }
-  else if(a==='save') saveBlob(new Blob([JSON.stringify({v:4,model:cleanModel(),paper,strokes})],{type:'application/json'}),'sketch-cad.json');
+  if(a==='undo'){ if(!hist.length) return toast('Ei kumottavaa'); model=JSON.parse(hist.pop()); rebuildAll(); toast('Kumottu','',1200); }
+  else if(a==='save') saveBlob(new Blob([JSON.stringify({v:5,model:cleanModel(),paper,strokes})],{type:'application/json'}),'sketch-cad.json');
   else if(a==='open') $('#fileJson').click();
-  else if(a==='step'){ if(!shape) return toast('Ei mallia','err'); try{ saveBlob(shape.blobSTEP(),'malli.step'); }catch(e){ toast('STEP-vienti epäonnistui: '+e.message,'err',4000); } }
-  else if(a==='stl'){ if(!shape) return toast('Ei mallia','err'); try{ saveBlob(shape.blobSTL(),'malli.stl'); }catch(e){ toast('STL-vienti epäonnistui: '+e.message,'err',4000); } }
-  else if(a==='reset'){
-    model={features:[],comments:[]}; strokes=[]; photo=null; selected=null; hist=[]; undoStack=[];
+  else if(a==='step'){ if(!shape) return toast('STEP vaatii CAD-kernelin','err'); try{ saveBlob(shape.blobSTEP(),'malli.step'); }catch(e){ toast('STEP-vienti epäonnistui: '+e.message,'err',4000); } }
+  else if(a==='stl'){ if(!shape) return toast('STL vaatii CAD-kernelin','err'); try{ saveBlob(shape.blobSTL(),'malli.stl'); }catch(e){ toast('STL-vienti epäonnistui: '+e.message,'err',4000); } }
+  else if(a==='reset'){ model={features:[],comments:[]}; strokes=[]; photo=null; selected=null; hist=[]; undoStack=[];
     const d=defaultPaper(); setPaper(d.w,d.h); autoFit=true; fitSketch(); rebuildAll(); persist(); setMode('sketch'); }
 }
 let resetArm=0;
 $$('#menu button').forEach(b=>b.onclick=()=>{
   if(b.dataset.m==='reset'&&Date.now()-resetArm>3000){ resetArm=Date.now(); b.textContent='Napauta uudelleen: poistaa kaiken'; setTimeout(()=>{ b.textContent='Aloita alusta'; },3000); return; }
-  menuAct(b.dataset.m);
-});
-$('#fileJson').onchange=async e=>{
-  const f=e.target.files[0]; e.target.value=''; if(!f) return;
-  try{
-    const d=JSON.parse(await f.text());
-    if(!d.model||!Array.isArray(d.model.features)) throw new Error('ei kelvollinen tiedosto');
-    histPush(); model=d.model; model.comments=model.comments||[];
-    if(d.paper) setPaper(d.paper.w,d.paper.h);
-    if(Array.isArray(d.strokes)){ strokes=d.strokes; redrawInk(); }
-    selected=null; firstFit=true; setMode('model'); rebuildAll(true); toast('Avattu','ok');
-  }catch(err){ toast('Avaus epäonnistui: '+err.message,'err',3500); }
-};
+  menuAct(b.dataset.m); });
+$('#fileJson').onchange=async e=>{ const f=e.target.files[0]; e.target.value=''; if(!f) return;
+  try{ const d=JSON.parse(await f.text()); if(!d.model||!Array.isArray(d.model.features)) throw new Error('ei kelvollinen tiedosto');
+    histPush(); model=d.model; model.comments=model.comments||[]; if(d.paper) setPaper(d.paper.w,d.paper.h);
+    if(Array.isArray(d.strokes)){ strokes=d.strokes; redrawInk(); } selected=null; firstFit=true; setMode('model'); rebuildAll(true); toast('Avattu','ok'); }
+  catch(err){ toast('Avaus epäonnistui: '+err.message,'err',3500); } };
 document.addEventListener('pointerdown',e=>{ if(!e.target.closest('#menu')&&!e.target.closest('#bMenu')) $('#menu').classList.add('hidden'); },true);
 
 /* ====================================================== yläpalkki */
@@ -1200,65 +1421,63 @@ $('#mModel').onclick=()=>setMode('model');
 $('#bFit').onclick=()=>{ if(mode==='sketch'){ autoFit=true; fitSketch(); } else fitModel(); };
 $('#bChrome').onclick=()=>{ app.dataset.chrome='off'; setPanel(false); };
 $('#restore').onclick=()=>{ app.dataset.chrome='on'; requestAnimationFrame(()=>{ resize3d(); if(autoFit&&mode==='sketch') fitSketch(); }); };
-$('#bPanel').onclick=()=>setPanel(app.dataset.panel!=='open',mode==='sketch'?'image':'features');
+$('#bPanel').onclick=()=>setPanel(app.dataset.panel!=='open',mode==='sketch'?'image':'select');
 $('#pClose').onclick=()=>setPanel(false);
 $('#bMenu').onclick=e=>{ e.stopPropagation(); $('#menu').classList.toggle('hidden'); };
 $$('.tabs button[data-tab]').forEach(b=>b.onclick=()=>showTab(b.dataset.tab));
 window.addEventListener('resize',()=>{ resize3d(); if(mode==='sketch'&&autoFit) fitSketch(); });
 
 /* ===================================================== moottorin lataus */
+function updateEngineUI(){
+  const n=$('#modelNote'), kc=$('#kchip');
+  if(engine.three==='err'){ n.classList.remove('hidden'); n.innerHTML=`<b class="err">3D-näkymää ei voitu ladata</b><small>${esc(engine.msg)}</small><button id="retry" class="primary" style="margin-top:10px">Yritä uudelleen</button>`; }
+  else if(engine.three==='loading'){ n.classList.remove('hidden'); n.innerHTML=`<div class="spin"></div><b>Ladataan 3D-näkymää…</b><small>Hahmotelmatila toimii jo.</small>`; }
+  else n.classList.add('hidden');
+  if(engine.three==='ok'&&engine.kernel!=='ok'){ kc.classList.remove('hidden');
+    kc.innerHTML=engine.kernel==='err'?`<span class="warn">Esikatselutila – CAD-kerneli ei latautunut</span><button id="retry2">↻</button>`
+      :`<span>Ladataan CAD-kerneliä… (esikatselu)</span>`; }
+  else kc.classList.add('hidden');
+  const r=$('#retry'); if(r) r.onclick=startEngine; const r2=$('#retry2'); if(r2) r2.onclick=startEngine;
+  const st=engine.kernel==='err'||engine.three==='err'?'err':(engine.kernel==='ok'&&engine.three==='ok'?'ok':'loading');
+  $('#kpill').className='pill '+st;
+}
+$('#kpill').onclick=()=>{ const st=engine.kernel==='err'||engine.three==='err'?'err':(engine.kernel==='ok'&&engine.three==='ok'?'ok':'loading');
+  toast(st==='ok'?'CAD-kerneli valmis':st==='err'?('Virhe: '+engine.msg):('Ladataan… '+(engine.msg||'')),st==='ok'?'ok':st==='err'?'err':'',st==='err'?6000:2500); };
 const withTimeout=(p,ms,label)=>Promise.race([p,new Promise((_,rej)=>setTimeout(()=>rej(new Error(label+': aikakatkaisu '+Math.round(ms/1000)+' s')),ms))]);
 const THREE_URLS=['https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js','https://unpkg.com/three@0.169.0/build/three.module.js','https://esm.sh/three@0.169.0'];
 const KERNELS=[
-  {n:'replicad 0.23 / jsDelivr',rc:'https://esm.sh/replicad@0.23.1',
-   oc:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs@0.23.0/src/replicad_single.js',
-   wasm:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs@0.23.0/src/replicad_single.wasm'},
-  {n:'replicad 0.23 / esm.sh',rc:'https://esm.sh/replicad@0.23.1',
-   oc:'https://esm.sh/replicad-opencascadejs@0.23.0/src/replicad_single.js',
-   wasm:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs@0.23.0/src/replicad_single.wasm'},
-  {n:'replicad uusin',rc:'https://esm.sh/replicad',
-   oc:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs/src/replicad_single.js',
-   wasm:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs/src/replicad_single.wasm'},
+  {n:'replicad 0.23 / jsDelivr',rc:'https://esm.sh/replicad@0.23.1',oc:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs@0.23.0/src/replicad_single.js',wasm:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs@0.23.0/src/replicad_single.wasm'},
+  {n:'replicad 0.23 / esm.sh',rc:'https://esm.sh/replicad@0.23.1',oc:'https://esm.sh/replicad-opencascadejs@0.23.0/src/replicad_single.js',wasm:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs@0.23.0/src/replicad_single.wasm'},
+  {n:'replicad uusin',rc:'https://esm.sh/replicad',oc:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs/src/replicad_single.js',wasm:'https://cdn.jsdelivr.net/npm/replicad-opencascadejs/src/replicad_single.wasm'},
 ];
 let engineRun=0;
 async function startEngine(){
   const run=++engineRun;
-  engine.three=THREE?'ok':'loading'; engine.kernel=rc?'ok':'loading'; engine.msg=''; updateModelNote();
-  if(!THREE){
-    let last=null;
-    for(const u of THREE_URLS){
-      try{ engine.msg='3D-näkymä: '+new URL(u).hostname; updateModelNote();
-        THREE=await withTimeout(import(u),30000,'three.js'); break; }
-      catch(e){ last=e; console.warn('three',u,e); }
-    }
-    if(!THREE){ engine.three='err'; engine.msg=String(last&&last.message||last); updateModelNote(); return; }
-  }
-  if(!renderer){ try{ initScene(); }catch(e){ engine.three='err'; engine.msg='WebGL ei käytettävissä: '+e.message; updateModelNote(); return; } }
-  engine.three='ok'; updateModelNote();
-  if(rc){ engine.kernel='ok'; updateModelNote(); return; }
+  engine.three=THREE?'ok':'loading'; engine.kernel=rc?'ok':'loading'; engine.msg=''; updateEngineUI();
+  if(!THREE){ let last=null;
+    for(const u of THREE_URLS){ try{ engine.msg='3D-näkymä: '+new URL(u).hostname; THREE=await withTimeout(import(u),30000,'three.js'); break; }catch(e){ last=e; } }
+    if(!THREE){ engine.three='err'; engine.msg=String(last&&last.message||last); updateEngineUI(); return; } }
+  if(!renderer){ try{ initScene(); }catch(e){ engine.three='err'; engine.msg='WebGL ei käytettävissä: '+e.message; updateEngineUI(); return; } }
+  engine.three='ok'; updateEngineUI();
+  rebuildAll(true);
+  if(rc){ engine.kernel='ok'; updateEngineUI(); return; }
   let lastErr=null;
-  for(const K of KERNELS){
-    if(run!==engineRun) return;
-    try{
-      engine.msg='CAD-kerneli (~10 MB): '+K.n; updateModelNote();
-      const [R,O]=await Promise.all([withTimeout(import(K.rc),45000,'replicad'),withTimeout(import(K.oc),45000,'opencascade')]);
-      engine.msg='Käynnistetään kerneliä…'; updateModelNote();
-      const factory=O.default||O;
-      const OC=await withTimeout(factory({locateFile:p=>/\.wasm$/.test(p)?K.wasm:p}),120000,'WASM');
-      R.setOC(OC); rc=R; break;
-    }catch(e){ lastErr=e; console.warn('kernel',K.n,e); }
-  }
-  if(!rc){ engine.kernel='err'; engine.msg=String(lastErr&&lastErr.message||lastErr||'tuntematon virhe'); updateModelNote(); return; }
-  engine.kernel='ok'; engine.msg=''; updateModelNote();
-  toast('CAD-kerneli valmis','ok',1600);
-  if(model.features.length||pendingBuild){ pendingBuild=false; rebuildAll(true); }
+  for(const K of KERNELS){ if(run!==engineRun) return;
+    try{ engine.msg='CAD-kerneli (~10 MB): '+K.n;
+      const [Rm,O]=await Promise.all([withTimeout(import(K.rc),45000,'replicad'),withTimeout(import(K.oc),45000,'opencascade')]);
+      const OC=await withTimeout((O.default||O)({locateFile:p=>/\.wasm$/.test(p)?K.wasm:p}),120000,'WASM');
+      Rm.setOC(OC); rc=Rm; break; }
+    catch(e){ lastErr=e; console.warn('kernel',K.n,e); } }
+  if(!rc){ engine.kernel='err'; engine.msg=String(lastErr&&lastErr.message||lastErr||'tuntematon virhe'); updateEngineUI(); return; }
+  engine.kernel='ok'; engine.msg=''; updateEngineUI(); toast('CAD-kerneli valmis','ok',1600);
+  rebuildAll(false);
 }
 
 /* ================================================================ käynnistys */
 { const d=defaultPaper(); setPaper(d.w,d.h); }
-restore(); setTool('pen'); ui(); showSel();
+restore(); setTool('pen'); ui(); renderSel();
 requestAnimationFrame(()=>fitSketch());
-updateModelNote();
+updateEngineUI();
 startEngine();
 
 </script>
